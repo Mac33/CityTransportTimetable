@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_marginTop="5sp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="9">
+
+        <TextView
+            android:id="@+id/Hour"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/holo_green_light"
+            android:gravity="center"
+            android:text="69m"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/Minute01"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="8dp"
+            android:text="99m"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/Minute02"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="6dp"
+            android:text="99m"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/Minute03"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="6dp"
+            android:text="99m"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/Minute04"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="6dp"
+            android:text="99m"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/Minute05"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="6dp"
+            android:text="99m"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/Minute06"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="6dp"
+            android:text="99m"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/Minute07"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="6dp"
+            android:text="99m"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/Minute08"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="6dp"
+            android:text="99m"
+            android:textSize="16sp" />
+
+    </TableRow>
+
+
+</LinearLayout>
