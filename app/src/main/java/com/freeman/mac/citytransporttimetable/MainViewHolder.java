@@ -17,6 +17,7 @@ import org.w3c.dom.Text;
  * Created by Mac on 10. 3. 2017.
  */
 
+/*
 public class MainViewHolder extends ParentViewHolder {
 
     final static String StringEmpty = "";
@@ -28,7 +29,7 @@ public class MainViewHolder extends ParentViewHolder {
         super(itemView);
     }
 
-    public void bind(@NonNull MainItem item) {
+    public void bind(@NonNull TimetableRow item) {
         this.setTextViews();
 
         if (item.isStreetView())
@@ -73,4 +74,4 @@ public class MainViewHolder extends ParentViewHolder {
         }
     }
 
-}
+}*/

@@ -9,14 +9,17 @@ import java.util.List;
 
 public class Vehicle {
 
-
+    public int CurrentDirection = 0;
+    public String CurrentStreetName;
     public TimePeriod CurrentTimePeriod;
 
     public void setCurrentStreetToAllPeriods(int index) {
+
         for (TimePeriod item : this.timePeriods) {
             item.setCureentStreet(index);
         }
     }
+
 
     public TimePeriod getCurrentTimePeriod() {
         if (this.CurrentTimePeriod == null) {

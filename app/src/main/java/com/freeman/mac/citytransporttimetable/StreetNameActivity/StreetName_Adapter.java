@@ -29,8 +29,7 @@ public class StreetName_Adapter extends RecyclerView.Adapter<StreetName_ViewHold
 
     @Override
     public StreetName_ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.main_street_name, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_street_name, parent, false);
 
         StreetName_ViewHolder holder = new StreetName_ViewHolder(itemView);
         holder.setSelectedStreetListener(new ISelectedItem() {

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CityTransportTimetable</string>
+    <string name="bus_stop_name">Zástavka</string>
 </resources>

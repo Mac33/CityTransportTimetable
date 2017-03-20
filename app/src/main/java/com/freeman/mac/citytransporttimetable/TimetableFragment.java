@@ -8,11 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bignerdranch.expandablerecyclerview.ExpandableRecyclerAdapter;
 import com.freeman.mac.citytransporttimetable.interfaces.IRefresh;
 import com.freeman.mac.citytransporttimetable.interfaces.ISelectedItem;
 import com.freeman.mac.citytransporttimetable.model.HourMapping;
-import com.freeman.mac.citytransporttimetable.model.Street;
 import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
 import com.freeman.mac.citytransporttimetable.model.Vehicle;
 
@@ -31,7 +29,7 @@ public class TimetableFragment extends Fragment implements IRefresh {
 
     private ISelectedItem mSelectedListener = null;
 
-    private List<MainItem> items;
+    private List<TimetableRow> items;
 
 
     @Override
@@ -59,23 +57,7 @@ public class TimetableFragment extends Fragment implements IRefresh {
         {
             RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
             this.items = this.getItems();
-
-            mAdapter = new TimetableAdapter(getActivity(), items);
-            mAdapter.setExpandCollapseListener(new ExpandableRecyclerAdapter.ExpandCollapseListener() {
-                @Override
-                public void onParentExpanded(int parentPosition) {
-                }
-
-                @Override
-                public void onParentCollapsed(int parentPosition) {
-                }
-
-                @Override
-                public void onFlatParentCollapsed(int flatPosition) {
-                    mSelectedListener.OnSelectedItem(flatPosition);
-                }
-            });
-
+            mAdapter = new TimetableAdapter(items);
             recyclerView.swapAdapter(mAdapter,true);
         }
 
@@ -89,24 +71,15 @@ public class TimetableFragment extends Fragment implements IRefresh {
     }
 
 
-    public List<MainItem> getItems() {
+    public List<TimetableRow> getItems() {
 
-        List<MainItem> ret = new ArrayList<MainItem>();
+        List<TimetableRow> ret = new ArrayList<TimetableRow>();
         Vehicle vehicle = TransportTimetables.getInstance().getCurrentVehicle();
         if (vehicle.hasTimePeriod(this.mTimePerion)) {
-            MainItem mainStreet = new MainItem();
             if (vehicle.getTimePeriod(this.mTimePerion).HasCurrentDiretionStreet())
             {
-                mainStreet.Name = vehicle.getTimePeriod(this.mTimePerion).getCureentStreet().Name;
-                for (Street item : vehicle.getTimePeriod(this.mTimePerion).getCurrentDirectionStreets()) {
-                    StreetItem streetItem = new StreetItem();
-                    streetItem.Name = item.Name;
-                    mainStreet.getChildList().add(streetItem);
-                }
-                ret.add(mainStreet);
-
                 for (HourMapping hour : vehicle.getTimePeriod(this.mTimePerion).getCureentStreet().getHours()) {
-                    MainItem mainHour = new MainItem();
+                    TimetableRow mainHour = new TimetableRow();
                     mainHour.Name = Integer.toString(hour.Hour);
                     mainHour.HourMapping = hour;
                     ret.add(mainHour);

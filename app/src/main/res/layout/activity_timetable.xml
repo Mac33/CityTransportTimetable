@@ -22,46 +22,47 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabMode="fixed"
-            app:tabGravity="fill"/>
+            app:tabGravity="fill"
+            app:tabMode="fixed" />
     </android.support.design.widget.AppBarLayout>
 
-    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-        android:id="@+id/android_material_design_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Material Design Spinner"
-        android:textColorHint="#05ab9a"
-        app:met_floatingLabel="normal"/>
-
-
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/StreetNameMainContainer"
         android:layout_width="match_parent"
-        android:layout_height="18dp"
-        android:orientation="horizontal"
-        android:id="@+id/StreetNameLin"
+        android:layout_height="36dp"
+        android:orientation="vertical">
 
-        android:weightSum="1">
 
         <TextView
-            android:id="@+id/StreetName"
-            android:layout_width="328dp"
-            android:layout_height="match_parent"
-            android:text="TextView" />
+            android:id="@+id/StreetNameDescription"
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:text="@string/bus_stop_name" />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="18dp"
-            android:layout_height="17dp"
-            app:srcCompat="@android:drawable/ic_menu_directions" />
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/StreetNameSubContainer"
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:orientation="horizontal"
+
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/StreetName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="TextView" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="18dp"
+                android:layout_height="17dp"
+                app:srcCompat="@android:drawable/ic_menu_directions" />
+        </LinearLayout>
     </LinearLayout>
-
 
 
     <android.support.v4.view.ViewPager
