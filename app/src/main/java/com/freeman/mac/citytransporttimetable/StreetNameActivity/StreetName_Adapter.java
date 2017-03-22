@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.freeman.mac.citytransporttimetable.R;
-import com.freeman.mac.citytransporttimetable.interfaces.ISelectedItem;
+import com.freeman.mac.citytransporttimetable.interfaces.*;
 import com.freeman.mac.citytransporttimetable.model.Street;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class StreetName_Adapter extends RecyclerView.Adapter<StreetName_ViewHold
     private List<Street> streets = null;
 
 
-    private ISelectedItem paStreetSelectedListener = null;
+    private ISelectedItemByString paStreetSelectedListener = null;
 
     public StreetName_Adapter(List<Street> streets) {
         this.streets = streets;
@@ -32,7 +32,7 @@ public class StreetName_Adapter extends RecyclerView.Adapter<StreetName_ViewHold
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_street_name, parent, false);
 
         StreetName_ViewHolder holder = new StreetName_ViewHolder(itemView);
-        holder.setSelectedStreetListener(new ISelectedItem() {
+        holder.setSelectedStreetListener(new ISelectedItemByInteger() {
             @Override
             public void OnSelectedItem(int index) {
                 setStreet(index);
@@ -47,13 +47,14 @@ public class StreetName_Adapter extends RecyclerView.Adapter<StreetName_ViewHold
         holder.bind(item.Name);
     }
 
-    public void setStreetSelectedListener(ISelectedItem listener) {
+    public void setStreetSelectedListener(ISelectedItemByString listener) {
         this.paStreetSelectedListener = listener;
     }
 
     private void setStreet(int index) {
         if (this.paStreetSelectedListener != null) {
-            this.paStreetSelectedListener.OnSelectedItem(index);
+            String name = streets.get(index).Name;
+            this.paStreetSelectedListener.OnSelectedItem(name);
         }
     }
 

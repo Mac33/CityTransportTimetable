@@ -35,6 +35,20 @@ public class Street {
 
     }
 
+    private static Street mStreet;
+    public static Street Empty()
+    {
+        if (mStreet==null) {
+
+            mStreet = new Street();
+            for (int hour=0;hour<24;hour++)
+            {
+                mStreet.hours.add(new HourMapping(hour));
+            }
+        }
+        return  mStreet;
+    }
+
     @Override
     public String toString() {
         return this.Name;

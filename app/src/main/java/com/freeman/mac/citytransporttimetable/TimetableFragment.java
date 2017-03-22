@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.freeman.mac.citytransporttimetable.interfaces.IRefresh;
-import com.freeman.mac.citytransporttimetable.interfaces.ISelectedItem;
 import com.freeman.mac.citytransporttimetable.model.HourMapping;
 import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
 import com.freeman.mac.citytransporttimetable.model.Vehicle;
@@ -26,8 +25,6 @@ public class TimetableFragment extends Fragment implements IRefresh {
     private int mTimePerion = 0;
 
     private TimetableAdapter mAdapter;
-
-    private ISelectedItem mSelectedListener = null;
 
     private List<TimetableRow> items;
 
@@ -53,15 +50,12 @@ public class TimetableFragment extends Fragment implements IRefresh {
 
     void setAdapter(View view) {
 
-        if (view!=null)
-        {
+        if (view != null) {
             RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
             this.items = this.getItems();
             mAdapter = new TimetableAdapter(items);
-            recyclerView.swapAdapter(mAdapter,true);
+            recyclerView.swapAdapter(mAdapter, true);
         }
-
-
 
 
     }
@@ -76,25 +70,15 @@ public class TimetableFragment extends Fragment implements IRefresh {
         List<TimetableRow> ret = new ArrayList<TimetableRow>();
         Vehicle vehicle = TransportTimetables.getInstance().getCurrentVehicle();
         if (vehicle.hasTimePeriod(this.mTimePerion)) {
-            if (vehicle.getTimePeriod(this.mTimePerion).HasCurrentDiretionStreet())
-            {
-                for (HourMapping hour : vehicle.getTimePeriod(this.mTimePerion).getCureentStreet().getHours()) {
-                    TimetableRow mainHour = new TimetableRow();
-                    mainHour.Name = Integer.toString(hour.Hour);
-                    mainHour.HourMapping = hour;
-                    ret.add(mainHour);
-                }
-
+            for (HourMapping hour : vehicle.getTimePeriod(this.mTimePerion).getCureentStreet().getHours()) {
+                TimetableRow mainHour = new TimetableRow();
+                mainHour.Name = Integer.toString(hour.Hour);
+                mainHour.HourMapping = hour;
+                ret.add(mainHour);
             }
         }
 
         return ret;
-    }
-
-
-    public void setSelectedListener(ISelectedItem listener) {
-
-        this.mSelectedListener = listener;
     }
 
 

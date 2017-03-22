@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
 import android.widget.TextView;
 import  com.freeman.mac.citytransporttimetable.R;
-import com.freeman.mac.citytransporttimetable.interfaces.ISelectedItem;
+import com.freeman.mac.citytransporttimetable.interfaces.*;
 
 /**
  * Created by Mac on 18. 3. 2017.
@@ -13,7 +13,7 @@ import com.freeman.mac.citytransporttimetable.interfaces.ISelectedItem;
 
 public class StreetName_ViewHolder extends ViewHolder  {
 
-    private ISelectedItem mSelectedStreetListener = null;
+    private ISelectedItemByInteger mSelectedStreetListener = null;
 
     public TextView streetName;
 
@@ -31,8 +31,7 @@ public class StreetName_ViewHolder extends ViewHolder  {
 
 
     }
-    /*Nastavenie indexu aktualne vybratej ulice
-    * */
+    /*Nastavenie indexu aktualne vybratej ulice */
     private void setStreetIndex()
     {
         int index = this.getAdapterPosition();
@@ -40,7 +39,7 @@ public class StreetName_ViewHolder extends ViewHolder  {
     }
 
 
-    public  void  setSelectedStreetListener(ISelectedItem listener)
+    public  void  setSelectedStreetListener(ISelectedItemByInteger listener)
     {
         this.mSelectedStreetListener = listener;
     }

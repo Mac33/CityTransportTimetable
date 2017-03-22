@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.freeman.mac.citytransporttimetable.R;
-import com.freeman.mac.citytransporttimetable.interfaces.ISelectedItem;
+import com.freeman.mac.citytransporttimetable.interfaces.*;
 import com.freeman.mac.citytransporttimetable.model.Street;
 import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
 
@@ -19,13 +19,13 @@ import java.util.List;
 
 public class StreetNamesActivity extends AppCompatActivity {
 
-    public static String STREET_POSITION_KEY = "STREET_POSITION";
+    public static String STREET_NAME = "STREET_NAME";
     public static int STREET_POSITION_REQUEST_CODE = 1;
 
 
-    public static Intent createInstance(Activity activity, int streetPosition) {
+    public static Intent createInstance(Activity activity, String name) {
         Intent intent = new Intent(activity, StreetNamesActivity.class);
-        intent.putExtra(STREET_POSITION_KEY, streetPosition);
+        intent.putExtra(STREET_NAME, name);
         return intent;
     }
 
@@ -34,8 +34,8 @@ public class StreetNamesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_street_names);
-        int streetIndex = getIntent().getIntExtra(STREET_POSITION_KEY, 0); // here 0 is the default value
-        Log.w("CityTransportTimetable", "onCreate Value " + streetIndex);
+        String name = getIntent().getStringExtra(STREET_NAME);
+        Log.w("CityTransportTimetable", "onCreate Value " + name);
         this.initDataAdapter();
 
     }
@@ -49,10 +49,12 @@ public class StreetNamesActivity extends AppCompatActivity {
                 getCurrentDirectionStreets();
 
         StreetName_Adapter adapter = new StreetName_Adapter(streets);
-        adapter.setStreetSelectedListener(new ISelectedItem() {
+        adapter.setStreetSelectedListener(new ISelectedItemByString()
+        {
+
             @Override
-            public void OnSelectedItem(int index) {
-                setCurrentStreet(index);
+            public void OnSelectedItem(String str) {
+                setCurrentStreet(str);
             }
         });
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -63,13 +65,13 @@ public class StreetNamesActivity extends AppCompatActivity {
     }
 
 
-    void setCurrentStreet(int index) {
-        setDataResult(index);
+    void setCurrentStreet(String name) {
+        setDataResult(name);
     }
 
-    void setDataResult(int index) {
+    void setDataResult(String name) {
         Intent iData = new Intent();
-        iData.putExtra(STREET_POSITION_KEY, index);
+        iData.putExtra(STREET_NAME, name);
         setResult(android.app.Activity.RESULT_OK, iData);
     }
 }
