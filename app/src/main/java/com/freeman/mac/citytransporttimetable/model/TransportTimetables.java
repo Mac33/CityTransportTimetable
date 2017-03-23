@@ -48,7 +48,54 @@ public class TransportTimetables {
         vehicle.addTimePeriod("SchoolDays");
         vehicle.addTimePeriod("Holydays");
 
-        street = new Street("Cyrila a Metoda");
+        street = new Street("Fatranská");
+        hour  = new HourMapping(0);
+        street.getHours().add(hour);
+        vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
+        street = new Street("Matice slovenskej");
+        vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
+        street = new Street("Obchodná");
+        vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
+        street = new Street("Sv. Cyrila a Metoda");
+        vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
+        street = new Street("Košická, TESCO hypermarket");
+        vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
+        street = new Street("Predmestská");
+        vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
+        street = new Street("Štefánikovo nám.");
+        vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
+        street = new Street("Železničná stanica");
+        vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
+        street = new Street("Hurbanova");
+        vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
+        street = new Street("Polícia");
+        vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
+        street = new Street("Komenského");
+        vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
+        street = new Street("Mostná");
+        vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
+        street = new Street("Hlinská");
+        vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
+        street = new Street("Poľná");
+        vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
+        street = new Street("Smreková");
+        vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
+        street = new Street("Limbová");
+        vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
+        street = new Street("Jaseňová");
+        vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
+        street = new Street("Pod hájom");
+        vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
+        street = new Street("Žilinská univerzita");
+        vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
+        street = new Street("Fatranská");
+        hour  = new HourMapping(10);
+        street.getHours().add(hour);
+        vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
+        street = new Street("Matice slovenskej");
+        vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
+
+        street = new Street("Test - A");
         hour  = new HourMapping(0);
         street.getHours().add(hour);
         hour  = new HourMapping(1);
@@ -119,7 +166,7 @@ public class TransportTimetables {
         vehicle.getTimePeriods().get(0).getDirectionOneStreets().add(street);
 
 
-        street = new Street("Kosicka");
+        street = new Street("Test - B");
         hour  = new HourMapping(0);
         street.getHours().add(hour);
         hour  = new HourMapping(1);

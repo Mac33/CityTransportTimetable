@@ -40,7 +40,7 @@ public class TimetableFragment extends Fragment implements IRefresh {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.timetable, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
         setAdapter(view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return view;
@@ -51,7 +51,7 @@ public class TimetableFragment extends Fragment implements IRefresh {
     void setAdapter(View view) {
 
         if (view != null) {
-            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
             this.items = this.getItems();
             mAdapter = new TimetableAdapter(items);
             recyclerView.swapAdapter(mAdapter, true);

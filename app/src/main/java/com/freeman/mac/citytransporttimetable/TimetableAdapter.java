@@ -19,9 +19,7 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableViewHolder> 
 
 
     public TimetableAdapter(@NonNull List<TimetableRow> recipeList) {
-
         mRecipeList = recipeList;
-
     }
 
     @Override

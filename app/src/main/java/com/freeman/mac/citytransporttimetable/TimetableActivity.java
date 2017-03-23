@@ -75,7 +75,7 @@ public class TimetableActivity extends AppCompatActivity {
 
         currentStreetName = (TextView) findViewById(R.id.StreetName);
 
-        this.setCurrentStreet("Kosicka");
+        this.setCurrentStreet("Košická");
 
 
     }

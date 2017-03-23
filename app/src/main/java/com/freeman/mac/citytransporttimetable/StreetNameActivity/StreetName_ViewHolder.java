@@ -20,8 +20,6 @@ public class StreetName_ViewHolder extends ViewHolder  {
     public StreetName_ViewHolder(View itemView) {
         super(itemView);
         this.streetName = (TextView) itemView.findViewById(R.id.MainStreetName);
-
-
         this.streetName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

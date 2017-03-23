@@ -31,36 +31,44 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/StreetNameMainContainer"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
+        android:layout_height="60dp"
         android:orientation="vertical">
-
 
         <TextView
             android:id="@+id/StreetNameDescription"
             android:layout_width="match_parent"
-            android:layout_height="18dp"
-            android:text="@string/bus_stop_name" />
+            android:layout_marginTop="2dp"
+            android:layout_height="14dp"
+            android:gravity="top"
+            android:text="@string/bus_stop_name"
+            android:textSize="12sp" />
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/StreetNameSubContainer"
             android:layout_width="match_parent"
-            android:layout_height="18dp"
+            android:layout_height="40dp"
             android:orientation="horizontal"
-
-            android:weightSum="1">
+            android:weightSum="1"
+            android:background="?android:attr/selectableItemBackground">
 
             <TextView
                 android:id="@+id/StreetName"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="TextView" />
+                android:layout_weight="0.80"
+                android:text="@string/textview"
+                android:textSize="20sp"
+                android:gravity="center_vertical"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="18dp"
-                android:layout_height="17dp"
-                app:srcCompat="@android:drawable/ic_menu_directions" />
+                android:layout_width="0dp"
+                android:layout_gravity="center"
+                android:layout_height="30sp"
+                android:layout_weight="0.20"
+                app:srcCompat="@mipmap/chevron_right" />
         </LinearLayout>
     </LinearLayout>
 

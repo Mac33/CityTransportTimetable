@@ -59,7 +59,7 @@ public class StreetNamesActivity extends AppCompatActivity {
         });
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         view.setLayoutManager(mLayoutManager);
-        view.setItemAnimator(new DefaultItemAnimator());
+
         view.setAdapter(adapter);
 
     }

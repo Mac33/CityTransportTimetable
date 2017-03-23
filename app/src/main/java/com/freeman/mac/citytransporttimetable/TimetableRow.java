@@ -1,6 +1,5 @@
 package com.freeman.mac.citytransporttimetable;
 
-import com.bignerdranch.expandablerecyclerview.model.Parent;
 import com.freeman.mac.citytransporttimetable.model.HourMapping;
 
 import java.util.ArrayList;
