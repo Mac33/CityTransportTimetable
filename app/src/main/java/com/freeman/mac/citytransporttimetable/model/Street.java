@@ -7,8 +7,6 @@ import java.util.List;
  * Created by Mac on 7. 3. 2017.
  */
 
-
-
 public class Street {
     public String Name;
 
@@ -21,6 +19,7 @@ public class Street {
         this.Name = name;
 
     }
+
 
 
     public List<HourMapping> getHours() {

@@ -9,33 +9,36 @@ import java.util.List;
 
 public class TimePeriod {
 
-    public static int DIRECTION_ONE = 0;
-    public static int DIRECTION_TWO = 1;
-    public Street CureentStreet;
-    public String CurrentStreetName;
+
+    private Street CureentStreet;
+    private int CurrentStreetIndex =0;
     public String Name;
-    private int currentDirection = DIRECTION_ONE;
-    private List<Street> directionOne;
-    private List<Street> directionTwo;
+
+    private List<Street> Streets = new ArrayList<Street>();
 
     public TimePeriod(String name) {
         this.Name = name;
-        this.directionOne = new ArrayList<Street>();
-        this.directionTwo = new ArrayList<Street>();
+     }
 
+
+    public Street getStreet(int index ) {
+
+        if (this.Streets.size() > index)
+        {
+            return  this.Streets.get(index);
+        }
+        return  null;
     }
 
-    public boolean HasCurrentDiretionStreet() {
-        return !this.getCurrentDirectionStreets().isEmpty();
+
+    public void setCureentStreet(int index)
+    {
+        this.CurrentStreetIndex = index;
     }
-
-    public Street getCureentStreet() {
-
-        for (Street item : getCurrentDirectionStreets()) {
-            if (item.Name.equals(this.CurrentStreetName)) {
-                this.CureentStreet = item;
-                break;
-            }
+    public Street getCurrentStreet()
+    {
+        if  (this.getStreets().size() > this.CurrentStreetIndex ) {
+            this.CureentStreet = this.getStreets().get(this.CurrentStreetIndex);
         }
         if (this.CureentStreet == null) {
             this.CureentStreet = Street.Empty();
@@ -47,33 +50,31 @@ public class TimePeriod {
     }
 
 
-
-    public void setCureentStreet(String name) {
-        this.CurrentStreetName = name;
-
+    public  List<Street> getStreets()
+    {
+        return  this.Streets;
     }
 
 
-
-    public List<Street> getCurrentDirectionStreets() {
-        if (currentDirection == DIRECTION_ONE) {
-            return this.directionOne;
-        } else {
-            return this.directionTwo;
+    public String getStreetName(int index)
+    {
+        Street street = this.getStreet(index);
+        if (street!=null)
+        {
+            return  street.Name;
         }
+        return StringUtils.Empty;
+    }
+
+    public void addStreet(Street item)
+    {
+        this.Streets.add(item);
     }
 
 
 
-    public List<Street> getDirectionOneStreets() {
-        return this.directionOne;
-    }
 
 
-
-    public List<Street> getDirectionTwoStreets() {
-        return this.directionTwo;
-    }
 
 
 }

@@ -32,8 +32,9 @@ public class TimetableActivity extends AppCompatActivity {
         if (requestCode == StreetNamesActivity.STREET_POSITION_REQUEST_CODE) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
+                int index = data.getExtras().getInt(StreetNamesActivity.STREET_INDEX_POSITION, 0);
                 String name = data.getExtras().getString(StreetNamesActivity.STREET_NAME, "");
-                setCurrentStreet(name);
+                setCurrentStreet(index);
                 Log.w("CityTransportTimetable", "result Value " + name);
             } else {
                 Log.w("CityTransportTimetable", "Result Activity - CANCEL");
@@ -50,17 +51,16 @@ public class TimetableActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_timetable);
 
-
-
         LinearLayout listView = (LinearLayout) findViewById(R.id.StreetNameSubContainer);
         listView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = StreetNamesActivity.createInstance(TimetableActivity.this, TransportTimetables.getInstance().getCurrentVehicle().CurrentStreetName);
+                Intent intent = StreetNamesActivity.createInstance(TimetableActivity.this,
+                                                                   TransportTimetables.getInstance().getCurrentVehicle().CurrentStreetIndex);
+
                 startActivityForResult(intent, StreetNamesActivity.STREET_POSITION_REQUEST_CODE);
             }
         });
-
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -75,7 +75,7 @@ public class TimetableActivity extends AppCompatActivity {
 
         currentStreetName = (TextView) findViewById(R.id.StreetName);
 
-        this.setCurrentStreet("Košická");
+        this.setCurrentStreet(0);
 
 
     }
@@ -100,12 +100,12 @@ public class TimetableActivity extends AppCompatActivity {
     }
 
 
-    private void setCurrentStreet(String name) {
-        TransportTimetables.getInstance().getCurrentVehicle().setCurrentStreetToAllPeriods(name);
+    private void setCurrentStreet(int index) {
+        TransportTimetables.getInstance().getCurrentVehicle().setCurrentStreet(index);
         this.workDays.OnRefresh();
         this.schoolDays.OnRefresh();
         this.weekend.OnRefresh();
-        this.setCurrentStreetName(name);
+        this.setCurrentStreetName(TransportTimetables.getInstance().getCurrentVehicle().CurrentStreetName);
 
     }
 

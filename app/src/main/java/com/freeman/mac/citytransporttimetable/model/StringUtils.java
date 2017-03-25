@@ -11,4 +11,5 @@ public class StringUtils {
         return  str == null || str.trim().length() == 0;
     }
 
+    public static String Empty = "";
 }
