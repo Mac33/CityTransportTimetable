@@ -9,7 +9,6 @@ public class MinuteMapping {
 
     public int Minute = 0;
 
-
     public  int Type = 0;
 
     public MinuteMapping(int minute, int type)
@@ -20,11 +19,13 @@ public class MinuteMapping {
 
     public String getText()
     {
+
+        String minute = String.format("%02d", this.Minute);
         if (Type == 1)
         {
-            return Integer.toString(this.Minute)+ "z";
+            return minute + "z";
         }
-        return Integer.toString(this.Minute);
+        return minute;
     }
 
 }
