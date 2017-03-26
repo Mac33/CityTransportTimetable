@@ -95,15 +95,15 @@ public class TimetableActivity extends AppCompatActivity {
 
         workDays = new TimetableFragment();
         workDays.setTimePerion(0);
-        adapter.addFragment(workDays, "Work Days");
+        adapter.addFragment(workDays, "Pracovné dni");
 
         schoolDays = new TimetableFragment();
         schoolDays.setTimePerion(1);
-        adapter.addFragment(schoolDays, "School Holidays");
+        adapter.addFragment(schoolDays, "Školské prázdniny");
 
         weekend = new TimetableFragment();
         weekend.setTimePerion(2);
-        adapter.addFragment(weekend, "Weekend");
+        adapter.addFragment(weekend, "Víkend a sviatky");
 
         viewPager.setAdapter(adapter);
     }

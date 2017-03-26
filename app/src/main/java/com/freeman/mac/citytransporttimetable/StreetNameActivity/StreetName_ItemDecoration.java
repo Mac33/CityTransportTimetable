@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.freeman.mac.citytransporttimetable.model.Street;
 
 /**
  * Created by Mac on 26. 3. 2017.

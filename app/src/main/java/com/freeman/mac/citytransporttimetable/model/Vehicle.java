@@ -1,5 +1,6 @@
 package com.freeman.mac.citytransporttimetable.model;
 
+import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,7 +107,15 @@ public class Vehicle {
                                 strType.append(timeChar);
                             }
                         }else {
-                            int intValue = Integer.parseInt(strTime.toString());
+                            int intValue = 0;
+                            try {
+                                intValue = Integer.parseInt(strTime.toString());
+                            }catch (Exception e)
+                            {
+                                Log.w("CityTransportTimetable", "Invalid parseInt");
+                            }
+
+
                             if (hour==null)
                             {
                                 hour = new HourMapping();
@@ -117,7 +126,13 @@ public class Vehicle {
                             strTime = new StringBuilder();
                         }
                     }
-                    int intValue = Integer.parseInt(strTime.toString());
+                    int intValue = 0;
+                    try {
+                        intValue = Integer.parseInt(strTime.toString());
+                    }catch (Exception e)
+                    {
+                        Log.w("CityTransportTimetable", "Invalid parseInt");
+                    }
                     hour.addMinute(intValue,0);
                     currentStreet.getHours().add(hour);
                 }
