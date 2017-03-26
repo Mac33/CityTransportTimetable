@@ -1,8 +1,8 @@
 package com.freeman.mac.citytransporttimetable.StreetNameActivity;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView.ViewHolder;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -29,7 +29,7 @@ public class StreetName_ViewHolder extends ViewHolder {
         });
     }
 
-    /*Nastavenie indexu aktualne vybratej ulice */
+    /*Set index for current street */
     private void setStreetIndex() {
         int index = this.getAdapterPosition();
         this.mSelectedStreetListener.OnSelectedItem(index);
@@ -41,15 +41,25 @@ public class StreetName_ViewHolder extends ViewHolder {
     }
 
 
-    public void bind(String name, boolean isSelected, boolean isFirstZone) {
-        this.streetName.setText(name);
+    public void bind(String name) {
+       this.streetName.setText(name);
+
+    }
+
+
+    void setBoldName(boolean isSelected) {
         if (isSelected) {
             this.streetName.setTypeface(null, Typeface.BOLD);
         } else {
             this.streetName.setTypeface(null, Typeface.NORMAL);
         }
-        if (isFirstZone) {
+    }
 
+    void setZoneLayout(boolean isFirsZone) {
+        if (isFirsZone) {
+            this.itemView.setBackgroundColor(Color.YELLOW);
+        } else {
+            this.itemView.setBackgroundColor(Color.WHITE);
         }
     }
 

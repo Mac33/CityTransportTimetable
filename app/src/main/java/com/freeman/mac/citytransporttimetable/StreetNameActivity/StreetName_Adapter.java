@@ -20,7 +20,7 @@ public class StreetName_Adapter extends RecyclerView.Adapter<StreetName_ViewHold
 
     private List<Street> streets = null;
 
-    private int CurrentStreetIndex = 0;
+    public int CurrentStreetIndex = 0;
 
     private ISelectedItemByInteger paStreetSelectedListener = null;
 
@@ -46,8 +46,7 @@ public class StreetName_Adapter extends RecyclerView.Adapter<StreetName_ViewHold
     @Override
     public void onBindViewHolder(StreetName_ViewHolder holder, int position) {
         Street item = this.streets.get(position);
-        boolean setStreetBold = position==this.CurrentStreetIndex;
-        holder.bind(item.Name,setStreetBold ,true);
+        holder.bind(item.Name);
     }
 
     public void setStreetSelectedListener(ISelectedItemByInteger listener) {
@@ -57,9 +56,8 @@ public class StreetName_Adapter extends RecyclerView.Adapter<StreetName_ViewHold
     private void setStreet(int index) {
         if (this.paStreetSelectedListener != null) {
             this.paStreetSelectedListener.OnSelectedItem(index);
-
             this.CurrentStreetIndex = index;
-            this.notifyDataSetChanged();
+
         }
     }
 

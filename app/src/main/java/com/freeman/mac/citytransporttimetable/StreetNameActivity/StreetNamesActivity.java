@@ -25,6 +25,7 @@ public class StreetNamesActivity extends AppCompatActivity {
 
     public static int STREET_POSITION_REQUEST_CODE = 1;
 
+    RecyclerView view;
 
     public static Intent createInstance(Activity activity, int index) {
         Intent intent = new Intent(activity, StreetNamesActivity.class);
@@ -45,7 +46,7 @@ public class StreetNamesActivity extends AppCompatActivity {
 
 
     private void initDataAdapter() {
-        RecyclerView view = (RecyclerView) findViewById(R.id.RecycleViewStreetNames);
+        view = (RecyclerView) findViewById(R.id.RecycleViewStreetNames);
         List<Street> streets = TransportTimetables.getInstance().
                                                    getCurrentVehicle().
                                                    getCurrentDirectionStreets();
@@ -57,14 +58,16 @@ public class StreetNamesActivity extends AppCompatActivity {
             @Override
             public void OnSelectedItem(int index) {
                 setCurrentStreet(index);
+                view.postInvalidate();
             }
 
 
         });
+
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         view.setLayoutManager(mLayoutManager);
-
         view.setAdapter(adapter);
+        view.addItemDecoration(new StreetName_ItemDecoration());
 
     }
 
