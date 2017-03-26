@@ -39,7 +39,7 @@ public class TransportTimetables {
 
     private TransportTimetables() {
         this.vehicles = new ArrayList<Vehicle>();
-        Vehicle vehicle;
+       /* Vehicle vehicle;
         Street street;
         HourMapping hour;
 
@@ -236,7 +236,7 @@ public class TransportTimetables {
         vehicle.getCurrentDirectionTimePeriods().get(0).addStreet(street);
 
 
-        this.vehicles.add(vehicle);
+        this.vehicles.add(vehicle);*/
 
     }
 

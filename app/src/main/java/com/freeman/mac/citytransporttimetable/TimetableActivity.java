@@ -1,5 +1,6 @@
 package com.freeman.mac.citytransporttimetable;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -13,6 +14,14 @@ import android.widget.TextView;
 
 import com.freeman.mac.citytransporttimetable.StreetNameActivity.StreetNamesActivity;
 import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
+import com.freeman.mac.citytransporttimetable.model.Vehicle;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class TimetableActivity extends AppCompatActivity {
@@ -47,7 +56,7 @@ public class TimetableActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        TransportTimetables.getInstance().getVehicles();
+       this.initVehicles();
 
         setContentView(R.layout.activity_timetable);
 
@@ -114,6 +123,34 @@ public class TimetableActivity extends AppCompatActivity {
         currentStreetName.setText(name);
     }
 
+
+    public void initVehicles()
+    {
+        Vehicle vehicle = new Vehicle(4);
+        List<String> data = this.loadData(R.raw.vechicle_04);
+        vehicle.load(data);
+        TransportTimetables.getInstance().getVehicles().add(vehicle);
+
+    }
+
+    public List<String> loadData(int id)
+    {
+        Context cx = this.getApplicationContext();
+        InputStream inputStream = cx.getResources().openRawResource(id);
+        InputStreamReader inputReader = new InputStreamReader(inputStream);
+        BufferedReader buffReader = new BufferedReader(inputReader );
+        String line;
+        ArrayList<String> text = new ArrayList<String> ();
+        try {
+            while (( line = buffReader .readLine()) != null) {
+                text.add(line);
+            }
+        } catch (IOException e) {
+
+        }
+        return  text;
+
+    }
 
 }
 

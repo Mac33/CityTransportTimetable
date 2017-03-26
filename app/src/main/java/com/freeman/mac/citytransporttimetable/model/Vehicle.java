@@ -9,25 +9,32 @@ import java.util.List;
 
 public class Vehicle {
 
+    public static int DIRECTION_ONE = 0;
+    public static int DIRECTION_TWO = 1;
     public int CurrentDirection = 0;
     public String CurrentStreetName = "";
     public int CurrentStreetIndex = 0;
     public int Number = 0;
-
-    public static int DIRECTION_ONE = 0;
-    public static int DIRECTION_TWO = 1;
-
     private List<TimePeriod> directionOne;
     private List<TimePeriod> directionTwo;
+
+    public Vehicle(int value) {
+        this();
+        this.Number = value;
+    }
+
+    public Vehicle() {
+        this.directionOne = new ArrayList<TimePeriod>();
+        this.directionTwo = new ArrayList<TimePeriod>();
+    }
 
     public List<TimePeriod> getDirectionOneTimePeriods() {
         return this.directionOne;
     }
+
     public List<TimePeriod> getDirectionTwoStreets() {
         return this.directionTwo;
     }
-
-
 
     public List<TimePeriod> getCurrentDirectionTimePeriods() {
         if (this.CurrentDirection == DIRECTION_ONE) {
@@ -37,51 +44,96 @@ public class Vehicle {
         }
     }
 
-    public List<Street> getCurrentDirectionStreets()
-    {
+    public List<Street> getCurrentDirectionStreets() {
         return getCurrentDirectionTimePeriods().get(0).getStreets();
     }
 
-
-
-    public String getCurrentDirectionStreetName(int index)
-    {
+    public String getCurrentDirectionStreetName(int index) {
         return getCurrentDirectionTimePeriods().get(0).getStreets().get(index).Name;
     }
 
-
-
-    public Vehicle(int value) {
-        this();
-        this.Number = value;
-    }
-
-
-    public Vehicle() {
-        this.directionOne = new ArrayList<TimePeriod>();
-        this.directionTwo = new ArrayList<TimePeriod>();
-    }
-
-
-
-    void addTimePeriod(String name)
-    {
+    void addTimePeriod(String name) {
         this.directionOne.add(new TimePeriod(name));
         this.directionTwo.add(new TimePeriod(name));
     }
 
     public void setCurrentStreet(int index) {
         this.CurrentStreetIndex = index;
-        for (TimePeriod item:this.getCurrentDirectionTimePeriods()) {
+        for (TimePeriod item : this.getCurrentDirectionTimePeriods()) {
             item.setCureentStreet(index);
         }
         this.CurrentStreetName = this.getCurrentDirectionTimePeriods().get(0).getStreetName(index);
     }
 
 
-
     public void setCurrentDirection(int index) {
         this.CurrentDirection = index;
+    }
+
+    public void load(List<String> data) {
+        this.addTimePeriod("Pondelok - Piatok (školský rok)");
+        this.addTimePeriod("Pondelok - Piatok (školské prázdniny)");
+        this.addTimePeriod("Sobota - Nedeľa, sviatok");
+        int timePeriod = 0;
+        String currentStreetName= StringUtils.Empty;
+        Street currentStreet = null;
+        List<TimePeriod> direction = this.directionOne;
+        for (String item : data) {
+
+            if (item.toCharArray().length > 0) {
+                char streetChar = item.toCharArray()[0];
+                if (!Character.isDigit(streetChar)) {
+                    if (timePeriod ==2)
+                    {
+                        timePeriod = 0;
+                    }
+                    currentStreetName = item;
+                    currentStreet = new Street();
+                    currentStreet.Name  = currentStreetName;
+                    direction.get(timePeriod).addStreet(currentStreet);
+                } else {
+
+                    HourMapping hour=null;
+                    StringBuilder strTime = new StringBuilder();
+                    StringBuilder strType = new StringBuilder();
+
+                    for (char timeChar:item.toCharArray()) {
+                        if (Character.isLetterOrDigit(timeChar)) {
+                            if (Character.isDigit(timeChar)){
+                                strTime.append(timeChar);
+                            }
+                            if (Character.isLetter(timeChar)){
+                                strType.append(timeChar);
+                            }
+                        }else {
+                            int intValue = Integer.parseInt(strTime.toString());
+                            if (hour==null)
+                            {
+                                hour = new HourMapping();
+                                hour.Hour = intValue;
+                            }else{
+                                hour.addMinute(intValue,0);
+                            }
+                            strTime = new StringBuilder();
+                        }
+                    }
+                    int intValue = Integer.parseInt(strTime.toString());
+                    hour.addMinute(intValue,0);
+                    currentStreet.getHours().add(hour);
+                }
+
+            } else {
+                timePeriod += 1;
+                currentStreet = new Street();
+                currentStreet.Name  = currentStreetName;
+                direction.get(timePeriod).addStreet(currentStreet);
+
+
+            }
+
+
+        }
+
     }
 
     @Override
