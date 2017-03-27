@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.freeman.mac.citytransporttimetable.R;
@@ -22,10 +23,11 @@ public class StreetNamesActivity extends AppCompatActivity {
 
     public static String STREET_NAME = "STREET_NAME";
     public static String STREET_INDEX_POSITION = "STREET_INDEX_POSITION";
-
     public static int STREET_POSITION_REQUEST_CODE = 1;
 
-    RecyclerView view;
+    private RecyclerView view;
+
+
 
     public static Intent createInstance(Activity activity, int index) {
         Intent intent = new Intent(activity, StreetNamesActivity.class);
@@ -37,12 +39,31 @@ public class StreetNamesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_street_names);
+        this.setContentView(R.layout.activity_street_names);
+        this.initToolbar();
         String name = getIntent().getStringExtra(STREET_NAME);
         Log.w("CityTransportTimetable", "onCreate Value " + name);
         this.initDataAdapter();
 
     }
+
+    private  void  initToolbar()
+    {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(StringUtils.Empty);
+
+    }
+
+
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        this.onBackPressed();
+        return true;
+    }
+
 
 
     private void initDataAdapter() {
@@ -72,9 +93,12 @@ public class StreetNamesActivity extends AppCompatActivity {
     }
 
 
+
     void setCurrentStreet(int index) {
         setDataResult(index);
     }
+
+
 
     void setDataResult(int index) {
         Intent iData = new Intent();

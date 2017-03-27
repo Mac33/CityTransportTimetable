@@ -26,7 +26,6 @@ import java.util.List;
 
 public class TimetableActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private TextView currentStreetName;
@@ -52,6 +51,7 @@ public class TimetableActivity extends AppCompatActivity {
     }
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,12 +71,10 @@ public class TimetableActivity extends AppCompatActivity {
             }
         });
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.initToolbar();
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+        this.setupViewPager(viewPager);
         viewPager.setCurrentItem(0);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -86,8 +84,24 @@ public class TimetableActivity extends AppCompatActivity {
 
         this.setCurrentStreet(0);
 
+    }
+
+
+    void initToolbar()
+    {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
+
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
 
 
     private void setupViewPager(ViewPager viewPager) {
