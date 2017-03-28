@@ -9,10 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.freeman.mac.citytransporttimetable.StreetNameActivity.StreetNamesActivity;
+import com.freeman.mac.citytransporttimetable.model.StringUtils;
 import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
 import com.freeman.mac.citytransporttimetable.model.Vehicle;
 
@@ -60,7 +62,7 @@ public class TimetableActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_timetable);
 
-        LinearLayout listView = (LinearLayout) findViewById(R.id.StreetNameSubContainer);
+        LinearLayout listView = (LinearLayout) this.findViewById(R.id.StreetNameSubContainer);
         listView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,6 +75,13 @@ public class TimetableActivity extends AppCompatActivity {
 
         this.initToolbar();
 
+        Button changeLayout = (Button )this.findViewById(R.id.change_direction);
+        changeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.w("","");
+            }
+        });
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         this.setupViewPager(viewPager);
         viewPager.setCurrentItem(0);
@@ -92,6 +101,7 @@ public class TimetableActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(StringUtils.Empty);
 
     }
 
