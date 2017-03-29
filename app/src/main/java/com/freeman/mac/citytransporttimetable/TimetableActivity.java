@@ -62,7 +62,7 @@ public class TimetableActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_timetable);
 
-        LinearLayout listView = (LinearLayout) this.findViewById(R.id.StreetNameSubContainer);
+        LinearLayout listView = (LinearLayout) this.findViewById(R.id.StreetNameMainContainer);
         listView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
