@@ -19,6 +19,19 @@ public class TransportTimetables {
 
     public List<Vehicle> getVehicles() {return this.vehicles;}
 
+    public List<Vehicle> getVehicles(Vehicle.eVehicleType type)
+    {
+        List<Vehicle> ret = new ArrayList<Vehicle>();
+        for (Vehicle item:getVehicles()) {
+            if (item.Type == type)
+            {
+                ret.add(item);
+            }
+        }
+
+        return  ret;
+    }
+
     private Vehicle current = null;
 
     public Vehicle getCurrentVehicle()

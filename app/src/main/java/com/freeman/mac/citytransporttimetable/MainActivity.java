@@ -1,9 +1,23 @@
 package com.freeman.mac.citytransporttimetable;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
+import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
+import com.freeman.mac.citytransporttimetable.model.Vehicle;
+import com.freeman.mac.citytransporttimetable.model.VehicleCategory;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.initVehicles();
         setContentView(R.layout.activity_main);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.vehicle_numbers_recycler_view);
@@ -23,10 +38,63 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new VehicleNumbers_Adapter();
+        mAdapter = new VehicleNumbers_Adapter(this.getVehicleCategories());
         mRecyclerView.setAdapter(mAdapter);
 
     }
+
+
+    public void initVehicles()
+    {
+        this.addVehicle(4, Vehicle.eVehicleType.Trolleybus,R.mipmap.number_04_blue ,R.raw.vechicle_04);
+        this.addVehicle(6,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_06_blue ,R.raw.vechicle_04);
+        this.addVehicle(14,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_14_blue ,R.raw.vechicle_04);
+
+    }
+
+
+
+    private void addVehicle(int number,Vehicle.eVehicleType type, int iconId, int dataId )
+    {
+        Vehicle vehicle = new Vehicle(number, type,iconId);
+        List<String> data = this.loadData(dataId);
+        vehicle.load(data);
+        TransportTimetables.getInstance().getVehicles().add(vehicle);
+    }
+
+
+    public List<String> loadData(int id)
+    {
+        Context cx = this.getApplicationContext();
+        InputStream inputStream = cx.getResources().openRawResource(id);
+        InputStreamReader inputReader = new InputStreamReader(inputStream);
+        BufferedReader buffReader = new BufferedReader(inputReader );
+        String line;
+        ArrayList<String> text = new ArrayList<String> ();
+        try {
+            while (( line = buffReader .readLine()) != null) {
+                text.add(line);
+            }
+        } catch (IOException e) {
+
+        }
+        return  text;
+
+    }
+
+
+    private List<VehicleCategory> getVehicleCategories()
+    {
+        List<VehicleCategory> ret = new ArrayList<VehicleCategory>();
+        VehicleCategory item = new VehicleCategory();
+        item.Type = Vehicle.eVehicleType.Trolleybus;
+        item.Description= "Trolejbus";
+        item.Vehicles = TransportTimetables.getInstance().getVehicles(Vehicle.eVehicleType.Trolleybus);
+        ret.add(item);
+        return  ret;
+
+    }
+
 
 
 

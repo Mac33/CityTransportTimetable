@@ -58,7 +58,7 @@ public class TimetableActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-       this.initVehicles();
+
 
         setContentView(R.layout.activity_timetable);
 
@@ -148,33 +148,6 @@ public class TimetableActivity extends AppCompatActivity {
     }
 
 
-    public void initVehicles()
-    {
-        Vehicle vehicle = new Vehicle(4);
-        List<String> data = this.loadData(R.raw.vechicle_04);
-        vehicle.load(data);
-        TransportTimetables.getInstance().getVehicles().add(vehicle);
-
-    }
-
-    public List<String> loadData(int id)
-    {
-        Context cx = this.getApplicationContext();
-        InputStream inputStream = cx.getResources().openRawResource(id);
-        InputStreamReader inputReader = new InputStreamReader(inputStream);
-        BufferedReader buffReader = new BufferedReader(inputReader );
-        String line;
-        ArrayList<String> text = new ArrayList<String> ();
-        try {
-            while (( line = buffReader .readLine()) != null) {
-                text.add(line);
-            }
-        } catch (IOException e) {
-
-        }
-        return  text;
-
-    }
 
 }
 

@@ -38,7 +38,7 @@
             android:weightSum="100">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/VehicleCategoryDesription"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="15"
@@ -72,49 +72,56 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus" />
+                        app:srcCompat="@mipmap/vehicle_trolleybus"
+                        android:background="?android:attr/selectableItemBackground"/>
 
                     <ImageView
                         android:id="@+id/imgNumber02"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus" />
+                        app:srcCompat="@mipmap/vehicle_trolleybus"
+                        android:background="?android:attr/selectableItemBackground"/>
 
                     <ImageView
                         android:id="@+id/imgNumber03"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus" />
+                        app:srcCompat="@mipmap/vehicle_trolleybus"
+                        android:background="?android:attr/selectableItemBackground"/>
 
                     <ImageView
                         android:id="@+id/imgNumber04"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus" />
+                        app:srcCompat="@mipmap/vehicle_trolleybus"
+                        android:background="?android:attr/selectableItemBackground"/>
 
                     <ImageView
                         android:id="@+id/imgNumber05"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus" />
+                        app:srcCompat="@mipmap/vehicle_trolleybus"
+                        android:background="?android:attr/selectableItemBackground"/>
 
                     <ImageView
                         android:id="@+id/imgNumber06"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus" />
+                        app:srcCompat="@mipmap/vehicle_trolleybus"
+                        android:background="?android:attr/selectableItemBackground"/>
 
                     <ImageView
                         android:id="@+id/imgNumber07"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus" />
+                        app:srcCompat="@mipmap/vehicle_trolleybus"
+                        android:background="?android:attr/selectableItemBackground"/>
                 </LinearLayout>
 
 
@@ -130,49 +137,56 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus" />
+                        app:srcCompat="@mipmap/vehicle_trolleybus"
+                        android:background="?android:attr/selectableItemBackground"/>
 
                     <ImageView
                         android:id="@+id/imgNumber12"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus" />
+                        app:srcCompat="@mipmap/vehicle_trolleybus"
+                        android:background="?android:attr/selectableItemBackground"/>
 
                     <ImageView
                         android:id="@+id/imgNumber13"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus" />
+                        app:srcCompat="@mipmap/vehicle_trolleybus"
+                        android:background="?android:attr/selectableItemBackground"/>
 
                     <ImageView
                         android:id="@+id/imgNumber14"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus" />
+                        app:srcCompat="@mipmap/vehicle_trolleybus"
+                        android:background="?android:attr/selectableItemBackground"/>
 
                     <ImageView
                         android:id="@+id/imgNumber15"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus" />
+                        app:srcCompat="@mipmap/vehicle_trolleybus"
+                        android:background="?android:attr/selectableItemBackground"/>
 
                     <ImageView
                         android:id="@+id/imgNumber16"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus" />
+                        app:srcCompat="@mipmap/vehicle_trolleybus"
+                        android:background="?android:attr/selectableItemBackground"/>
 
                     <ImageView
                         android:id="@+id/imgNumber17"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus" />
+                        app:srcCompat="@mipmap/vehicle_trolleybus"
+                        android:background="?android:attr/selectableItemBackground"/>
                 </LinearLayout>
 
 

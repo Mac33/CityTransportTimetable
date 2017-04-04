@@ -19,9 +19,26 @@ public class Vehicle {
     private List<TimePeriod> directionOne;
     private List<TimePeriod> directionTwo;
 
-    public Vehicle(int value) {
+    public eVehicleType Type = eVehicleType.None;
+    public int IconResId=0;
+
+
+    public enum eVehicleType
+    {
+        None,
+        Trolleybus,
+        Citybus,
+        Nightbus,
+        BusForSelectedPassenger
+    }
+
+
+
+    public Vehicle(int number, eVehicleType type, int iconResId) {
         this();
-        this.Number = value;
+        this.Number = number;
+        this.Type = type;
+        this.IconResId = iconResId;
     }
 
     public Vehicle() {
