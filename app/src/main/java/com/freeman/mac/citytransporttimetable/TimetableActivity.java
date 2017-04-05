@@ -1,5 +1,6 @@
 package com.freeman.mac.citytransporttimetable;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,14 +17,7 @@ import android.widget.TextView;
 import com.freeman.mac.citytransporttimetable.StreetNameActivity.StreetNamesActivity;
 import com.freeman.mac.citytransporttimetable.model.StringUtils;
 import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
-import com.freeman.mac.citytransporttimetable.model.Vehicle;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class TimetableActivity extends AppCompatActivity {
@@ -35,6 +29,14 @@ public class TimetableActivity extends AppCompatActivity {
     private TimetableFragment workDays;
     private TimetableFragment schoolDays;
     private TimetableFragment weekend;
+
+
+    public static Intent createInstance(Activity activity) {
+        Intent intent = new Intent(activity, TimetableActivity.class);
+        return intent;
+    }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

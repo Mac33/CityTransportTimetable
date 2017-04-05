@@ -1,11 +1,14 @@
 package com.freeman.mac.citytransporttimetable;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.freeman.mac.citytransporttimetable.StreetNameActivity.StreetNamesActivity;
+import com.freeman.mac.citytransporttimetable.interfaces.ISelectedItemByInteger;
 import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
 import com.freeman.mac.citytransporttimetable.model.Vehicle;
 import com.freeman.mac.citytransporttimetable.model.VehicleCategory;
@@ -15,14 +18,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private VehicleNumbers_Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
 
@@ -39,13 +42,26 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mAdapter = new VehicleNumbers_Adapter(this.getVehicleCategories());
+        mAdapter.setSelectItemListener(new ISelectedItemByInteger() {
+            @Override
+            public void OnSelectedItem(int index) {
+                startTimeTableActivity(index);
+            }
+        });
         mRecyclerView.setAdapter(mAdapter);
 
     }
 
+    private  void startTimeTableActivity(int vehicleNumber)
+    {
+        Intent intent = TimetableActivity.createInstance(MainActivity.this);
+        startActivityForResult(intent, StreetNamesActivity.STREET_POSITION_REQUEST_CODE);
+
+    }
 
     public void initVehicles()
     {
+        TransportTimetables.getInstance().getVehicles().clear();
         this.addVehicle(4, Vehicle.eVehicleType.Trolleybus,R.mipmap.number_04_blue ,R.raw.vechicle_04);
         this.addVehicle(6,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_06_blue ,R.raw.vechicle_04);
         this.addVehicle(14,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_14_blue ,R.raw.vechicle_04);

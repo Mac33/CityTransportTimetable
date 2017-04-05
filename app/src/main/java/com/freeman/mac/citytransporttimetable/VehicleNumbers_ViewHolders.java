@@ -45,7 +45,7 @@ public class VehicleNumbers_ViewHolders extends RecyclerView.ViewHolder {
         this.vehicleCategory = vehicleCategory;
         for (ImageView item : images) {
             item.setImageResource(android.R.color.transparent);
-            item.setVisibility(View.GONE);
+            item.setVisibility(View.INVISIBLE);
         }
         int index = 0;
         for (Vehicle item : this.vehicleCategory.Vehicles) {
@@ -70,8 +70,8 @@ public class VehicleNumbers_ViewHolders extends RecyclerView.ViewHolder {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*int number = (int)view.getTag();
-                selectVehicle.OnSelectedItem(number);*/
+                int number = (int)view.getTag();
+                selectVehicle.OnSelectedItem(number);
             }
         });
     }
