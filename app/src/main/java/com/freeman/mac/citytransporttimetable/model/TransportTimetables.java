@@ -43,9 +43,23 @@ public class TransportTimetables {
         return this.current;
     }
 
-    public void setCurrentVehicle(int index)
+    public void setCurrentVehicle(int number)
     {
-        this.current = this.getVehicles().get(index);
+        this.current = null;
+        for (Vehicle item:this.getVehicles()) {
+            if (item.Number==number)
+            {
+                this.current = item;
+                break;
+            }
+
+        }
+
+        if (this.current ==null)
+        {
+            this.current = this.getVehicles().get(0);
+        }
+
     }
 
 

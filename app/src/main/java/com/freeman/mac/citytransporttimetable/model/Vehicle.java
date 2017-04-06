@@ -1,6 +1,9 @@
 package com.freeman.mac.citytransporttimetable.model;
 
 import android.util.Log;
+
+import com.freeman.mac.citytransporttimetable.StreetItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +30,8 @@ public class Vehicle {
     {
         None,
         Trolleybus,
-        Citybus,
-        Nightbus,
+        CityBus,
+        NightBus,
         BusForSelectedPassenger
     }
 
@@ -86,6 +89,49 @@ public class Vehicle {
 
     public void setCurrentDirection(int index) {
         this.CurrentDirection = index;
+    }
+
+    public void generate() {
+        this.addTimePeriod("Pondelok - Piatok (školský rok)");
+        this.addTimePeriod("Pondelok - Piatok (školské prázdniny)");
+        this.addTimePeriod("Sobota - Nedeľa, sviatok");
+
+
+        ArrayList<List<TimePeriod>> directions = new ArrayList<List<TimePeriod>>();
+
+        directions.add(this.directionOne);
+        directions.add(this.directionTwo);
+
+        for (List<TimePeriod>direction:directions) {
+
+            for (int timePeriod = 0;timePeriod<3;timePeriod++)
+            {
+                for(int streetIndex = 0;streetIndex < 15;streetIndex ++)
+                {
+                    Street currentStreet = new Street();
+                    currentStreet.Name = "Vehicle " + this.Number + " : StreetIndex " + streetIndex;
+
+                    for (int hourNumber = 0 ;hourNumber < 24;hourNumber++)
+                    {
+                        HourMapping hour = new HourMapping();
+                        hour.Hour = hourNumber;
+                        for (int minute = 0; minute < timePeriod+1; minute++)
+                        {
+                            hour.addMinute(streetIndex,0);
+                        }
+                        currentStreet.getHours().add(hour);
+                    }
+                    direction.get(timePeriod).addStreet(currentStreet);
+                }
+
+
+            }
+
+        }
+
+
+
+
     }
 
     public void load(List<String> data) {
