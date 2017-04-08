@@ -6,9 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 
 import com.freeman.mac.citytransporttimetable.StreetNameActivity.StreetNamesActivity;
 import com.freeman.mac.citytransporttimetable.interfaces.ISelectedItemByInteger;
+import com.freeman.mac.citytransporttimetable.model.StringUtils;
 import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
 import com.freeman.mac.citytransporttimetable.model.Vehicle;
 import com.freeman.mac.citytransporttimetable.model.VehicleCategory;
@@ -24,24 +27,24 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView mRecyclerView;
-    private VehicleNumbers_Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         this.initVehicles();
         setContentView(R.layout.activity_main);
+        this.initToolbar();
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.vehicle_numbers_recycler_view);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.vehicle_numbers_recycler_view);
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new VehicleNumbers_Adapter(this.getVehicleCategories());
+        VehicleNumbers_Adapter mAdapter = new VehicleNumbers_Adapter(this.getVehicleCategories());
         mAdapter.setSelectItemListener(new ISelectedItemByInteger() {
             @Override
             public void OnSelectedItem(int index) {
@@ -52,43 +55,70 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    void initToolbar()
+    {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(StringUtils.Empty);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+       // getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+
     private  void startTimeTableActivity(int vehicleNumber)
     {
         TransportTimetables.getInstance().setCurrentVehicle(vehicleNumber);
         Intent intent = TimetableActivity.createInstance(MainActivity.this);
-        startActivityForResult(intent, StreetNamesActivity.STREET_POSITION_REQUEST_CODE);
+        startActivity(intent);
     }
 
     public void initVehicles()
     {
         TransportTimetables.getInstance().getVehicles().clear();
-        this.addVehicle(1, Vehicle.eVehicleType.Trolleybus,R.mipmap.number_01_blue ,R.raw.vechicle_04);
-        this.addVehicle(2,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_03_blue ,R.raw.vechicle_04);
-        this.addVehicle(4,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_04_blue ,R.raw.vechicle_04);
-        this.addVehicle(5, Vehicle.eVehicleType.Trolleybus,R.mipmap.number_05_blue ,R.raw.vechicle_04);
-        this.addVehicle(6,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_06_blue ,R.raw.vechicle_04);
-        this.addVehicle(7,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_07_blue ,R.raw.vechicle_04);
-        this.addVehicle(14,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_14_blue ,R.raw.vechicle_04);
-        this.addVehicle(16,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_16_blue ,R.raw.vechicle_04);
+        this.addVehicle(1, Vehicle.eVehicleType.Trolleybus,R.mipmap.number_01_blue,R.drawable.number_01_toolbar ,R.raw.vechicle_04);
+        this.addVehicle(2,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_03_blue ,R.drawable.number_03_toolbar ,R.raw.vechicle_04);
+        this.addVehicle(4,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_04_blue ,R.drawable.number_04_toolbar ,R.raw.vechicle_04);
+        this.addVehicle(5, Vehicle.eVehicleType.Trolleybus,R.mipmap.number_05_blue,R.drawable.number_05_toolbar  ,R.raw.vechicle_04);
+        this.addVehicle(6,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_06_blue ,R.drawable.number_06_toolbar ,R.raw.vechicle_04);
+        this.addVehicle(7,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_07_blue ,R.drawable.number_07_toolbar ,R.raw.vechicle_04);
+        this.addVehicle(14,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_14_blue ,R.drawable.number_14_toolbar ,R.raw.vechicle_04);
+        this.addVehicle(16,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_16_blue,R.drawable.number_16_toolbar ,R.raw.vechicle_04);
 
-        this.addVehicle(20,Vehicle.eVehicleType.BusForSelectedPassenger,R.mipmap.number_14_blue ,R.raw.vechicle_04);
-        this.addVehicle(21,Vehicle.eVehicleType.BusForSelectedPassenger,R.mipmap.number_14_blue ,R.raw.vechicle_04);
-        this.addVehicle(22,Vehicle.eVehicleType.BusForSelectedPassenger,R.mipmap.number_14_blue ,R.raw.vechicle_04);
-        this.addVehicle(24,Vehicle.eVehicleType.BusForSelectedPassenger,R.mipmap.number_14_blue ,R.raw.vechicle_04);
+        this.addVehicle(20,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vechicle_04);
+        this.addVehicle(21,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vechicle_04);
+        this.addVehicle(22,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vechicle_04);
+        this.addVehicle(24,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vechicle_04);
+        this.addVehicle(26,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vechicle_04);
+        this.addVehicle(27,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vechicle_04);
+        this.addVehicle(29,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vechicle_04);
+        this.addVehicle(30,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vechicle_04);
+        this.addVehicle(31,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vechicle_04);
 
+        this.addVehicle(25,Vehicle.eVehicleType.BusForSelectedPassenger,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vechicle_04);
+        this.addVehicle(35,Vehicle.eVehicleType.BusForSelectedPassenger,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vechicle_04);
 
-        this.addVehicle(21,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue ,R.raw.vechicle_04);
-
-
-        this.addVehicle(50,Vehicle.eVehicleType.NightBus,R.mipmap.number_14_blue ,R.raw.vechicle_04);
+        this.addVehicle(50,Vehicle.eVehicleType.NightBus,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vechicle_04);
 
     }
 
 
 
-    private void addVehicle(int number,Vehicle.eVehicleType type, int iconId, int dataId )
+    private void addVehicle(int number,Vehicle.eVehicleType type, int iconId, int iconToolBarId,  int dataId  )
     {
-        Vehicle vehicle = new Vehicle(number, type,iconId);
+        Vehicle vehicle = new Vehicle(number, type,iconId, iconToolBarId);
         List<String> data = this.loadData(dataId);
         vehicle.generate();
         TransportTimetables.getInstance().getVehicles().add(vehicle);

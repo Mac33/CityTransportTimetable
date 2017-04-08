@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,7 +38,6 @@ public class TimetableActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
@@ -55,11 +55,9 @@ public class TimetableActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
 
         setContentView(R.layout.activity_timetable);
@@ -69,33 +67,29 @@ public class TimetableActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = StreetNamesActivity.createInstance(TimetableActivity.this,
-                                                                   TransportTimetables.getInstance().getCurrentVehicle().CurrentStreetIndex);
+                        TransportTimetables.getInstance().getCurrentVehicle().CurrentStreetIndex);
 
                 startActivityForResult(intent, StreetNamesActivity.STREET_POSITION_REQUEST_CODE);
             }
         });
 
         this.initToolbar();
+        this.initChangeDirection();
 
-        Button changeLayout = (Button )this.findViewById(R.id.change_direction);
-        changeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.w("","");
-            }
-        });
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         this.setupViewPager(viewPager);
-        viewPager.setCurrentItem(0);
+        viewPager.setCurrentItem(1);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         currentStreetName = (TextView) findViewById(R.id.StreetName);
 
+
         this.setCurrentStreet(0);
 
     }
+
 
 
     void initToolbar()
@@ -104,8 +98,45 @@ public class TimetableActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(StringUtils.Empty);
+        this.setToolbarVehicleNumber();
 
     }
+
+
+
+    private  void  setToolbarVehicleNumber()
+    {
+        ImageView vehicleNumberView  = (ImageView)findViewById(R.id.imgViewVehicleNumber);
+        if(TransportTimetables.getInstance().getCurrentVehicle().IconToolBarId > 0)
+        {
+            vehicleNumberView.setImageResource( TransportTimetables.getInstance().getCurrentVehicle().IconToolBarId);
+        }else{
+            vehicleNumberView.setImageResource(android.R.color.transparent);
+        }
+    }
+
+
+
+    private void initChangeDirection()
+    {
+        Button btnChangeDirection = (Button) this.findViewById(R.id.change_direction);
+        btnChangeDirection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeDirection();
+            }
+        });
+    }
+
+
+
+    private  void  changeDirection()
+    {
+        TransportTimetables.getInstance().getCurrentVehicle().swapDirection();
+        refreshData();
+
+    }
+
 
 
     @Override
@@ -119,13 +150,15 @@ public class TimetableActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         TabViewPagerAdapter adapter = new TabViewPagerAdapter(getSupportFragmentManager());
 
-        workDays = new TimetableFragment();
-        workDays.setTimePerion(0);
-        adapter.addFragment(workDays, "Pracovné dni");
 
         schoolDays = new TimetableFragment();
         schoolDays.setTimePerion(1);
         adapter.addFragment(schoolDays, "Školské prázdniny");
+
+        workDays = new TimetableFragment();
+        workDays.setTimePerion(0);
+        adapter.addFragment(workDays, "Pracovné dni");
+
 
         weekend = new TimetableFragment();
         weekend.setTimePerion(2);
@@ -137,6 +170,12 @@ public class TimetableActivity extends AppCompatActivity {
 
     private void setCurrentStreet(int index) {
         TransportTimetables.getInstance().getCurrentVehicle().setCurrentStreet(index);
+        this.refreshData();
+    }
+
+
+    void refreshData()
+    {
         this.workDays.OnRefresh();
         this.schoolDays.OnRefresh();
         this.weekend.OnRefresh();

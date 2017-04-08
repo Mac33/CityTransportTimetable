@@ -24,6 +24,7 @@ public class Vehicle {
 
     public eVehicleType Type = eVehicleType.None;
     public int IconResId=0;
+    public  int IconToolBarId = 0;
 
 
     public enum eVehicleType
@@ -37,11 +38,12 @@ public class Vehicle {
 
 
 
-    public Vehicle(int number, eVehicleType type, int iconResId) {
+    public Vehicle(int number, eVehicleType type, int iconResId,int iconToolBarId) {
         this();
         this.Number = number;
         this.Type = type;
         this.IconResId = iconResId;
+        this.IconToolBarId = iconToolBarId;
     }
 
     public Vehicle() {
@@ -87,9 +89,44 @@ public class Vehicle {
     }
 
 
+
     public void setCurrentDirection(int index) {
         this.CurrentDirection = index;
     }
+
+
+
+    public  void  swapDirection()
+    {
+        if  (this.CurrentDirection == DIRECTION_ONE)
+        {
+            this.CurrentDirection = DIRECTION_TWO;
+        }else
+        {
+            this.CurrentDirection = DIRECTION_ONE;
+        }
+        String oldStreetName = this.CurrentStreetName;
+        boolean found = false;
+        for (int index = 0; index< this.getCurrentDirectionTimePeriods().get(0).getStreets().size();index++)
+        {
+            String name = this.getCurrentDirectionTimePeriods().get(0).getStreetName(index);
+            if(name==oldStreetName)
+            {
+                found = true;
+                this.setCurrentStreet(index);
+            }
+        }
+        if (!found)
+        {
+            this.setCurrentStreet(0);
+        }
+
+
+    }
+
+
+
+
 
     public void generate() {
         this.addTimePeriod("Pondelok - Piatok (školský rok)");
@@ -102,14 +139,17 @@ public class Vehicle {
         directions.add(this.directionOne);
         directions.add(this.directionTwo);
 
+        int directionIndex = 0;
         for (List<TimePeriod>direction:directions) {
 
             for (int timePeriod = 0;timePeriod<3;timePeriod++)
             {
-                for(int streetIndex = 0;streetIndex < 15;streetIndex ++)
+                int maxStreets = 15;
+                for(int streetIndex = 0;streetIndex < maxStreets;streetIndex ++)
                 {
                     Street currentStreet = new Street();
-                    currentStreet.Name = "Vehicle " + this.Number + " : StreetIndex " + streetIndex;
+                    int number = Math.abs ((directionIndex * (maxStreets - 1))  - streetIndex) ;
+                    currentStreet.Name = "Vehicle " + this.Number + ":StreetIndex " + number;
 
                     for (int hourNumber = 0 ;hourNumber < 24;hourNumber++)
                     {
@@ -123,15 +163,9 @@ public class Vehicle {
                     }
                     direction.get(timePeriod).addStreet(currentStreet);
                 }
-
-
             }
-
+            directionIndex++;
         }
-
-
-
-
     }
 
     public void load(List<String> data) {
