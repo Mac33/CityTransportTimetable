@@ -41,8 +41,6 @@ public class StreetNamesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_street_names);
         this.initToolbar();
-        String name = getIntent().getStringExtra(STREET_NAME);
-        Log.w("CityTransportTimetable", "onCreate Value " + name);
         this.initDataAdapter();
 
     }
@@ -102,11 +100,7 @@ public class StreetNamesActivity extends AppCompatActivity {
 
     void setDataResult(int index) {
         Intent iData = new Intent();
-        String name = TransportTimetables.getInstance().getCurrentVehicle().getCurrentDirectionStreetName(index);
-
-        iData.putExtra(STREET_NAME, name);
         iData.putExtra(STREET_INDEX_POSITION, index);
-
         setResult(android.app.Activity.RESULT_OK, iData);
     }
 }

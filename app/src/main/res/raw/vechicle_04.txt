@@ -1,4 +1,4 @@
-Fatranská
+Fatranská#RequestStop
 04	57
 05	12	25	37	47	57
 06	07	17	27	37	47	57

@@ -116,11 +116,19 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void addVehicle(int number,Vehicle.eVehicleType type, int iconId, int iconToolBarId,  int dataId  )
-    {
-        Vehicle vehicle = new Vehicle(number, type,iconId, iconToolBarId);
+    private void addVehicle(int number,
+                            Vehicle.eVehicleType type,
+                            int iconId,
+                            int iconToolBarId,
+                            int dataId  ) {
+        Vehicle vehicle = new Vehicle(number, type, iconId, iconToolBarId);
         List<String> data = this.loadData(dataId);
-        vehicle.generate();
+        if (number == 4)
+        {
+            vehicle.load(data);
+        }else {
+            vehicle.generate();
+        }
         TransportTimetables.getInstance().getVehicles().add(vehicle);
     }
 

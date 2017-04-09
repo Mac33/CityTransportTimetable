@@ -1,16 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/StreetsLinearLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/StreetsClickLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="100"
+        android:background="?android:attr/selectableItemBackground">
 
     <TextView
         android:id="@+id/MainStreetName"
-        android:layout_width="match_parent"
+        android:layout_weight="95"
+        android:layout_width="0dp"
         android:layout_height="30dp"
-        android:text="@string/textview"
-        android:layout_marginLeft="2dp"
         android:layout_gravity="center_vertical"
-        android:textSize="20sp"
-        android:background="?android:attr/selectableItemBackground"/>
+        android:layout_marginStart="2dp"
+        android:text="@string/textview"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/RequestStopView"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_weight="5"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/request_stop_sign" />
+    </LinearLayout>
 </LinearLayout>

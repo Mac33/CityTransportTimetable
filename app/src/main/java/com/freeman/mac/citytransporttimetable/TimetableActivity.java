@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.freeman.mac.citytransporttimetable.StreetNameActivity.StreetNamesActivity;
+import com.freeman.mac.citytransporttimetable.model.Street;
 import com.freeman.mac.citytransporttimetable.model.StringUtils;
 import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
 
@@ -26,10 +27,12 @@ public class TimetableActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private TextView currentStreetName;
+    private TextView currentStreetDescription;
 
     private TimetableFragment workDays;
     private TimetableFragment schoolDays;
     private TimetableFragment weekend;
+
 
 
     public static Intent createInstance(Activity activity) {
@@ -45,9 +48,8 @@ public class TimetableActivity extends AppCompatActivity {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 int index = data.getExtras().getInt(StreetNamesActivity.STREET_INDEX_POSITION, 0);
-                String name = data.getExtras().getString(StreetNamesActivity.STREET_NAME, "");
                 setCurrentStreet(index);
-                Log.w("CityTransportTimetable", "result Value " + name);
+                Log.w("CityTransportTimetable", "result Value " + index);
             } else {
                 Log.w("CityTransportTimetable", "Result Activity - CANCEL");
             }
@@ -84,7 +86,7 @@ public class TimetableActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         currentStreetName = (TextView) findViewById(R.id.StreetName);
-
+        currentStreetDescription = (TextView) findViewById(R.id.StreetNameDescription);
 
         this.setCurrentStreet(0);
 
@@ -179,13 +181,20 @@ public class TimetableActivity extends AppCompatActivity {
         this.workDays.OnRefresh();
         this.schoolDays.OnRefresh();
         this.weekend.OnRefresh();
-        this.setCurrentStreetName(TransportTimetables.getInstance().getCurrentVehicle().CurrentStreetName);
+        this.setCurrentStreet(TransportTimetables.getInstance().getCurrentVehicle().getCurrentStreet());
 
     }
 
 
-    private void setCurrentStreetName(String name) {
-        currentStreetName.setText(name);
+    private void setCurrentStreet(Street item) {
+        if (item.RequestStop)
+        {
+            currentStreetDescription.setText("Zástavka na znamenie");
+        }else
+        {
+            currentStreetDescription.setText("Zástavka");
+        }
+        currentStreetName.setText(item.Name);
     }
 
 

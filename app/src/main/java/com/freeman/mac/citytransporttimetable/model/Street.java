@@ -10,43 +10,36 @@ import java.util.List;
 public class Street {
     public String Name;
 
-    private List<HourMapping> hours ;
+    private List<TimePeriod> timePeriods;
 
 
-    public Street(String name )
+    public Street(Vehicle vehicle, String name )
     {
-        this();
+        this(vehicle);
         this.Name = name;
 
+
+    }
+
+    public boolean RequestStop = false;
+
+
+
+    public List<TimePeriod> getTimePeriods() {
+        return this.timePeriods;
     }
 
 
 
-    public List<HourMapping> getHours() {
-        return this.hours;
-    }
-
-
-
-    public Street()
+    public Street(Vehicle vehicle)
     {
-        this.hours = new ArrayList<HourMapping>();
-
-    }
-
-    private static Street mStreet;
-    public static Street Empty()
-    {
-        if (mStreet==null) {
-
-            mStreet = new Street();
-            for (int hour=0;hour<24;hour++)
-            {
-                mStreet.hours.add(new HourMapping(hour));
-            }
+        this.timePeriods = new ArrayList<>();
+        for (String name:vehicle.timePeriodNames) {
+            this.timePeriods.add(new TimePeriod(name));
         }
-        return  mStreet;
+
     }
+
 
     @Override
     public String toString() {

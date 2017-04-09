@@ -46,7 +46,7 @@ public class StreetName_Adapter extends RecyclerView.Adapter<StreetName_ViewHold
     @Override
     public void onBindViewHolder(StreetName_ViewHolder holder, int position) {
         Street item = this.streets.get(position);
-        holder.bind(item.Name);
+        holder.bind(item.Name,item.RequestStop);
     }
 
     public void setStreetSelectedListener(ISelectedItemByInteger listener) {

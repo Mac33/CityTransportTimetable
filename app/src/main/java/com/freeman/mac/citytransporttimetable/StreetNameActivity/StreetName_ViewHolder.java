@@ -4,6 +4,8 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.freeman.mac.citytransporttimetable.R;
@@ -16,12 +18,18 @@ import com.freeman.mac.citytransporttimetable.interfaces.ISelectedItemByInteger;
 public class StreetName_ViewHolder extends ViewHolder {
 
     public TextView streetName;
+    public ImageView requestStopView;
+    public LinearLayout streetsClickLinearLayout;
+
     private ISelectedItemByInteger mSelectedStreetListener = null;
 
     public StreetName_ViewHolder(View itemView) {
         super(itemView);
+        this.requestStopView = (ImageView) itemView.findViewById(R.id.RequestStopView);
         this.streetName = (TextView) itemView.findViewById(R.id.MainStreetName);
-        this.streetName.setOnClickListener(new View.OnClickListener() {
+
+        streetsClickLinearLayout = (LinearLayout)itemView.findViewById(R.id.StreetsLinearLayout);
+        streetsClickLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setStreetIndex();
@@ -41,8 +49,15 @@ public class StreetName_ViewHolder extends ViewHolder {
     }
 
 
-    public void bind(String name) {
+    public void bind(String name, boolean requestStop) {
        this.streetName.setText(name);
+        if(requestStop)
+        {
+            this.requestStopView.setVisibility(View.VISIBLE);
+        }else
+        {
+            this.requestStopView.setVisibility(View.GONE);
+        }
 
     }
 
@@ -57,9 +72,9 @@ public class StreetName_ViewHolder extends ViewHolder {
 
     void setZoneLayout(boolean isFirsZone) {
         if (isFirsZone) {
-            this.itemView.setBackgroundColor(Color.YELLOW);
+          this.itemView.setBackgroundColor(Color.YELLOW);
         } else {
-            this.itemView.setBackgroundColor(Color.WHITE);
+           this.itemView.setBackgroundColor(Color.WHITE);
         }
     }
 

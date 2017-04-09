@@ -9,19 +9,17 @@ import java.util.List;
 
 public class TimePeriod {
 
-
-    private Street CureentStreet;
-    private int CurrentStreetIndex =0;
+    public List<HourMapping> hours ;
     public String Name;
 
-    private List<Street> Streets = new ArrayList<Street>();
 
     public TimePeriod(String name) {
         this.Name = name;
+       this.hours = new  ArrayList<HourMapping>();
      }
 
 
-    public Street getStreet(int index ) {
+  /*  public Street getStreet(int index ) {
 
         if (this.Streets.size() > index)
         {
@@ -35,25 +33,10 @@ public class TimePeriod {
     {
         this.CurrentStreetIndex = index;
     }
-    public Street getCurrentStreet()
-    {
-        if  (this.getStreets().size() > this.CurrentStreetIndex ) {
-            this.CureentStreet = this.getStreets().get(this.CurrentStreetIndex);
-        }
-        if (this.CureentStreet == null) {
-            this.CureentStreet = Street.Empty();
-        }
-        if (this.CureentStreet.getHours().isEmpty()) {
-            this.CureentStreet = Street.Empty();
-        }
-        return this.CureentStreet;
-    }
 
 
-    public  List<Street> getStreets()
-    {
-        return  this.Streets;
-    }
+
+
 
 
     public String getStreetName(int index)
@@ -66,10 +49,12 @@ public class TimePeriod {
         return StringUtils.Empty;
     }
 
+
+
     public void addStreet(Street item)
     {
         this.Streets.add(item);
-    }
+    }*/
 
 
 
