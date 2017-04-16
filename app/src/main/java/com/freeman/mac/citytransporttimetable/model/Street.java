@@ -10,7 +10,7 @@ import java.util.List;
 public class Street {
     public String Name;
 
-    private List<TimePeriod> timePeriods;
+    public List<TimePeriod> TimePeriods;
 
 
     public Street(Vehicle vehicle, String name )
@@ -26,16 +26,16 @@ public class Street {
 
 
     public List<TimePeriod> getTimePeriods() {
-        return this.timePeriods;
+        return this.TimePeriods;
     }
 
 
 
     public Street(Vehicle vehicle)
     {
-        this.timePeriods = new ArrayList<>();
+        this.TimePeriods = new ArrayList<>();
         for (String name:vehicle.timePeriodNames) {
-            this.timePeriods.add(new TimePeriod(name));
+            this.TimePeriods.add(new TimePeriod(name));
         }
 
     }

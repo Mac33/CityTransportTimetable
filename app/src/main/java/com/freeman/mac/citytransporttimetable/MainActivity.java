@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     {
         TransportTimetables.getInstance().getVehicles().clear();
         this.addVehicle(1, Vehicle.eVehicleType.Trolleybus,R.mipmap.number_01_blue,R.drawable.number_01_toolbar ,R.raw.vechicle_04);
-        this.addVehicle(2,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_03_blue ,R.drawable.number_03_toolbar ,R.raw.vechicle_04);
+        this.addVehicle(3,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_03_blue ,R.drawable.number_03_toolbar ,R.raw.vehicle_03);
         this.addVehicle(4,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_04_blue ,R.drawable.number_04_toolbar ,R.raw.vechicle_04);
         this.addVehicle(5, Vehicle.eVehicleType.Trolleybus,R.mipmap.number_05_blue,R.drawable.number_05_toolbar  ,R.raw.vechicle_04);
         this.addVehicle(6,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_06_blue ,R.drawable.number_06_toolbar ,R.raw.vechicle_04);
@@ -122,15 +122,49 @@ public class MainActivity extends AppCompatActivity {
                             int iconToolBarId,
                             int dataId  ) {
         Vehicle vehicle = new Vehicle(number, type, iconId, iconToolBarId);
-        List<String> data = this.loadData(dataId);
-        if (number == 4)
-        {
-            vehicle.load(data);
-        }else {
-            vehicle.generate();
+
+
+        switch (number ) {
+            case 4:
+                List<String> data = this.loadData(dataId);
+                vehicle.load(data);
+                break;
+            case 3:
+               String jsonData =  loadDataJson(dataId);
+                vehicle = Vehicle.Deserialize(jsonData);
+                vehicle.Type = type;
+                vehicle.IconResId = iconId;
+                vehicle.IconToolBarId = iconToolBarId;
+                break;
+            default:
+                vehicle.generate();
+                break;
+
+
         }
+
         TransportTimetables.getInstance().getVehicles().add(vehicle);
     }
+
+    public String loadDataJson(int id)
+    {
+        Context cx = this.getApplicationContext();
+        InputStream inputStream = cx.getResources().openRawResource(id);
+        InputStreamReader inputReader = new InputStreamReader(inputStream);
+        BufferedReader buffReader = new BufferedReader(inputReader );
+
+        String line;
+        StringBuilder sb = new StringBuilder();
+        try {
+            while (( line = buffReader.readLine()) != null) {
+                sb.append(line);
+            }
+        } catch (IOException e) {
+
+        }
+        return  sb.toString() ;
+    }
+
 
 
     public List<String> loadData(int id)

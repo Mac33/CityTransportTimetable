@@ -9,13 +9,13 @@ import java.util.List;
 
 public class TimePeriod {
 
-    public List<HourMapping> hours ;
+    public List<HourMapping> Hours;
     public String Name;
 
 
     public TimePeriod(String name) {
         this.Name = name;
-       this.hours = new  ArrayList<HourMapping>();
+       this.Hours = new  ArrayList<HourMapping>();
      }
 
 

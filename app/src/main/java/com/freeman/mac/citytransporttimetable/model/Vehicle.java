@@ -2,8 +2,13 @@ package com.freeman.mac.citytransporttimetable.model;
 
 import android.util.Log;
 
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by Mac on 7. 3. 2017.
@@ -19,13 +24,13 @@ public class Vehicle {
     public int CurrentStreetIndex = 0;
     private Street currentStreet = null;
     public int Number = 0;
-    private List<Street> directionOne;
-    private List<Street> directionTwo;
+    public List<Street> DirectionOne;
+    public List<Street> DirectionTwo;
     public eVehicleType Type = eVehicleType.None;
     public int IconResId=0;
     public  int IconToolBarId = 0;
 
-
+    public List<NextStreet> NextStreets;
 
     public  List<Street> getStreets()
     {
@@ -58,17 +63,18 @@ public class Vehicle {
     }
 
     public Vehicle() {
-        this.directionOne = new ArrayList<>();
-        this.directionTwo = new ArrayList<>();
+        this.DirectionOne = new ArrayList<>();
+        this.DirectionTwo = new ArrayList<>();
+        this.NextStreets = new ArrayList<>();
     }
 
 
 
     public List<Street> getCurrentDirectionStreets() {
         if (this.CurrentDirection == DIRECTION_ONE) {
-            return this.directionOne;
+            return this.DirectionOne;
         } else {
-            return this.directionTwo;
+            return this.DirectionTwo;
         }
     }
 
@@ -127,8 +133,8 @@ public class Vehicle {
 
         ArrayList<List<Street>> directions = new ArrayList<List<Street>>();
 
-        directions.add(this.directionOne);
-        directions.add(this.directionTwo);
+        directions.add(this.DirectionOne);
+        directions.add(this.DirectionTwo);
 
         int directionIndex = 0;
         for (List<Street>direction:directions) {
@@ -151,13 +157,21 @@ public class Vehicle {
                                     hour.addMinute(number, 1);
                                 }
                             }
-                            currentStreet.getTimePeriods().get(timePeriod).hours.add(hour);
+                            currentStreet.getTimePeriods().get(timePeriod).Hours.add(hour);
                         }
                     }
                     direction.add(currentStreet);
                 }
                 directionIndex++;
         }
+    }
+
+    public  static Vehicle Deserialize(String body)
+    {
+        Gson gson = new GsonBuilder().create();
+        Vehicle item = gson.fromJson(body, Vehicle.class);
+        return item;
+
     }
 
     public void load(List<String> data) {
@@ -167,7 +181,7 @@ public class Vehicle {
         int timePeriod = 0;
         String currentStreetName= StringUtils.Empty;
         Street currentStreet = null;
-        List<Street> direction = this.directionOne;
+        List<Street> direction = this.DirectionOne;
         for (String item : data) {
             if (item.toCharArray().length > 0) {
                 char streetChar = item.toCharArray()[0];
@@ -228,7 +242,7 @@ public class Vehicle {
                         Log.w("CityTransportTimetable", "Invalid parseInt");
                     }
                     hour.addMinute(intValue,0);
-                    currentStreet.getTimePeriods().get(timePeriod).hours.add(hour);
+                    currentStreet.getTimePeriods().get(timePeriod).Hours.add(hour);
                 }
 
             } else {
