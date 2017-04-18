@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         this.addVehicle(3,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_03_blue ,R.drawable.number_03_toolbar ,R.raw.vehicle_03);
         this.addVehicle(4,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_04_blue ,R.drawable.number_04_toolbar ,R.raw.vechicle_04);
         this.addVehicle(5, Vehicle.eVehicleType.Trolleybus,R.mipmap.number_05_blue,R.drawable.number_05_toolbar  ,R.raw.vechicle_04);
-        this.addVehicle(6,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_06_blue ,R.drawable.number_06_toolbar ,R.raw.vechicle_04);
+        this.addVehicle(6,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_06_blue ,R.drawable.number_06_toolbar ,R.raw.vehicle_06);
         this.addVehicle(7,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_07_blue ,R.drawable.number_07_toolbar ,R.raw.vechicle_04);
         this.addVehicle(14,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_14_blue ,R.drawable.number_14_toolbar ,R.raw.vechicle_04);
         this.addVehicle(16,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_16_blue,R.drawable.number_16_toolbar ,R.raw.vechicle_04);
@@ -129,8 +129,9 @@ public class MainActivity extends AppCompatActivity {
                 List<String> data = this.loadData(dataId);
                 vehicle.load(data);
                 break;
+            case 6:
             case 3:
-               String jsonData =  loadDataJson(dataId);
+                String jsonData =  loadDataJson(dataId);
                 vehicle = Vehicle.Deserialize(jsonData);
                 vehicle.Type = type;
                 vehicle.IconResId = iconId;

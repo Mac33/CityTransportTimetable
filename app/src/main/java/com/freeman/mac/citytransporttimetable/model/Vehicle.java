@@ -9,6 +9,9 @@ import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import  com.google.gson.annotations.*;
 
 /**
  * Created by Mac on 7. 3. 2017.
@@ -17,20 +20,39 @@ import java.util.List;
 public class Vehicle {
 
     public static int DIRECTION_ONE = 0;
+
     public static int DIRECTION_TWO = 1;
 
     public List<String> timePeriodNames = new ArrayList<String>();
+
     public int CurrentDirection = DIRECTION_ONE;
+
     public int CurrentStreetIndex = 0;
+
     private Street currentStreet = null;
+
     public int Number = 0;
+
+    @SerializedName("DirectionOne")
     public List<Street> DirectionOne;
+
+    @SerializedName("DirectionTwo")
     public List<Street> DirectionTwo;
+
     public eVehicleType Type = eVehicleType.None;
+
     public int IconResId=0;
+
     public  int IconToolBarId = 0;
 
-    public List<NextStreet> NextStreets;
+    @SerializedName("DirectionOneName")
+    public String DirectionOneName ;
+
+    @SerializedName("DirectionTwoName")
+    public String DirectionTwoName;
+
+    @SerializedName("Descriptions")
+    public List<VehicleDescriptionItem> Descriptions = new ArrayList<>();
 
     public  List<Street> getStreets()
     {
@@ -41,7 +63,6 @@ public class Vehicle {
     {
       return this.currentStreet;
     }
-
 
     public enum eVehicleType
     {
@@ -65,7 +86,7 @@ public class Vehicle {
     public Vehicle() {
         this.DirectionOne = new ArrayList<>();
         this.DirectionTwo = new ArrayList<>();
-        this.NextStreets = new ArrayList<>();
+
     }
 
 
@@ -78,7 +99,19 @@ public class Vehicle {
         }
     }
 
+    public String getCurrentDirectionName() {
+        if (this.CurrentDirection == DIRECTION_ONE) {
+            return this.DirectionOneName;
+        } else {
+            return this.DirectionTwoName;
+        }
+    }
 
+
+    public  boolean HasTwoDirections()
+    {
+        return  !this.DirectionOne.isEmpty() && !this.DirectionTwo.isEmpty();
+    }
 
 
     void addTimePeriod(String name) {

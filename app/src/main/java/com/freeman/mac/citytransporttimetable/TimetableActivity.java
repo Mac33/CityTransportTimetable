@@ -1,7 +1,6 @@
 package com.freeman.mac.citytransporttimetable;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -16,13 +15,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.freeman.mac.citytransporttimetable.StreetNameActivity.StreetNamesActivity;
+import com.freeman.mac.citytransporttimetable.model.MinuteMapping;
 import com.freeman.mac.citytransporttimetable.model.Street;
 import com.freeman.mac.citytransporttimetable.model.StringUtils;
 import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
-
+import com.freeman.mac.citytransporttimetable.model.Vehicle;
+import com.freeman.mac.citytransporttimetable.model.VehicleDescriptionItem;
 
 
 public class TimetableActivity extends AppCompatActivity {
+
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -33,7 +35,7 @@ public class TimetableActivity extends AppCompatActivity {
     private TimetableFragment schoolDays;
     private TimetableFragment weekend;
 
-
+    private TextView vehicleDescriptions;
 
     public static Intent createInstance(Activity activity) {
         Intent intent = new Intent(activity, TimetableActivity.class);
@@ -87,6 +89,7 @@ public class TimetableActivity extends AppCompatActivity {
 
         currentStreetName = (TextView) findViewById(R.id.StreetName);
         currentStreetDescription = (TextView) findViewById(R.id.StreetNameDescription);
+        vehicleDescriptions = (TextView) findViewById(R.id.vehicleDescriptions);
 
         this.setCurrentStreet(0);
 
@@ -128,6 +131,14 @@ public class TimetableActivity extends AppCompatActivity {
                 changeDirection();
             }
         });
+        if ( TransportTimetables.getInstance().getCurrentVehicle().HasTwoDirections() )
+        {
+            btnChangeDirection.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            btnChangeDirection.setVisibility(View.GONE);
+        }
     }
 
 
@@ -181,18 +192,49 @@ public class TimetableActivity extends AppCompatActivity {
         this.workDays.OnRefresh();
         this.schoolDays.OnRefresh();
         this.weekend.OnRefresh();
-        this.setCurrentStreet(TransportTimetables.getInstance().getCurrentVehicle().getCurrentStreet());
+        Vehicle currentVehicle = TransportTimetables.getInstance().getCurrentVehicle();
+        String currentDirectionName = currentVehicle.getCurrentDirectionName();
+        Street curretStreet = currentVehicle.getCurrentStreet();
+        this.setCurrentStreet(curretStreet, currentDirectionName);
+        this.setVehicleDescriptions(currentVehicle);
 
     }
 
+    private void setVehicleDescriptions(Vehicle item) {
+        if (!item.Descriptions.isEmpty())
+        {
+            vehicleDescriptions.setVisibility(View.VISIBLE);
+            String text = StringUtils.Empty;
 
-    private void setCurrentStreet(Street item) {
+            for (VehicleDescriptionItem des:item.Descriptions)
+            {
+
+                text = text + MinuteMapping.getTextSign(des.Type) + " - " + des.Text;
+                if(item.Descriptions.indexOf(des) <  item.Descriptions.size() - 1)
+                {
+                    text = text + "\n";
+                }
+            }
+            vehicleDescriptions.setText(text);
+        }else
+        {
+            vehicleDescriptions.setVisibility(View.GONE);
+        }
+    }
+
+
+    private void setCurrentStreet(Street item, String directionName) {
         if (item.RequestStop)
         {
             currentStreetDescription.setText("Zástavka na znamenie");
         }else
         {
             currentStreetDescription.setText("Zástavka");
+        }
+
+        if (!StringUtils.isNullOrEmpty(directionName))
+        {
+            currentStreetDescription.setText(currentStreetDescription.getText() + " - " + directionName);
         }
         currentStreetName.setText(item.Name);
     }

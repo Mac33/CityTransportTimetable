@@ -1,5 +1,8 @@
 package com.freeman.mac.citytransporttimetable.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +13,12 @@ import java.util.List;
 public class Street {
     public String Name;
 
+
     public List<TimePeriod> TimePeriods;
+
+    @Expose
+    @SerializedName("NextStreets")
+    public List<NextStreetInfo> nextStreets = new ArrayList<>();
 
 
     public Street(Vehicle vehicle, String name )

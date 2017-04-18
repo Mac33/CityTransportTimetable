@@ -14,7 +14,7 @@ class TimetableViewHolder extends RecyclerView.ViewHolder {
 
     final static String StringEmpty = "";
 
-    TextView[] timeTableRow = new TextView[9];
+    TextView[] timeTableRow = new TextView[8];
 
 
     public TimetableViewHolder(View itemView) {
