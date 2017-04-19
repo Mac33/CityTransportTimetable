@@ -22,6 +22,8 @@ import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
 import com.freeman.mac.citytransporttimetable.model.Vehicle;
 import com.freeman.mac.citytransporttimetable.model.VehicleDescriptionItem;
 
+import java.util.List;
+
 
 public class TimetableActivity extends AppCompatActivity {
 
@@ -206,11 +208,25 @@ public class TimetableActivity extends AppCompatActivity {
             vehicleDescriptions.setVisibility(View.VISIBLE);
             String text = StringUtils.Empty;
 
+            List<Integer> streetVehicleDescription = item.getCurrentStreet().getUsedVehicleDescriptions();
             for (VehicleDescriptionItem des:item.Descriptions)
             {
 
+                boolean found = false;
+                for (Integer streetVehicleDesValue:streetVehicleDescription)
+                {
+                    if(streetVehicleDesValue == (streetVehicleDesValue | des.Type))
+                    {
+                        found = true;
+                    }
+                }
+
+                if(!found)
+                {
+                    continue;
+                }
                 text = text + MinuteMapping.getTextSign(des.Type) + " - " + des.Text;
-                if(item.Descriptions.indexOf(des) <  item.Descriptions.size() - 1)
+                if(item.Descriptions.indexOf(des) <  streetVehicleDescription.size() - 1)
                 {
                     text = text + "\n";
                 }
