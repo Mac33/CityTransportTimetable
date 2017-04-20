@@ -55,8 +55,11 @@ public class StreetName_Adapter extends RecyclerView.Adapter<StreetName_ViewHold
 
     private void setStreet(int index) {
         if (this.paStreetSelectedListener != null) {
-            this.paStreetSelectedListener.OnSelectedItem(index);
-            this.CurrentStreetIndex = index;
+            if (index < this.getItemCount() -1 )
+            {
+                this.paStreetSelectedListener.OnSelectedItem(index);
+                this.CurrentStreetIndex = index;
+            }
 
         }
     }

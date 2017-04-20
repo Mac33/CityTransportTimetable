@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         this.addVehicle(5, Vehicle.eVehicleType.Trolleybus,R.mipmap.number_05_blue,R.drawable.number_05_toolbar  ,R.raw.vechicle_04);
         this.addVehicle(6,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_06_blue ,R.drawable.number_06_toolbar ,R.raw.vehicle_06);
         this.addVehicle(7,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_07_blue ,R.drawable.number_07_toolbar ,R.raw.vechicle_04);
-        this.addVehicle(14,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_14_blue ,R.drawable.number_14_toolbar ,R.raw.vechicle_04);
+        this.addVehicle(14,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_14_blue ,R.drawable.number_14_toolbar ,R.raw.vehicle_14);
         this.addVehicle(16,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_16_blue,R.drawable.number_16_toolbar ,R.raw.vechicle_04);
 
         this.addVehicle(20,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vechicle_04);
@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 6:
             case 3:
+            case 14:
                 String jsonData =  loadDataJson(dataId);
                 vehicle = Vehicle.Deserialize(jsonData);
                 vehicle.Type = type;

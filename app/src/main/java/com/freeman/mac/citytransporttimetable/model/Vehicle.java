@@ -144,6 +144,10 @@ public class Vehicle {
             if(name.equals(oldStreetName))
             {
                 found = true;
+                if (index==this.getCurrentDirectionStreets().size()-1)
+                {
+                    index-=1;
+                }
                 this.setCurrentStreet(index);
                 break;
             }

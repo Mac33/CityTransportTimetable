@@ -1,8 +1,10 @@
 package com.freeman.mac.citytransporttimetable;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 /**
@@ -15,7 +17,7 @@ class TimetableViewHolder extends RecyclerView.ViewHolder {
     final static String StringEmpty = "";
 
     TextView[] timeTableRow = new TextView[8];
-
+    TableRow row;
 
     public TimetableViewHolder(View itemView) {
         super(itemView);
@@ -33,6 +35,11 @@ class TimetableViewHolder extends RecyclerView.ViewHolder {
             this.timeTableRow[i + 1].setText(item.HourMapping.getMinutes().get(i).getText());
         }
 
+        if ((item.HourMapping.Hour & 1)==0)
+        {
+          row.setBackgroundColor(Color.argb(255,235,235,235));
+        }
+
 
     }
 
@@ -47,5 +54,6 @@ class TimetableViewHolder extends RecyclerView.ViewHolder {
 
             }
         }
+        row = (TableRow) this.itemView.findViewById(R.id.Row);
     }
 }

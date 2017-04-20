@@ -62,7 +62,7 @@ public class StreetName_ViewHolder extends ViewHolder {
     }
 
 
-    void setBoldName(boolean isSelected) {
+    public void setBoldName(boolean isSelected) {
         if (isSelected) {
             this.streetName.setTypeface(null, Typeface.BOLD);
         } else {
@@ -70,7 +70,7 @@ public class StreetName_ViewHolder extends ViewHolder {
         }
     }
 
-    void setZoneLayout(boolean isFirsZone) {
+    public void setZoneLayout(boolean isFirsZone) {
         if (isFirsZone) {
           this.itemView.setBackgroundColor(Color.YELLOW);
         } else {
