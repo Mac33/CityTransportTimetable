@@ -18,6 +18,7 @@ import com.freeman.mac.citytransporttimetable.StreetNameActivity.StreetNamesActi
 import com.freeman.mac.citytransporttimetable.model.MinuteMapping;
 import com.freeman.mac.citytransporttimetable.model.Street;
 import com.freeman.mac.citytransporttimetable.model.StringUtils;
+import com.freeman.mac.citytransporttimetable.model.TimePeriod;
 import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
 import com.freeman.mac.citytransporttimetable.model.Vehicle;
 import com.freeman.mac.citytransporttimetable.model.VehicleDescriptionItem;
@@ -165,19 +166,28 @@ public class TimetableActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         TabViewPagerAdapter adapter = new TabViewPagerAdapter(getSupportFragmentManager());
 
+        List<String> timePeriodNames = TransportTimetables.getInstance().getCurrentVehicle().getTimePeriodNames();
 
-        schoolDays = new TimetableFragment();
-        schoolDays.setTimePerion(1);
-        adapter.addFragment(schoolDays, "Školské prázdniny");
+        if (timePeriodNames.contains(TimePeriod.ShoolHolidays))
+        {
+            schoolDays = new TimetableFragment();
+            schoolDays.setTimePerion(1);
+            adapter.addFragment(schoolDays, "Školské prázdniny");
 
-        workDays = new TimetableFragment();
-        workDays.setTimePerion(0);
-        adapter.addFragment(workDays, "Pracovné dni");
+        }
+        if (timePeriodNames.contains(TimePeriod.WorkDays)) {
 
+            workDays = new TimetableFragment();
+            workDays.setTimePerion(0);
+            adapter.addFragment(workDays, "Pracovné dni");
+        }
 
-        weekend = new TimetableFragment();
-        weekend.setTimePerion(2);
-        adapter.addFragment(weekend, "Víkend a sviatky");
+        if (timePeriodNames.contains(TimePeriod.Weekend)) {
+            weekend = new TimetableFragment();
+            weekend.setTimePerion(2);
+            adapter.addFragment(weekend, "Víkend a sviatky");
+
+        }
 
         viewPager.setAdapter(adapter);
     }
@@ -191,9 +201,7 @@ public class TimetableActivity extends AppCompatActivity {
 
     void refreshData()
     {
-        this.workDays.OnRefresh();
-        this.schoolDays.OnRefresh();
-        this.weekend.OnRefresh();
+        this.refreshTimeTableFragmets();
         Vehicle currentVehicle = TransportTimetables.getInstance().getCurrentVehicle();
         String currentDirectionName = currentVehicle.getCurrentDirectionName();
         Street curretStreet = currentVehicle.getCurrentStreet();
@@ -201,6 +209,28 @@ public class TimetableActivity extends AppCompatActivity {
         this.setVehicleDescriptions(currentVehicle);
 
     }
+
+
+
+    void  refreshTimeTableFragmets()
+    {
+        this.refreshTimeTableFragmet(this.workDays);
+        this.refreshTimeTableFragmet(this.schoolDays);
+        this.refreshTimeTableFragmet(this.weekend);
+
+    }
+
+
+
+    void  refreshTimeTableFragmet(TimetableFragment item)
+    {
+        if (item != null)
+        {
+            item.OnRefresh();
+        }
+    }
+
+
 
     private void setVehicleDescriptions(Vehicle item) {
         if (!item.Descriptions.isEmpty())

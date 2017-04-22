@@ -67,14 +67,19 @@ public class TimetableFragment extends Fragment implements IRefresh {
 
     public List<TimetableRow> getItems() {
 
-        List<TimetableRow> ret = new ArrayList<TimetableRow>();
-        Vehicle vehicle = TransportTimetables.getInstance().getCurrentVehicle();
 
-        for (HourMapping hour : vehicle.getCurrentStreet().getTimePeriods().get(this.mTimePerion).Hours) {
-            TimetableRow mainHour = new TimetableRow();
-            mainHour.Name = Integer.toString(hour.Hour);
-            mainHour.HourMapping = hour;
-            ret.add(mainHour);
+        List<TimetableRow> ret = new ArrayList<TimetableRow>();
+
+        Vehicle vehicle = TransportTimetables.getInstance().getCurrentVehicle();
+        if (vehicle.getCurrentStreet().getTimePeriods().size() >this.mTimePerion)
+        {
+            for (HourMapping hour : vehicle.getCurrentStreet().getTimePeriods().get(this.mTimePerion).Hours) {
+                TimetableRow mainHour = new TimetableRow();
+                mainHour.Name = Integer.toString(hour.Hour);
+                mainHour.HourMapping = hour;
+                ret.add(mainHour);
+            }
+
         }
 
         return ret;

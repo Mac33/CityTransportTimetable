@@ -88,29 +88,29 @@ public class MainActivity extends AppCompatActivity {
     public void initVehicles()
     {
         TransportTimetables.getInstance().getVehicles().clear();
-        this.addVehicle(1, Vehicle.eVehicleType.Trolleybus,R.mipmap.number_01_blue,R.drawable.number_01_toolbar ,R.raw.vechicle_04);
+        this.addVehicle(1, Vehicle.eVehicleType.Trolleybus,R.mipmap.number_01_blue,R.drawable.number_01_toolbar ,R.raw.vehicle_01);
         this.addVehicle(3,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_03_blue ,R.drawable.number_03_toolbar ,R.raw.vehicle_03);
-        this.addVehicle(4,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_04_blue ,R.drawable.number_04_toolbar ,R.raw.vechicle_04);
-        this.addVehicle(5, Vehicle.eVehicleType.Trolleybus,R.mipmap.number_05_blue,R.drawable.number_05_toolbar  ,R.raw.vechicle_04);
+        this.addVehicle(4,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_04_blue ,R.drawable.number_04_toolbar ,R.raw.vehicle_04);
+        this.addVehicle(5, Vehicle.eVehicleType.Trolleybus,R.mipmap.number_05_blue,R.drawable.number_05_toolbar  ,R.raw.vehicle_05);
         this.addVehicle(6,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_06_blue ,R.drawable.number_06_toolbar ,R.raw.vehicle_06);
-        this.addVehicle(7,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_07_blue ,R.drawable.number_07_toolbar ,R.raw.vechicle_04);
+        this.addVehicle(7,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_07_blue ,R.drawable.number_07_toolbar ,R.raw.vehicle_07);
         this.addVehicle(14,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_14_blue ,R.drawable.number_14_toolbar ,R.raw.vehicle_14);
-        this.addVehicle(16,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_16_blue,R.drawable.number_16_toolbar ,R.raw.vechicle_04);
+        this.addVehicle(16,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_16_blue,R.drawable.number_16_toolbar ,R.raw.vehicle_16);
 
-        this.addVehicle(20,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vechicle_04);
-        this.addVehicle(21,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vechicle_04);
-        this.addVehicle(22,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vechicle_04);
-        this.addVehicle(24,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vechicle_04);
-        this.addVehicle(26,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vechicle_04);
-        this.addVehicle(27,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vechicle_04);
-        this.addVehicle(29,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vechicle_04);
-        this.addVehicle(30,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vechicle_04);
-        this.addVehicle(31,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vechicle_04);
+        this.addVehicle(20,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vehicle_04);
+        this.addVehicle(21,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vehicle_04);
+        this.addVehicle(22,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vehicle_04);
+        this.addVehicle(24,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vehicle_04);
+        this.addVehicle(26,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vehicle_04);
+        this.addVehicle(27,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vehicle_04);
+        this.addVehicle(29,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vehicle_04);
+        this.addVehicle(30,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vehicle_04);
+        this.addVehicle(31,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vehicle_04);
 
-        this.addVehicle(25,Vehicle.eVehicleType.BusForSelectedPassenger,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vechicle_04);
-        this.addVehicle(35,Vehicle.eVehicleType.BusForSelectedPassenger,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vechicle_04);
+        this.addVehicle(25,Vehicle.eVehicleType.BusForSelectedPassenger,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vehicle_04);
+        this.addVehicle(35,Vehicle.eVehicleType.BusForSelectedPassenger,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vehicle_04);
 
-        this.addVehicle(50,Vehicle.eVehicleType.NightBus,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vechicle_04);
+        this.addVehicle(50,Vehicle.eVehicleType.NightBus,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vehicle_04);
 
     }
 
@@ -125,13 +125,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         switch (number ) {
+            case 7:
+            case 1:
             case 4:
-                List<String> data = this.loadData(dataId);
-                vehicle.load(data);
-                break;
+            case 5:
             case 6:
             case 3:
             case 14:
+            case 16:
                 String jsonData =  loadDataJson(dataId);
                 vehicle = Vehicle.Deserialize(jsonData);
                 vehicle.Type = type;

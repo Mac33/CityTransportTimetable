@@ -23,7 +23,7 @@ public class Vehicle {
 
     public static int DIRECTION_TWO = 1;
 
-    public List<String> timePeriodNames = new ArrayList<String>();
+    private List<String> timePeriodNames = new ArrayList<String>();
 
     public int CurrentDirection = DIRECTION_ONE;
 
@@ -86,7 +86,6 @@ public class Vehicle {
     public Vehicle() {
         this.DirectionOne = new ArrayList<>();
         this.DirectionTwo = new ArrayList<>();
-
     }
 
 
@@ -118,6 +117,29 @@ public class Vehicle {
         this.timePeriodNames.add(name);
     }
 
+    public List<String> getTimePeriodNames()
+    {
+        if(this.timePeriodNames.isEmpty())
+        {
+            List<Street>allStreets =  new ArrayList<>();
+            allStreets.addAll(this.DirectionOne);
+            allStreets.addAll(this.DirectionTwo);
+
+            for( Street street:allStreets)
+            {
+                for (TimePeriod timePeriod:street.TimePeriods)
+                {
+                    if (!this.timePeriodNames.contains(timePeriod.Name))
+                    {
+                        this.timePeriodNames.add(timePeriod.Name);
+                    }
+                }
+            }
+
+        }
+
+        return  this.timePeriodNames;
+    }
 
 
     public void setCurrentStreet(int index) {
@@ -163,9 +185,9 @@ public class Vehicle {
 
 
     public void generate() {
-        this.addTimePeriod("Pondelok - Piatok (školský rok)");
-        this.addTimePeriod("Pondelok - Piatok (školské prázdniny)");
-        this.addTimePeriod("Sobota - Nedeľa, sviatok");
+        this.addTimePeriod(TimePeriod.WorkDays);
+        this.addTimePeriod(TimePeriod.ShoolHolidays);
+        this.addTimePeriod(TimePeriod.Weekend);
 
 
         ArrayList<List<Street>> directions = new ArrayList<List<Street>>();

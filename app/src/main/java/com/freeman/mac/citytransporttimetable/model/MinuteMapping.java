@@ -12,6 +12,11 @@ public class MinuteMapping {
         public static final int L = 2;
         public static final int r = 4;
         public static final int z = 8;
+        public static final int m = 16;
+        public static final int f = 32;
+        public static final int e = 64;
+
+
 
 
 
@@ -47,6 +52,18 @@ public class MinuteMapping {
         {
             minute = minute + "ž";
         }
+        if (this.Type == (this.Type | m ) )
+        {
+            minute = minute + "m";
+        }
+        if (this.Type == (this.Type | f ) )
+        {
+            minute = minute + "f";
+        }
+        if (this.Type == (this.Type | e ) )
+        {
+            minute = minute + "e";
+        }
 
         return minute;
     }
@@ -66,6 +83,12 @@ public class MinuteMapping {
                 return "r";
             case z:
                 return "ž";
+            case m:
+                return "m";
+            case f:
+                return "f";
+            case e:
+                return "e";
             default:
                 return StringUtils.Empty;
         }

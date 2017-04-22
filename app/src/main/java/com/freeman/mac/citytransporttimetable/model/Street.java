@@ -40,7 +40,7 @@ public class Street {
 
     public Street(Vehicle vehicle) {
         this.TimePeriods = new ArrayList<>();
-        for (String name : vehicle.timePeriodNames) {
+        for (String name : vehicle.getTimePeriodNames()) {
             this.TimePeriods.add(new TimePeriod(name));
         }
     }

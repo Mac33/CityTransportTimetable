@@ -1,5 +1,6 @@
 package com.freeman.mac.citytransporttimetable.model;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,56 +10,18 @@ import java.util.List;
 
 public class TimePeriod {
 
+    public static final String ShoolHolidays = "PRÁZDNINY - School Holidays";
+    public static final String WorkDays = "PRACOVNÉ DNI - Work Days";
+    public static final String Weekend = "VOĽNÉ DNI - Weekend";
+
     public List<HourMapping> Hours;
     public String Name;
 
 
     public TimePeriod(String name) {
         this.Name = name;
-       this.Hours = new  ArrayList<HourMapping>();
+        this.Hours = new  ArrayList<HourMapping>();
      }
-
-
-  /*  public Street getStreet(int index ) {
-
-        if (this.Streets.size() > index)
-        {
-            return  this.Streets.get(index);
-        }
-        return  null;
-    }
-
-
-    public void setCureentStreet(int index)
-    {
-        this.CurrentStreetIndex = index;
-    }
-
-
-
-
-
-
-    public String getStreetName(int index)
-    {
-        Street street = this.getStreet(index);
-        if (street!=null)
-        {
-            return  street.Name;
-        }
-        return StringUtils.Empty;
-    }
-
-
-
-    public void addStreet(Street item)
-    {
-        this.Streets.add(item);
-    }*/
-
-
-
-
 
 
 

@@ -39,6 +39,10 @@ class TimetableViewHolder extends RecyclerView.ViewHolder {
         {
           row.setBackgroundColor(Color.argb(255,235,235,235));
         }
+        else
+        {
+          row.setBackgroundResource(0);
+        }
 
 
     }
