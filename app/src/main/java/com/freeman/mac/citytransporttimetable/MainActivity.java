@@ -97,14 +97,14 @@ public class MainActivity extends AppCompatActivity {
         this.addVehicle(14,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_14_blue ,R.drawable.number_14_toolbar ,R.raw.vehicle_14);
         this.addVehicle(16,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_16_blue,R.drawable.number_16_toolbar ,R.raw.vehicle_16);
 
-        this.addVehicle(20,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vehicle_04);
-        this.addVehicle(21,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vehicle_04);
-        this.addVehicle(22,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vehicle_04);
-        this.addVehicle(24,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vehicle_04);
-        this.addVehicle(26,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vehicle_04);
-        this.addVehicle(27,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vehicle_04);
-        this.addVehicle(29,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vehicle_04);
-        this.addVehicle(30,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vehicle_04);
+        this.addVehicle(20,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vehicle_20);
+        this.addVehicle(21,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vehicle_21);
+        this.addVehicle(22,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vehicle_22);
+        this.addVehicle(24,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vehicle_24);
+        this.addVehicle(26,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vehicle_26);
+        this.addVehicle(27,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vehicle_27);
+        this.addVehicle(29,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vehicle_29);
+        this.addVehicle(30,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vehicle_30);
         this.addVehicle(31,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar  ,R.raw.vehicle_04);
 
         this.addVehicle(25,Vehicle.eVehicleType.BusForSelectedPassenger,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vehicle_04);
@@ -133,6 +133,15 @@ public class MainActivity extends AppCompatActivity {
             case 3:
             case 14:
             case 16:
+            case 20:
+            case 21:
+            case 22:
+            case 24:
+            case 26:
+            case 27:
+            case 29:
+            case 30:
+
                 String jsonData =  loadDataJson(dataId);
                 vehicle = Vehicle.Deserialize(jsonData);
                 vehicle.Type = type;

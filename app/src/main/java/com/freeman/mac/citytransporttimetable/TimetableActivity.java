@@ -233,12 +233,10 @@ public class TimetableActivity extends AppCompatActivity {
 
 
     private void setVehicleDescriptions(Vehicle item) {
-        if (!item.Descriptions.isEmpty())
+        String text = StringUtils.Empty;
+        List<Integer> streetVehicleDescription = item.getCurrentStreet().getUsedVehicleDescriptions();
+        if (!streetVehicleDescription.isEmpty())
         {
-            vehicleDescriptions.setVisibility(View.VISIBLE);
-            String text = StringUtils.Empty;
-
-            List<Integer> streetVehicleDescription = item.getCurrentStreet().getUsedVehicleDescriptions();
             for (VehicleDescriptionItem des:item.Descriptions)
             {
 
@@ -255,21 +253,34 @@ public class TimetableActivity extends AppCompatActivity {
                 {
                     continue;
                 }
-                text = text + MinuteMapping.getTextSign(des.Type) + " - " + des.Text;
-                if(item.Descriptions.indexOf(des) <  streetVehicleDescription.size() - 1)
+
+                if (text.isEmpty())
                 {
-                    text = text + "\n";
+                    text = MinuteMapping.getTextSign(des.Type) + " - " + des.Text;
+
                 }
+                else
+                {
+                    text = text + "\n" + MinuteMapping.getTextSign(des.Type) + " - " + des.Text;
+                }
+
             }
-            vehicleDescriptions.setText(text);
-        }else
+         }
+
+        if (text.isEmpty())
         {
             vehicleDescriptions.setVisibility(View.GONE);
+        }
+        else
+        {
+            vehicleDescriptions.setVisibility(View.VISIBLE);
+            vehicleDescriptions.setText(text);
         }
     }
 
 
     private void setCurrentStreet(Street item, String directionName) {
+
         if (item.RequestStop)
         {
             currentStreetDescription.setText("Zástavka na znamenie");
