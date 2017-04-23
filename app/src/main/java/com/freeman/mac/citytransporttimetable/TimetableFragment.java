@@ -22,7 +22,7 @@ import java.util.List;
 
 public class TimetableFragment extends Fragment implements IRefresh {
 
-    private int mTimePerion = 0;
+    private int mTimePeriod = 0;
 
     private TimetableAdapter mAdapter;
 
@@ -60,10 +60,13 @@ public class TimetableFragment extends Fragment implements IRefresh {
 
     }
 
-    public void setTimePerion(int timePerion) {
-        this.mTimePerion = timePerion;
+    public void setTimePeriod(int timePeriod) {
+        this.mTimePeriod = timePeriod;
     }
 
+    public int getTimePeriod(){
+        return  this.mTimePeriod;
+    }
 
     public List<TimetableRow> getItems() {
 
@@ -71,9 +74,9 @@ public class TimetableFragment extends Fragment implements IRefresh {
         List<TimetableRow> ret = new ArrayList<TimetableRow>();
 
         Vehicle vehicle = TransportTimetables.getInstance().getCurrentVehicle();
-        if (vehicle.getCurrentStreet().getTimePeriods().size() >this.mTimePerion)
+        if (vehicle.getCurrentStreet().getTimePeriods().size() >this.mTimePeriod)
         {
-            for (HourMapping hour : vehicle.getCurrentStreet().getTimePeriods().get(this.mTimePerion).Hours) {
+            for (HourMapping hour : vehicle.getCurrentStreet().getTimePeriods().get(this.mTimePeriod).Hours) {
                 TimetableRow mainHour = new TimetableRow();
                 mainHour.Name = Integer.toString(hour.Hour);
                 mainHour.HourMapping = hour;

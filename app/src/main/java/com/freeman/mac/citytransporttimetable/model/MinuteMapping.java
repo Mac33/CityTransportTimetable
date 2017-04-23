@@ -33,6 +33,11 @@ public class MinuteMapping {
     private static final int o = 524288;
     private static final int R = 1048576;
     private static final int V = 2097152;
+    private static final int y = 4194304;
+    private static final int w = 8388608;
+    private static final int c = 16777216;
+
+
 
     public int Minute = 0;
 
@@ -91,7 +96,12 @@ public class MinuteMapping {
                 return "V";
             case U:
                 return "U";
-
+            case w:
+                return "w";
+            case y:
+                return "y";
+            case c:
+                return "č";
             default:
                 return StringUtils.Empty;
         }
@@ -125,6 +135,9 @@ public class MinuteMapping {
         types.add(R);
         types.add(V);
         types.add(U);
+        types.add(y);
+        types.add(w);
+        types.add(c);
 
         for (Integer item : types) {
             if (this.Type == (this.Type | item)) {

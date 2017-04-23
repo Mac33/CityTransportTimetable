@@ -39,6 +39,9 @@ public class TimetableActivity extends AppCompatActivity {
     private TimetableFragment weekend;
 
     private TextView vehicleDescriptions;
+    private List<String> oldTimePeriodNames;
+
+    private TabViewPagerAdapter adapter;
 
     public static Intent createInstance(Activity activity) {
         Intent intent = new Intent(activity, TimetableActivity.class);
@@ -84,9 +87,6 @@ public class TimetableActivity extends AppCompatActivity {
         this.initChangeDirection();
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        this.setupViewPager(viewPager);
-        viewPager.setCurrentItem(1);
-
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -95,6 +95,8 @@ public class TimetableActivity extends AppCompatActivity {
         vehicleDescriptions = (TextView) findViewById(R.id.vehicleDescriptions);
 
         this.setCurrentStreet(0);
+        viewPager.setCurrentItem(1);
+
 
     }
 
@@ -164,32 +166,65 @@ public class TimetableActivity extends AppCompatActivity {
 
 
     private void setupViewPager(ViewPager viewPager) {
-        TabViewPagerAdapter adapter = new TabViewPagerAdapter(getSupportFragmentManager());
 
-        List<String> timePeriodNames = TransportTimetables.getInstance().getCurrentVehicle().getTimePeriodNames();
+        List<String> timePeriodNames;
+        if (TransportTimetables.getInstance().getCurrentVehicle().getCurrentStreet()!=null) {
+            timePeriodNames = TransportTimetables.getInstance().getCurrentVehicle().getCurrentStreetPeriodNames();
+        }
+        else{
+            timePeriodNames = TransportTimetables.getInstance().getCurrentVehicle().getTimePeriodNames();
+        }
+
+        int oldPosition = -1;
+
+        if (oldTimePeriodNames!=null)
+        {
+            boolean needToRefresh = false;
+
+            if(oldTimePeriodNames.size() != timePeriodNames.size())
+                needToRefresh = true;
+
+            for (String name:oldTimePeriodNames) {
+                if(!timePeriodNames.contains(name))
+                    needToRefresh = true;
+            }
+
+            if (!needToRefresh)
+                return;
+
+            oldPosition = viewPager.getCurrentItem();
+        }
+
+        adapter = new TabViewPagerAdapter(getSupportFragmentManager());
 
         if (timePeriodNames.contains(TimePeriod.ShoolHolidays))
         {
             schoolDays = new TimetableFragment();
-            schoolDays.setTimePerion(1);
+            schoolDays.setTimePeriod(1);
             adapter.addFragment(schoolDays, "Školské prázdniny");
 
         }
         if (timePeriodNames.contains(TimePeriod.WorkDays)) {
 
             workDays = new TimetableFragment();
-            workDays.setTimePerion(0);
+            workDays.setTimePeriod(0);
             adapter.addFragment(workDays, "Pracovné dni");
         }
 
         if (timePeriodNames.contains(TimePeriod.Weekend)) {
             weekend = new TimetableFragment();
-            weekend.setTimePerion(2);
+            weekend.setTimePeriod(2);
             adapter.addFragment(weekend, "Víkend a sviatky");
 
         }
 
+        oldTimePeriodNames = timePeriodNames;
         viewPager.setAdapter(adapter);
+
+        if (oldPosition > -1 && oldPosition < viewPager.getChildCount())
+        {
+            viewPager.setCurrentItem(oldPosition);
+        }
     }
 
 
@@ -201,6 +236,7 @@ public class TimetableActivity extends AppCompatActivity {
 
     void refreshData()
     {
+        this.setupViewPager(viewPager);
         this.refreshTimeTableFragmets();
         Vehicle currentVehicle = TransportTimetables.getInstance().getCurrentVehicle();
         String currentDirectionName = currentVehicle.getCurrentDirectionName();

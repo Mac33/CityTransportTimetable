@@ -117,10 +117,28 @@ public class Vehicle {
         this.timePeriodNames.add(name);
     }
 
-    public List<String> getTimePeriodNames()
+
+    public List<String>getCurrentStreetPeriodNames()
     {
-        if(this.timePeriodNames.isEmpty())
-        {
+        List<String> names = new ArrayList<>();
+
+        if (this.currentStreet!=null) {
+
+            for (TimePeriod timePeriod : this.currentStreet.TimePeriods) {
+                names.add(timePeriod.Name);
+
+            }
+        }
+        return  names;
+    }
+
+
+
+
+    public List<String> getTimePeriodNames() {
+
+
+        if (this.timePeriodNames.isEmpty()) {
             List<Street>allStreets =  new ArrayList<>();
             allStreets.addAll(this.DirectionOne);
             allStreets.addAll(this.DirectionTwo);
@@ -137,8 +155,9 @@ public class Vehicle {
             }
 
         }
-
         return  this.timePeriodNames;
+
+
     }
 
 
