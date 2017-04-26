@@ -125,7 +125,15 @@ public class Vehicle {
         if (this.currentStreet!=null) {
 
             for (TimePeriod timePeriod : this.currentStreet.TimePeriods) {
-                names.add(timePeriod.Name);
+                boolean timePeriodIsEmpty = true;
+                for (HourMapping hour:timePeriod.Hours) {
+                    if(!hour.getMinutes().isEmpty())
+                    {
+                        timePeriodIsEmpty = false;
+                    }
+                }
+                if(!timePeriodIsEmpty)
+                    names.add(timePeriod.Name);
 
             }
         }
@@ -201,6 +209,16 @@ public class Vehicle {
 
     }
 
+
+    public boolean hasAdditionalInformation()
+    {
+        for (VehicleDescriptionItem des:this.Descriptions)
+        {
+            if(des.Type == MinuteMapping.AdditionalInfromation)
+                return true;
+        }
+        return  false;
+    }
 
 
     public void generate() {

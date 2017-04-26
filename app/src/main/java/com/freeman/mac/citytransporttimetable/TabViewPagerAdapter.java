@@ -18,6 +18,9 @@ public class TabViewPagerAdapter extends FragmentPagerAdapter {
 
     public TabViewPagerAdapter(FragmentManager manager) {
         super(manager);
+        if (manager.getFragments() != null) {
+            manager.getFragments().clear();
+        }
     }
 
     @Override
@@ -39,4 +42,7 @@ public class TabViewPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return mFragmentTitleList.get(position);
     }
+
+
+
 }

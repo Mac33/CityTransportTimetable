@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +24,7 @@ import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
 import com.freeman.mac.citytransporttimetable.model.Vehicle;
 import com.freeman.mac.citytransporttimetable.model.VehicleDescriptionItem;
 
+import java.net.NoRouteToHostException;
 import java.util.List;
 
 
@@ -197,6 +199,10 @@ public class TimetableActivity extends AppCompatActivity {
 
         adapter = new TabViewPagerAdapter(getSupportFragmentManager());
 
+        schoolDays = null;
+        workDays = null;
+        weekend = null;
+
         if (timePeriodNames.contains(TimePeriod.ShoolHolidays))
         {
             schoolDays = new TimetableFragment();
@@ -254,6 +260,7 @@ public class TimetableActivity extends AppCompatActivity {
         this.refreshTimeTableFragmet(this.schoolDays);
         this.refreshTimeTableFragmet(this.weekend);
 
+
     }
 
 
@@ -269,11 +276,11 @@ public class TimetableActivity extends AppCompatActivity {
 
 
     private void setVehicleDescriptions(Vehicle item) {
-        String text = StringUtils.Empty;
+        String allDescriptions = StringUtils.Empty;
         List<Integer> streetVehicleDescription = item.getCurrentStreet().getUsedVehicleDescriptions();
-        if (!streetVehicleDescription.isEmpty())
+        if (item.hasAdditionalInformation() || !streetVehicleDescription.isEmpty())
         {
-            for (VehicleDescriptionItem des:item.Descriptions)
+            for (VehicleDescriptionItem des:item.Descriptions )
             {
 
                 boolean found = false;
@@ -282,35 +289,49 @@ public class TimetableActivity extends AppCompatActivity {
                     if(streetVehicleDesValue == (streetVehicleDesValue | des.Type))
                     {
                         found = true;
+                        break;
                     }
                 }
+
+                if(des.Type == MinuteMapping.AdditionalInfromation)
+                    found = true;
 
                 if(!found)
                 {
                     continue;
                 }
 
-                if (text.isEmpty())
+                String oneDescription;
+                if (des.Type == MinuteMapping.AdditionalInfromation)
                 {
-                    text = MinuteMapping.getTextSign(des.Type) + " - " + des.Text;
+                    oneDescription = des.Text;
+                }
+                else
+                {
+                    oneDescription = MinuteMapping.getTextSign(des.Type) + " - " + des.Text;
+                }
+
+                if (allDescriptions.isEmpty())
+                {
+                    allDescriptions = oneDescription;
 
                 }
                 else
                 {
-                    text = text + "\n" + MinuteMapping.getTextSign(des.Type) + " - " + des.Text;
+                    allDescriptions = allDescriptions + "\n" + oneDescription;
                 }
 
             }
          }
 
-        if (text.isEmpty())
+        if (allDescriptions.isEmpty())
         {
             vehicleDescriptions.setVisibility(View.GONE);
         }
         else
         {
             vehicleDescriptions.setVisibility(View.VISIBLE);
-            vehicleDescriptions.setText(text);
+            vehicleDescriptions.setText(allDescriptions);
         }
     }
 

@@ -10,6 +10,7 @@ import java.util.List;
 
 public class MinuteMapping {
 
+    public static final int AdditionalInfromation= -1;
     private static final int None = 0;
     private static final int LowLevel = 1;
     private static final int L = 2;
@@ -28,7 +29,7 @@ public class MinuteMapping {
     private static final int n = 16384;
     private static final int k = 32798;
     private static final int G = 65536;
-    private static final int U = 131072;
+    private static final int u = 131072;
     private static final int K = 262144;
     private static final int o = 524288;
     private static final int R = 1048576;
@@ -36,6 +37,9 @@ public class MinuteMapping {
     private static final int y = 4194304;
     private static final int w = 8388608;
     private static final int c = 16777216;
+    private static final int H = 33554432;
+    private static final int j = 67108864;
+
 
 
 
@@ -94,14 +98,16 @@ public class MinuteMapping {
                 return "R";
             case V:
                 return "V";
-            case U:
-                return "U";
+            case u:
+                return "u";
             case w:
                 return "w";
             case y:
                 return "y";
             case c:
                 return "č";
+            case H:
+                return "H";
             default:
                 return StringUtils.Empty;
         }
@@ -134,10 +140,11 @@ public class MinuteMapping {
         types.add(o);
         types.add(R);
         types.add(V);
-        types.add(U);
+        types.add(u);
         types.add(y);
         types.add(w);
         types.add(c);
+        types.add(H);
 
         for (Integer item : types) {
             if (this.Type == (this.Type | item)) {
