@@ -1,12 +1,9 @@
 package com.freeman.mac.citytransporttimetable.model;
 
-import android.content.Intent;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 /**
@@ -47,22 +44,23 @@ public class Street {
 
 
 
-    public List<Integer> getUsedVehicleDescriptions()
+    public List<String> getUsedVehicleDescriptions()
     {
-        List<Integer> usedDescriptions = new ArrayList<>();
+        List<String> usedDescriptions = new ArrayList<>();
         for (TimePeriod timePeriod:this.getTimePeriods())
         {
             for (HourMapping hourMapping :timePeriod.Hours)
             {
                 for (MinuteMapping minuteMapping:hourMapping.getMinutes())
                 {
-                    if (minuteMapping.Type != 0)
-                    {
-                        if (!usedDescriptions.contains(minuteMapping.Type))
+                    for (String sign:minuteMapping.Signs) {
+                        if (!usedDescriptions.contains(sign))
                         {
-                              usedDescriptions.add(minuteMapping.Type);
+                            usedDescriptions.add(sign);
                         }
+
                     }
+
                 }
              }
         }

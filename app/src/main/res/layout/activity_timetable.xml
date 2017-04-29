@@ -1,5 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/lib/citytransporttimetable"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -44,8 +44,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@drawable/vehicle50"
+                app:srcCompact="@drawable/number_20"
                 android:layout_gravity="end"
+                android:tint="#d0dde7"
                 android:layout_marginRight="0dp"/>
 
         </android.support.v7.widget.Toolbar>
@@ -114,7 +115,7 @@
             android:layout_height="match_parent"
             android:layout_weight="0.1"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/grey_right" />
+            android:src="@drawable/grey_right" />
     </LinearLayout>
 </LinearLayout>
 

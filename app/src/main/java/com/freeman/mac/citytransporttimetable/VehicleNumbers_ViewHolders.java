@@ -1,5 +1,6 @@
 package com.freeman.mac.citytransporttimetable;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -51,8 +52,10 @@ public class VehicleNumbers_ViewHolders extends RecyclerView.ViewHolder {
         for (Vehicle item : this.vehicleCategory.Vehicles) {
             images[index].setVisibility(View.VISIBLE);
             images[index].setImageResource(item.IconResId);
+            images[index].setColorFilter(ContextCompat.getColor(this.itemView.getContext(),item.ColorResId));
             subscribeView(images[index], item.Number);
             index++;
+
         }
 
         description.setText( this.vehicleCategory.Description);

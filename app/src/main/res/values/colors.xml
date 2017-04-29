@@ -6,4 +6,8 @@
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
     <color name="colorAccent">#c8e8ff</color>
+    <color name="colorVehicleTrolleybus">#4dbaff</color>
+    <color name="colorVehicleCityBus">#53e67f</color>
+    <color name="colorVehicleNightBus">#0d26ae</color>
+    <color name="colorVehicleSelectedPassenger">#ff8800</color>
 </resources>

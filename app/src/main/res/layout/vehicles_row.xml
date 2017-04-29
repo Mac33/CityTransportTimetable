@@ -69,59 +69,38 @@
 
                     <ImageView
                         android:id="@+id/imgNumber01"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="?android:attr/selectableItemBackground"
-                        app:srcCompat="@mipmap/vehicle_trolleybus" />
+                        app:srcCompat="@drawable/number_20"
+                        style="@style/VehicleNumbersImageView"/>
 
                     <ImageView
                         android:id="@+id/imgNumber02"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus"
-                        android:background="?android:attr/selectableItemBackground"/>
+                        app:srcCompat="@drawable/number_20"
+                        style="@style/VehicleNumbersImageView"/>
 
                     <ImageView
                         android:id="@+id/imgNumber03"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus"
-                        android:background="?android:attr/selectableItemBackground"/>
+                        app:srcCompat="@drawable/number_20"
+                        style="@style/VehicleNumbersImageView"/>
 
                     <ImageView
                         android:id="@+id/imgNumber04"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus"
-                        android:background="?android:attr/selectableItemBackground"/>
+                        app:srcCompat="@drawable/number_20"
+                        style="@style/VehicleNumbersImageView"/>
 
                     <ImageView
                         android:id="@+id/imgNumber05"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus"
-                        android:background="?android:attr/selectableItemBackground"/>
+                        app:srcCompat="@drawable/number_20"
+                        style="@style/VehicleNumbersImageView"/>
 
                     <ImageView
                         android:id="@+id/imgNumber06"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus"
-                        android:background="?android:attr/selectableItemBackground"/>
+                        app:srcCompat="@drawable/number_20"
+                        style="@style/VehicleNumbersImageView"/>
 
                     <ImageView
                         android:id="@+id/imgNumber07"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus"
-                        android:background="?android:attr/selectableItemBackground"/>
+                        app:srcCompat="@drawable/number_20"
+                        style="@style/VehicleNumbersImageView"/>
                 </LinearLayout>
 
 
@@ -134,59 +113,39 @@
 
                     <ImageView
                         android:id="@+id/imgNumber11"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus"
-                        android:background="?android:attr/selectableItemBackground"/>
+                        app:srcCompat="@drawable/number_20"
+                        style="@style/VehicleNumbersImageView"/>
 
                     <ImageView
                         android:id="@+id/imgNumber12"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus"
-                        android:background="?android:attr/selectableItemBackground"/>
+                        app:srcCompat="@drawable/number_20"
+                        style="@style/VehicleNumbersImageView"/>
 
                     <ImageView
                         android:id="@+id/imgNumber13"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus"
-                        android:background="?android:attr/selectableItemBackground"/>
+                        app:srcCompat="@drawable/number_20"
+                        style="@style/VehicleNumbersImageView"/>
 
                     <ImageView
                         android:id="@+id/imgNumber14"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus"
-                        android:background="?android:attr/selectableItemBackground"/>
+                        app:srcCompat="@drawable/number_20"
+                        style="@style/VehicleNumbersImageView"/>
 
                     <ImageView
                         android:id="@+id/imgNumber15"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus"
-                        android:background="?android:attr/selectableItemBackground"/>
+                        app:srcCompat="@drawable/number_20"
+                        style="@style/VehicleNumbersImageView"/>
 
                     <ImageView
                         android:id="@+id/imgNumber16"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus"
-                        android:background="?android:attr/selectableItemBackground"/>
+                        app:srcCompat="@drawable/number_20"
+                        style="@style/VehicleNumbersImageView"/>
 
                     <ImageView
                         android:id="@+id/imgNumber17"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        app:srcCompat="@mipmap/vehicle_trolleybus"
-                        android:background="?android:attr/selectableItemBackground"/>
+                        app:srcCompat="@drawable/number_20"
+                        style="@style/VehicleNumbersImageView"/>
+
                 </LinearLayout>
 
 

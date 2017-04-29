@@ -9,8 +9,6 @@ import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import  com.google.gson.annotations.*;
 
 /**
@@ -41,9 +39,9 @@ public class Vehicle {
 
     public eVehicleType Type = eVehicleType.None;
 
-    public int IconResId=0;
+    public int ColorResId =0;
 
-    public  int IconToolBarId = 0;
+    public  int IconResId = 0;
 
     @SerializedName("DirectionOneName")
     public String DirectionOneName ;
@@ -75,12 +73,12 @@ public class Vehicle {
 
 
 
-    public Vehicle(int number, eVehicleType type, int iconResId,int iconToolBarId) {
+    public Vehicle(int number, eVehicleType type, int colorResId, int iconResId) {
         this();
         this.Number = number;
         this.Type = type;
+        this.ColorResId = colorResId;
         this.IconResId = iconResId;
-        this.IconToolBarId = iconToolBarId;
     }
 
     public Vehicle() {
@@ -214,7 +212,7 @@ public class Vehicle {
     {
         for (VehicleDescriptionItem des:this.Descriptions)
         {
-            if(des.Type == MinuteMapping.AdditionalInfromation)
+            if(des.Sign == MinuteMapping.AdditionalInfromation)
                 return true;
         }
         return  false;
@@ -247,10 +245,10 @@ public class Vehicle {
                             hour.Hour = hourNumber;
                             for (int minute = 0; minute < timePeriod + 1; minute++) {
                                 if (directionIndex == DIRECTION_ONE) {
-                                    hour.addMinute(number, 0);
+                                    hour.addMinute(number, StringUtils.Empty);
 
                                 } else {
-                                    hour.addMinute(number, 1);
+                                    hour.addMinute(number, "n");
                                 }
                             }
                             currentStreet.getTimePeriods().get(timePeriod).Hours.add(hour);
@@ -325,7 +323,7 @@ public class Vehicle {
                                 hour = new HourMapping();
                                 hour.Hour = intValue;
                             }else{
-                                hour.addMinute(intValue,0);
+                                hour.addMinute(intValue,StringUtils.Empty);
                             }
                             strTime = new StringBuilder();
                         }
@@ -337,7 +335,7 @@ public class Vehicle {
                     {
                         Log.w("CityTransportTimetable", "Invalid parseInt");
                     }
-                    hour.addMinute(intValue,0);
+                    hour.addMinute(intValue,StringUtils.Empty);
                     currentStreet.getTimePeriods().get(timePeriod).Hours.add(hour);
                 }
 

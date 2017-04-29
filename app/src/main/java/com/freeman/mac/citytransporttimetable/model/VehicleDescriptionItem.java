@@ -8,14 +8,15 @@ import com.google.gson.annotations.SerializedName;
 
 public class VehicleDescriptionItem {
 
-    @SerializedName("Type")
-    public int Type = 0;
     @SerializedName("Text")
     public String Text = StringUtils.Empty;
+    @SerializedName("Sign")
+    public String Sign = StringUtils.Empty;
 
-    public VehicleDescriptionItem(int type, String text )
+
+    public VehicleDescriptionItem(String sign, String text )
     {
-        this.Type = type;
+        this.Sign = sign;
         this.Text = text;
     }
 }

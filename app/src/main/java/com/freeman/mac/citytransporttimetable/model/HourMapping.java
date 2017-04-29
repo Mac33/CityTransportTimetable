@@ -28,8 +28,8 @@ public class HourMapping {
         return this.Minutes;
     }
 
-    public void addMinute(int value, int type){
-        this.Minutes.add(new MinuteMapping(value,type));
+    public void addMinute(int value, String sign){
+        this.Minutes.add(new MinuteMapping(value,sign));
     }
 
 

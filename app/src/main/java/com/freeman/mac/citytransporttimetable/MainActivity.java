@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
-import com.freeman.mac.citytransporttimetable.StreetNameActivity.StreetNamesActivity;
 import com.freeman.mac.citytransporttimetable.interfaces.ISelectedItemByInteger;
 import com.freeman.mac.citytransporttimetable.model.StringUtils;
 import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
@@ -26,7 +25,6 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
-
 
 
 
@@ -66,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-       // getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -88,30 +84,30 @@ public class MainActivity extends AppCompatActivity {
     public void initVehicles()
     {
         TransportTimetables.getInstance().getVehicles().clear();
-        this.addVehicle(1, Vehicle.eVehicleType.Trolleybus,R.mipmap.number_01_blue,R.drawable.number_01_toolbar ,R.raw.vehicle_01);
-        this.addVehicle(3,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_03_blue ,R.drawable.number_03_toolbar ,R.raw.vehicle_03);
-        this.addVehicle(4,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_04_blue ,R.drawable.number_04_toolbar ,R.raw.vehicle_04);
-        this.addVehicle(5, Vehicle.eVehicleType.Trolleybus,R.mipmap.number_05_blue,R.drawable.number_05_toolbar  ,R.raw.vehicle_05);
-        this.addVehicle(6,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_06_blue ,R.drawable.number_06_toolbar ,R.raw.vehicle_06);
-        this.addVehicle(7,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_07_blue ,R.drawable.number_07_toolbar ,R.raw.vehicle_07);
-        this.addVehicle(14,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_14_blue ,R.drawable.number_14_toolbar ,R.raw.vehicle_14);
-        this.addVehicle(16,Vehicle.eVehicleType.Trolleybus,R.mipmap.number_16_blue,R.drawable.number_16_toolbar ,R.raw.vehicle_16);
+        this.addVehicle(1, Vehicle.eVehicleType.Trolleybus,R.color.colorVehicleTrolleybus,R.drawable.number_01,R.raw.vehicle_01);
+        this.addVehicle(3, Vehicle.eVehicleType.Trolleybus,R.color.colorVehicleTrolleybus,R.drawable.number_03,R.raw.vehicle_03);
+        this.addVehicle(4, Vehicle.eVehicleType.Trolleybus,R.color.colorVehicleTrolleybus,R.drawable.number_04,R.raw.vehicle_04);
+        this.addVehicle(5, Vehicle.eVehicleType.Trolleybus,R.color.colorVehicleTrolleybus,R.drawable.number_05,R.raw.vehicle_05);
+        this.addVehicle(6, Vehicle.eVehicleType.Trolleybus,R.color.colorVehicleTrolleybus,R.drawable.number_06,R.raw.vehicle_06);
+        this.addVehicle(7, Vehicle.eVehicleType.Trolleybus,R.color.colorVehicleTrolleybus,R.drawable.number_07,R.raw.vehicle_07);
+        this.addVehicle(14,Vehicle.eVehicleType.Trolleybus,R.color.colorVehicleTrolleybus,R.drawable.number_14,R.raw.vehicle_14);
+        this.addVehicle(16,Vehicle.eVehicleType.Trolleybus,R.color.colorVehicleTrolleybus,R.drawable.number_16,R.raw.vehicle_16);
 
-        this.addVehicle(20,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar ,R.raw.vehicle_20);
-        this.addVehicle(21,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar ,R.raw.vehicle_21);
-        this.addVehicle(22,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar ,R.raw.vehicle_22);
-        this.addVehicle(24,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar ,R.raw.vehicle_24);
-        this.addVehicle(26,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar ,R.raw.vehicle_26);
-        this.addVehicle(27,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar ,R.raw.vehicle_27);
-        this.addVehicle(29,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar ,R.raw.vehicle_29);
-        this.addVehicle(30,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar ,R.raw.vehicle_30);
-        this.addVehicle(31,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar ,R.raw.vehicle_31);
-        this.addVehicle(67,Vehicle.eVehicleType.CityBus,R.mipmap.number_14_blue,R.drawable.number_01_toolbar ,R.raw.vehicle_67);
+        this.addVehicle(20,Vehicle.eVehicleType.CityBus,R.color.colorVehicleCityBus,R.drawable.number_20 ,R.raw.vehicle_20);
+        this.addVehicle(21,Vehicle.eVehicleType.CityBus,R.color.colorVehicleCityBus,R.drawable.number_21 ,R.raw.vehicle_21);
+        this.addVehicle(22,Vehicle.eVehicleType.CityBus,R.color.colorVehicleCityBus,R.drawable.number_22 ,R.raw.vehicle_22);
+        this.addVehicle(24,Vehicle.eVehicleType.CityBus,R.color.colorVehicleCityBus,R.drawable.number_24 ,R.raw.vehicle_24);
+        this.addVehicle(26,Vehicle.eVehicleType.CityBus,R.color.colorVehicleCityBus,R.drawable.number_26 ,R.raw.vehicle_26);
+        this.addVehicle(27,Vehicle.eVehicleType.CityBus,R.color.colorVehicleCityBus,R.drawable.number_27 ,R.raw.vehicle_27);
+        this.addVehicle(29,Vehicle.eVehicleType.CityBus,R.color.colorVehicleCityBus,R.drawable.number_29 ,R.raw.vehicle_29);
+        this.addVehicle(30,Vehicle.eVehicleType.CityBus,R.color.colorVehicleCityBus,R.drawable.number_30 ,R.raw.vehicle_30);
+        this.addVehicle(31,Vehicle.eVehicleType.CityBus,R.color.colorVehicleCityBus,R.drawable.number_31 ,R.raw.vehicle_31);
+        this.addVehicle(67,Vehicle.eVehicleType.CityBus,R.color.colorVehicleCityBus,R.drawable.number_67 ,R.raw.vehicle_67);
 
-        this.addVehicle(25,Vehicle.eVehicleType.BusForSelectedPassenger,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vehicle_25);
-        this.addVehicle(35,Vehicle.eVehicleType.BusForSelectedPassenger,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vehicle_04);
+        this.addVehicle(25,Vehicle.eVehicleType.BusForSelectedPassenger,R.color.colorVehicleSelectedPassenger,R.drawable.number_25 ,R.raw.vehicle_25);
+        this.addVehicle(35,Vehicle.eVehicleType.BusForSelectedPassenger,R.color.colorVehicleSelectedPassenger,R.drawable.number_35 ,R.raw.vehicle_35);
 
-        this.addVehicle(50,Vehicle.eVehicleType.NightBus,R.mipmap.number_14_blue ,R.drawable.number_01_toolbar ,R.raw.vehicle_04);
+        this.addVehicle(50,Vehicle.eVehicleType.NightBus,R.color.colorVehicleNightBus,R.drawable.number_50 ,R.raw.vehicle_50);
 
     }
 
@@ -119,48 +115,22 @@ public class MainActivity extends AppCompatActivity {
 
     private void addVehicle(int number,
                             Vehicle.eVehicleType type,
-                            int iconId,
-                            int iconToolBarId,
-                            int dataId  ) {
-        Vehicle vehicle = new Vehicle(number, type, iconId, iconToolBarId);
+                            int colorId,
+                            int iconResId,
+                            int dataId  )
+    {
 
 
-        switch (number ) {
-            case 7:
-            case 1:
-            case 4:
-            case 5:
-            case 6:
-            case 3:
-            case 14:
-            case 16:
-            case 20:
-            case 21:
-            case 22:
-            case 24:
-            case 26:
-            case 27:
-            case 29:
-            case 30:
-            case 31:
-            case 67:
-            case 25:
-
-                String jsonData =  loadDataJson(dataId);
-                vehicle = Vehicle.Deserialize(jsonData);
-                vehicle.Type = type;
-                vehicle.IconResId = iconId;
-                vehicle.IconToolBarId = iconToolBarId;
-                break;
-            default:
-                vehicle.generate();
-                break;
-
-
-        }
+        String jsonData =  loadDataJson(dataId);
+        Vehicle vehicle = Vehicle.Deserialize(jsonData);
+        vehicle.Type = type;
+        vehicle.ColorResId = colorId;
+        vehicle.IconResId = iconResId;
 
         TransportTimetables.getInstance().getVehicles().add(vehicle);
     }
+
+
 
     public String loadDataJson(int id)
     {
@@ -201,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
         return  text;
 
     }
+
 
 
     private List<VehicleCategory> getVehicleCategories()

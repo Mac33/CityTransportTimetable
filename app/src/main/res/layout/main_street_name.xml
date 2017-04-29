@@ -32,6 +32,6 @@
         android:layout_gravity="center"
         android:layout_weight="5"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/request_stop_sign" />
+        app:srcCompat="@drawable/request_stop_sign"/>
     </LinearLayout>
 </LinearLayout>

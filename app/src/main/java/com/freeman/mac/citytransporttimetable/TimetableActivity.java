@@ -24,7 +24,6 @@ import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
 import com.freeman.mac.citytransporttimetable.model.Vehicle;
 import com.freeman.mac.citytransporttimetable.model.VehicleDescriptionItem;
 
-import java.net.NoRouteToHostException;
 import java.util.List;
 
 
@@ -119,9 +118,9 @@ public class TimetableActivity extends AppCompatActivity {
     private  void  setToolbarVehicleNumber()
     {
         ImageView vehicleNumberView  = (ImageView)findViewById(R.id.imgViewVehicleNumber);
-        if(TransportTimetables.getInstance().getCurrentVehicle().IconToolBarId > 0)
+        if(TransportTimetables.getInstance().getCurrentVehicle().IconResId > 0)
         {
-            vehicleNumberView.setImageResource( TransportTimetables.getInstance().getCurrentVehicle().IconToolBarId);
+            vehicleNumberView.setImageResource( TransportTimetables.getInstance().getCurrentVehicle().IconResId);
         }else{
             vehicleNumberView.setImageResource(android.R.color.transparent);
         }
@@ -260,7 +259,6 @@ public class TimetableActivity extends AppCompatActivity {
         this.refreshTimeTableFragmet(this.schoolDays);
         this.refreshTimeTableFragmet(this.weekend);
 
-
     }
 
 
@@ -277,38 +275,28 @@ public class TimetableActivity extends AppCompatActivity {
 
     private void setVehicleDescriptions(Vehicle item) {
         String allDescriptions = StringUtils.Empty;
-        List<Integer> streetVehicleDescription = item.getCurrentStreet().getUsedVehicleDescriptions();
-        if (item.hasAdditionalInformation() || !streetVehicleDescription.isEmpty())
+        List<String> streetVehicleDescriptions = item.getCurrentStreet().getUsedVehicleDescriptions();
+        if (item.hasAdditionalInformation() || !streetVehicleDescriptions.isEmpty())
         {
             for (VehicleDescriptionItem des:item.Descriptions )
             {
 
-                boolean found = false;
-                for (Integer streetVehicleDesValue:streetVehicleDescription)
-                {
-                    if(streetVehicleDesValue == (streetVehicleDesValue | des.Type))
-                    {
-                        found = true;
-                        break;
-                    }
-                }
+                boolean found = streetVehicleDescriptions.contains(des.Sign);
 
-                if(des.Type == MinuteMapping.AdditionalInfromation)
+                if(des.Sign.equals(MinuteMapping.AdditionalInfromation))
                     found = true;
 
                 if(!found)
-                {
                     continue;
-                }
 
                 String oneDescription;
-                if (des.Type == MinuteMapping.AdditionalInfromation)
+                if (des.Sign.equals(MinuteMapping.AdditionalInfromation))
                 {
                     oneDescription = des.Text;
                 }
                 else
                 {
-                    oneDescription = MinuteMapping.getTextSign(des.Type) + " - " + des.Text;
+                    oneDescription = des.Sign + " - " + des.Text;
                 }
 
                 if (allDescriptions.isEmpty())
