@@ -20,6 +20,9 @@ public class VehicleNumbers_ViewHolders extends RecyclerView.ViewHolder {
     private ISelectedItemByInteger selectVehicle;
     private TextView description;
     private VehicleCategory vehicleCategory;
+    private ImageView mainVehicleIcon;
+    private int categoryColor;
+
 
     public VehicleNumbers_ViewHolders(View itemView) {
         super(itemView);
@@ -38,7 +41,8 @@ public class VehicleNumbers_ViewHolders extends RecyclerView.ViewHolder {
         images[11] = (ImageView) itemView.findViewById(R.id.imgNumber15);
         images[12] = (ImageView) itemView.findViewById(R.id.imgNumber16);
         images[13] = (ImageView) itemView.findViewById(R.id.imgNumber17);
-        description = (TextView)itemView.findViewById(R.id.VehicleCategoryDesription);
+        description = (TextView) itemView.findViewById(R.id.VehicleCategoryDesription);
+        mainVehicleIcon = (ImageView) itemView.findViewById(R.id.mainIcon);
 
     }
 
@@ -49,17 +53,34 @@ public class VehicleNumbers_ViewHolders extends RecyclerView.ViewHolder {
             item.setVisibility(View.INVISIBLE);
         }
         int index = 0;
+
+        int vehicleColor = Integer.MIN_VALUE;
+
         for (Vehicle item : this.vehicleCategory.Vehicles) {
             images[index].setVisibility(View.VISIBLE);
             images[index].setImageResource(item.IconResId);
-            images[index].setColorFilter(ContextCompat.getColor(this.itemView.getContext(),item.ColorResId));
+            if(vehicleColor == Integer.MIN_VALUE)
+            {
+                vehicleColor = ContextCompat.getColor(this.itemView.getContext(), item.ColorResId);
+            }
+
+            images[index].setColorFilter(vehicleColor);
             subscribeView(images[index], item.Number);
             index++;
 
         }
+        description.setText(this.vehicleCategory.Description);
+        this.setMainVehicleIcon(vehicleColor);
+    }
 
-        description.setText( this.vehicleCategory.Description);
 
+    private void setMainVehicleIcon(int color) {
+        if (this.vehicleCategory.Type == Vehicle.eVehicleType.Trolleybus) {
+            mainVehicleIcon.setImageResource(R.drawable.trolleybus_main);
+        } else {
+            mainVehicleIcon.setImageResource(R.drawable.bus_main);
+        }
+        mainVehicleIcon.setColorFilter(color);
 
     }
 
@@ -73,7 +94,7 @@ public class VehicleNumbers_ViewHolders extends RecyclerView.ViewHolder {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int number = (int)view.getTag();
+                int number = (int) view.getTag();
                 selectVehicle.OnSelectedItem(number);
             }
         });
