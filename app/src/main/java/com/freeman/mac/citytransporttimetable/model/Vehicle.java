@@ -168,8 +168,14 @@ public class Vehicle {
 
 
     public void setCurrentStreet(int index) {
+
+        //If street doesn't have any timetable set last one
+        if (this.getCurrentDirectionStreets().get(index).isEmpty())
+            index--;
+
         this.CurrentStreetIndex = index;
         this.currentStreet = this.getCurrentDirectionStreets().get(index);
+
     }
 
 

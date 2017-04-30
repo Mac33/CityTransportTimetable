@@ -67,6 +67,16 @@ public class Street {
         return  usedDescriptions;
     }
 
+    public boolean isEmpty() {
+        for (TimePeriod timePeriod : this.getTimePeriods()) {
+            for (HourMapping hourMapping : timePeriod.Hours) {
+                if (!hourMapping.getMinutes().isEmpty())
+                    return  false;
+            }
+        }
+        return  true;
+    }
+
 
 
     @Override

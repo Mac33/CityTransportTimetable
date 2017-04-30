@@ -86,7 +86,7 @@ public class StreetNamesActivity extends AppCompatActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         view.setLayoutManager(mLayoutManager);
         view.setAdapter(adapter);
-        view.addItemDecoration(new StreetName_ItemDecoration());
+        view.addItemDecoration(new StreetName_ItemDecoration(streets));
 
     }
 

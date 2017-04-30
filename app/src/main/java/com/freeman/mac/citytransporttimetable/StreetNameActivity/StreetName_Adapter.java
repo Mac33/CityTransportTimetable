@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.freeman.mac.citytransporttimetable.R;
-import com.freeman.mac.citytransporttimetable.interfaces.*;
+import com.freeman.mac.citytransporttimetable.interfaces.ISelectedItemByInteger;
 import com.freeman.mac.citytransporttimetable.model.Street;
 
 import java.util.List;
@@ -18,16 +18,18 @@ import java.util.List;
 
 public class StreetName_Adapter extends RecyclerView.Adapter<StreetName_ViewHolder> {
 
-    private List<Street> streets = null;
-
     public int CurrentStreetIndex = 0;
-
+    private List<Street> streets = null;
     private ISelectedItemByInteger paStreetSelectedListener = null;
 
-    public StreetName_Adapter(List<Street> streets, int streetIndexPosition ) {
+
+
+    public StreetName_Adapter(List<Street> streets, int streetIndexPosition) {
         this.streets = streets;
         this.CurrentStreetIndex = streetIndexPosition;
     }
+
+
 
     @Override
     public StreetName_ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -43,23 +45,31 @@ public class StreetName_Adapter extends RecyclerView.Adapter<StreetName_ViewHold
         return holder;
     }
 
+
+
     @Override
     public void onBindViewHolder(StreetName_ViewHolder holder, int position) {
         Street item = this.streets.get(position);
-        holder.bind(item.Name,item.RequestStop);
+        holder.bind(item.Name, item.RequestStop);
     }
+
+
 
     public void setStreetSelectedListener(ISelectedItemByInteger listener) {
         this.paStreetSelectedListener = listener;
     }
 
+
+
     private void setStreet(int index) {
         if (this.paStreetSelectedListener != null) {
-            if (index < this.getItemCount() -1 )
-            {
-                this.paStreetSelectedListener.OnSelectedItem(index);
-                this.CurrentStreetIndex = index;
-            }
+
+            Street item = this.streets.get(index);
+            if (item.isEmpty())
+                return;
+
+            this.paStreetSelectedListener.OnSelectedItem(index);
+            this.CurrentStreetIndex = index;
 
         }
     }

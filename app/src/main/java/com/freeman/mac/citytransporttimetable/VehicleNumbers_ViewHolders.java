@@ -52,8 +52,8 @@ public class VehicleNumbers_ViewHolders extends RecyclerView.ViewHolder {
             item.setImageResource(android.R.color.transparent);
             item.setVisibility(View.INVISIBLE);
         }
-        int index = 0;
 
+        int index = 0;
         int vehicleColor = Integer.MIN_VALUE;
 
         for (Vehicle item : this.vehicleCategory.Vehicles) {

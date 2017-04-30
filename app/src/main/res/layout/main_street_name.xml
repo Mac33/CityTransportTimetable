@@ -11,27 +11,46 @@
         android:id="@+id/StreetsClickLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
         android:orientation="horizontal"
-        android:weightSum="100"
-        android:background="?android:attr/selectableItemBackground">
+        android:weightSum="95">
 
-    <TextView
-        android:id="@+id/MainStreetName"
-        android:layout_weight="95"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="2dp"
-        android:text="@string/textview"
-        android:textSize="20sp" />
+        <ImageView
+            android:id="@+id/ArrowImageView"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/arrow_down_2" />
 
-    <ImageView
-        android:id="@+id/RequestStopView"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:layout_gravity="center"
-        android:layout_weight="5"
-        android:scaleType="fitCenter"
-        app:srcCompat="@drawable/request_stop_sign"/>
+        <TextView
+            android:id="@+id/MinutesInfo"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="2dp"
+            android:layout_weight="5"
+            android:gravity="center"
+            android:text="99"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/MainStreetName"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="2dp"
+            android:layout_weight="85"
+            android:text="@string/textview"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/RequestStopView"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/request_stop_sign" />
     </LinearLayout>
 </LinearLayout>
