@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.freeman.mac.citytransporttimetable.StreetNameActivity.StreetNamesActivity;
+import com.freeman.mac.citytransporttimetable.interfaces.IChangeScrollVerticalPosition;
 import com.freeman.mac.citytransporttimetable.model.MinuteMapping;
 import com.freeman.mac.citytransporttimetable.model.Street;
 import com.freeman.mac.citytransporttimetable.model.StringUtils;
@@ -27,7 +27,7 @@ import com.freeman.mac.citytransporttimetable.model.VehicleDescriptionItem;
 import java.util.List;
 
 
-public class TimetableActivity extends AppCompatActivity {
+public class TimetableActivity extends AppCompatActivity implements IChangeScrollVerticalPosition {
 
 
     private TabLayout tabLayout;
@@ -102,9 +102,7 @@ public class TimetableActivity extends AppCompatActivity {
     }
 
 
-
-    void initToolbar()
-    {
+    void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -114,22 +112,17 @@ public class TimetableActivity extends AppCompatActivity {
     }
 
 
-
-    private  void  setToolbarVehicleNumber()
-    {
-        ImageView vehicleNumberView  = (ImageView)findViewById(R.id.imgViewVehicleNumber);
-        if(TransportTimetables.getInstance().getCurrentVehicle().IconResId > 0)
-        {
-            vehicleNumberView.setImageResource( TransportTimetables.getInstance().getCurrentVehicle().IconResId);
-        }else{
+    private void setToolbarVehicleNumber() {
+        ImageView vehicleNumberView = (ImageView) findViewById(R.id.imgViewVehicleNumber);
+        if (TransportTimetables.getInstance().getCurrentVehicle().IconResId > 0) {
+            vehicleNumberView.setImageResource(TransportTimetables.getInstance().getCurrentVehicle().IconResId);
+        } else {
             vehicleNumberView.setImageResource(android.R.color.transparent);
         }
     }
 
 
-
-    private void initChangeDirection()
-    {
+    private void initChangeDirection() {
         Button btnChangeDirection = (Button) this.findViewById(R.id.change_direction);
         btnChangeDirection.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,25 +130,19 @@ public class TimetableActivity extends AppCompatActivity {
                 changeDirection();
             }
         });
-        if ( TransportTimetables.getInstance().getCurrentVehicle().HasTwoDirections() )
-        {
+        if (TransportTimetables.getInstance().getCurrentVehicle().HasTwoDirections()) {
             btnChangeDirection.setVisibility(View.VISIBLE);
-        }
-        else
-        {
+        } else {
             btnChangeDirection.setVisibility(View.GONE);
         }
     }
 
 
-
-    private  void  changeDirection()
-    {
+    private void changeDirection() {
         TransportTimetables.getInstance().getCurrentVehicle().swapDirection();
         refreshData();
 
     }
-
 
 
     @Override
@@ -165,28 +152,25 @@ public class TimetableActivity extends AppCompatActivity {
     }
 
 
-
     private void setupViewPager(ViewPager viewPager) {
 
         List<String> timePeriodNames;
-        if (TransportTimetables.getInstance().getCurrentVehicle().getCurrentStreet()!=null) {
+        if (TransportTimetables.getInstance().getCurrentVehicle().getCurrentStreet() != null) {
             timePeriodNames = TransportTimetables.getInstance().getCurrentVehicle().getCurrentStreetPeriodNames();
-        }
-        else{
+        } else {
             timePeriodNames = TransportTimetables.getInstance().getCurrentVehicle().getTimePeriodNames();
         }
 
         int oldPosition = -1;
 
-        if (oldTimePeriodNames!=null)
-        {
+        if (oldTimePeriodNames != null) {
             boolean needToRefresh = false;
 
-            if(oldTimePeriodNames.size() != timePeriodNames.size())
+            if (oldTimePeriodNames.size() != timePeriodNames.size())
                 needToRefresh = true;
 
-            for (String name:oldTimePeriodNames) {
-                if(!timePeriodNames.contains(name))
+            for (String name : oldTimePeriodNames) {
+                if (!timePeriodNames.contains(name))
                     needToRefresh = true;
             }
 
@@ -202,10 +186,10 @@ public class TimetableActivity extends AppCompatActivity {
         workDays = null;
         weekend = null;
 
-        if (timePeriodNames.contains(TimePeriod.ShoolHolidays))
-        {
+        if (timePeriodNames.contains(TimePeriod.ShoolHolidays)) {
             schoolDays = new TimetableFragment();
             schoolDays.setTimePeriod(1);
+            schoolDays.setScrollVerticalPositionListener(this);
             adapter.addFragment(schoolDays, "Školské prázdniny");
 
         }
@@ -213,12 +197,14 @@ public class TimetableActivity extends AppCompatActivity {
 
             workDays = new TimetableFragment();
             workDays.setTimePeriod(0);
+            workDays.setScrollVerticalPositionListener(this);
             adapter.addFragment(workDays, "Pracovné dni");
         }
 
         if (timePeriodNames.contains(TimePeriod.Weekend)) {
             weekend = new TimetableFragment();
             weekend.setTimePeriod(2);
+            weekend.setScrollVerticalPositionListener(this);
             adapter.addFragment(weekend, "Víkend a sviatky");
 
         }
@@ -226,8 +212,7 @@ public class TimetableActivity extends AppCompatActivity {
         oldTimePeriodNames = timePeriodNames;
         viewPager.setAdapter(adapter);
 
-        if (oldPosition > -1 && oldPosition < viewPager.getChildCount())
-        {
+        if (oldPosition > -1 && oldPosition < viewPager.getChildCount()) {
             viewPager.setCurrentItem(oldPosition);
         }
     }
@@ -239,8 +224,7 @@ public class TimetableActivity extends AppCompatActivity {
     }
 
 
-    void refreshData()
-    {
+    void refreshData() {
         this.setupViewPager(viewPager);
         this.refreshTimeTableFragmets();
         Vehicle currentVehicle = TransportTimetables.getInstance().getCurrentVehicle();
@@ -252,9 +236,7 @@ public class TimetableActivity extends AppCompatActivity {
     }
 
 
-
-    void  refreshTimeTableFragmets()
-    {
+    void refreshTimeTableFragmets() {
         this.refreshTimeTableFragmet(this.workDays);
         this.refreshTimeTableFragmet(this.schoolDays);
         this.refreshTimeTableFragmet(this.weekend);
@@ -262,62 +244,47 @@ public class TimetableActivity extends AppCompatActivity {
     }
 
 
-
-    void  refreshTimeTableFragmet(TimetableFragment item)
-    {
-        if (item != null)
-        {
+    void refreshTimeTableFragmet(TimetableFragment item) {
+        if (item != null) {
             item.OnRefresh();
         }
     }
 
 
-
     private void setVehicleDescriptions(Vehicle item) {
         String allDescriptions = StringUtils.Empty;
         List<String> streetVehicleDescriptions = item.getCurrentStreet().getUsedVehicleDescriptions();
-        if (item.hasAdditionalInformation() || !streetVehicleDescriptions.isEmpty())
-        {
-            for (VehicleDescriptionItem des:item.Descriptions )
-            {
+        if (item.hasAdditionalInformation() || !streetVehicleDescriptions.isEmpty()) {
+            for (VehicleDescriptionItem des : item.Descriptions) {
 
                 boolean found = streetVehicleDescriptions.contains(des.Sign);
 
-                if(des.Sign.equals(MinuteMapping.AdditionalInfromation))
+                if (des.Sign.equals(MinuteMapping.AdditionalInfromation))
                     found = true;
 
-                if(!found)
+                if (!found)
                     continue;
 
                 String oneDescription;
-                if (des.Sign.equals(MinuteMapping.AdditionalInfromation))
-                {
+                if (des.Sign.equals(MinuteMapping.AdditionalInfromation)) {
                     oneDescription = des.Text;
-                }
-                else
-                {
+                } else {
                     oneDescription = des.Sign + " - " + des.Text;
                 }
 
-                if (allDescriptions.isEmpty())
-                {
+                if (allDescriptions.isEmpty()) {
                     allDescriptions = oneDescription;
 
-                }
-                else
-                {
+                } else {
                     allDescriptions = allDescriptions + "\n" + oneDescription;
                 }
 
             }
-         }
-
-        if (allDescriptions.isEmpty())
-        {
-            vehicleDescriptions.setVisibility(View.GONE);
         }
-        else
-        {
+
+        if (allDescriptions.isEmpty()) {
+            vehicleDescriptions.setVisibility(View.GONE);
+        } else {
             vehicleDescriptions.setVisibility(View.VISIBLE);
             vehicleDescriptions.setText(allDescriptions);
         }
@@ -326,23 +293,30 @@ public class TimetableActivity extends AppCompatActivity {
 
     private void setCurrentStreet(Street item, String directionName) {
 
-        if (item.RequestStop)
-        {
+        if (item.RequestStop) {
             currentStreetDescription.setText("Zástavka na znamenie");
-        }else
-        {
+        } else {
             currentStreetDescription.setText("Zástavka");
         }
 
-        if (!StringUtils.isNullOrEmpty(directionName))
-        {
+        if (!StringUtils.isNullOrEmpty(directionName)) {
             currentStreetDescription.setText(currentStreetDescription.getText() + " - " + directionName);
         }
         currentStreetName.setText(item.Name);
     }
 
 
+    @Override
+    public void onChangeScrollVerticalPosition(int value) {
 
+        if (this.workDays != null)
+            this.workDays.setVerticalScrollPosition(value);
+        if (this.schoolDays != null)
+            this.schoolDays.setVerticalScrollPosition(value);
+        if (this.weekend != null)
+            this.weekend.setVerticalScrollPosition(value);
+
+    }
 }
 
 
