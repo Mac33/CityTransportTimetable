@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CityTransportTimetable</string>
+    <string name="app_name">MHD Žilina</string>
     <string name="bus_stop_name">Zástavka</string>
     <string name="textview">TextView</string>
 </resources>

@@ -11,7 +11,6 @@
         <activity
             android:name=".TimetableActivity"
             android:screenOrientation="portrait">
-
         </activity>
         <activity
             android:name=".StreetNameActivity.StreetNamesActivity"
