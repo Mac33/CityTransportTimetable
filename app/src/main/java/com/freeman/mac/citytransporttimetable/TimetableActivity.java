@@ -186,7 +186,7 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
         workDays = null;
         weekend = null;
 
-        if (timePeriodNames.contains(TimePeriod.ShoolHolidays)) {
+        if (timePeriodNames.contains(TimePeriod.SchoolHolidays)) {
             schoolDays = new TimetableFragment();
             schoolDays.setTimePeriod(1);
             schoolDays.setScrollVerticalPositionListener(this);
@@ -255,7 +255,7 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
         String allDescriptions = StringUtils.Empty;
         List<String> streetVehicleDescriptions = item.getCurrentStreet().getUsedVehicleDescriptions();
         if (item.hasAdditionalInformation() || !streetVehicleDescriptions.isEmpty()) {
-            for (VehicleDescriptionItem des : item.Descriptions) {
+            for (VehicleDescriptionItem des : item.getData().Descriptions) {
 
                 boolean found = streetVehicleDescriptions.contains(des.Sign);
 

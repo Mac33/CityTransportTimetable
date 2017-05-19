@@ -14,6 +14,8 @@ public class Street {
     public String Name;
 
 
+    public String CircleDirectionName = StringUtils.Empty;
+
     public List<TimePeriod> TimePeriods;
 
     @Expose

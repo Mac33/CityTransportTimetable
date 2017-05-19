@@ -40,7 +40,10 @@ public class MinuteMapping {
         String minute = String.format("%02d", this.Minute);
 
         for ( String item : this.Signs) {
-            minute = minute + item;
+            if (!item.equals("n"))
+            {
+                minute = minute + item;
+            }
         }
         return minute;
     }

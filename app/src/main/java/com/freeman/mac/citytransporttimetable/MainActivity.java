@@ -2,13 +2,18 @@ package com.freeman.mac.citytransporttimetable;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.nfc.Tag;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 
+import com.freeman.mac.citytransporttimetable.database_model.VehicleDaoHelper;
+import com.freeman.mac.citytransporttimetable.database_model.VehicleDatabase;
 import com.freeman.mac.citytransporttimetable.interfaces.ISelectedItemByInteger;
 import com.freeman.mac.citytransporttimetable.model.StringUtils;
 import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
@@ -28,10 +33,23 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    private  VehicleDatabase Database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.w("","Start");
+        int b=0;
+        for(int a= 0; a< 8000000;a++)
+        {
+            b++;
+        }
+
+        Log.w("","End");
+
+
+        this.initDb();
         this.initVehicles();
         setContentView(R.layout.activity_main);
         this.initToolbar();
@@ -50,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mRecyclerView.setAdapter(mAdapter);
+
 
     }
 
@@ -117,38 +136,21 @@ public class MainActivity extends AppCompatActivity {
                             Vehicle.eVehicleType type,
                             int colorId,
                             int iconResId,
-                            int dataId  )
-    {
-
-
-        String jsonData =  loadDataJson(dataId);
-        Vehicle vehicle = Vehicle.Deserialize(jsonData);
+                            int dataId  ) {
+        TransportTimetables.getInstance().setContext(this.getApplicationContext());
+        Vehicle vehicle = new Vehicle();
+        vehicle.Database = this.Database;
         vehicle.Type = type;
         vehicle.ColorResId = colorId;
         vehicle.IconResId = iconResId;
+        vehicle.Number = number;
+        vehicle.DataResId = dataId;
+        if (this.Database.getNeedToRefill())
+        {
+            vehicle.getData();
+        }
 
         TransportTimetables.getInstance().getVehicles().add(vehicle);
-    }
-
-
-
-    public String loadDataJson(int id)
-    {
-        Context cx = this.getApplicationContext();
-        InputStream inputStream = cx.getResources().openRawResource(id);
-        InputStreamReader inputReader = new InputStreamReader(inputStream);
-        BufferedReader buffReader = new BufferedReader(inputReader );
-
-        String line;
-        StringBuilder sb = new StringBuilder();
-        try {
-            while (( line = buffReader.readLine()) != null) {
-                sb.append(line);
-            }
-        } catch (IOException e) {
-
-        }
-        return  sb.toString() ;
     }
 
 
@@ -204,6 +206,16 @@ public class MainActivity extends AppCompatActivity {
         return  ret;
 
     }
+
+
+    public  void initDb()
+    {
+        this.Database= new VehicleDatabase();
+        this.Database.setupDb(this);
+    }
+
+
+
 
 
 

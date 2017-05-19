@@ -1,15 +1,22 @@
 package com.freeman.mac.citytransporttimetable.model;
 
+import android.content.Context;
 import android.util.Log;
 
-
+import com.freeman.mac.citytransporttimetable.database_model.VehicleDatabase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import  com.google.gson.annotations.*;
 
 /**
  * Created by Mac on 7. 3. 2017.
@@ -20,57 +27,17 @@ public class Vehicle {
     public static int DIRECTION_ONE = 0;
 
     public static int DIRECTION_TWO = 1;
-
-    private List<String> timePeriodNames = new ArrayList<String>();
-
     public int CurrentDirection = DIRECTION_ONE;
-
     public int CurrentStreetIndex = 0;
-
-    private Street currentStreet = null;
-
-    public int Number = 0;
-
-    @SerializedName("DirectionOne")
-    public List<Street> DirectionOne;
-
-    @SerializedName("DirectionTwo")
-    public List<Street> DirectionTwo;
-
     public eVehicleType Type = eVehicleType.None;
-
-    public int ColorResId =0;
-
-    public  int IconResId = 0;
-
-    @SerializedName("DirectionOneName")
-    public String DirectionOneName ;
-
-    @SerializedName("DirectionTwoName")
-    public String DirectionTwoName;
-
-    @SerializedName("Descriptions")
-    public List<VehicleDescriptionItem> Descriptions = new ArrayList<>();
-
-    public  List<Street> getStreets()
-    {
-        return  this.getCurrentDirectionStreets();
-    }
-
-    public Street getCurrentStreet()
-    {
-      return this.currentStreet;
-    }
-
-    public enum eVehicleType
-    {
-        None,
-        Trolleybus,
-        CityBus,
-        NightBus,
-        BusForSelectedPassenger
-    }
-
+    public int ColorResId = 0;
+    public int IconResId = 0;
+    public int Number = 0;
+    public int DataResId;
+    public VehicleDatabase Database;
+    private List<String> timePeriodNames = new ArrayList<String>();
+    private Street currentStreet = null;
+    private TrafficData mData;
 
 
     public Vehicle(int number, eVehicleType type, int colorResId, int iconResId) {
@@ -81,91 +48,114 @@ public class Vehicle {
         this.IconResId = iconResId;
     }
 
+
     public Vehicle() {
-        this.DirectionOne = new ArrayList<>();
-        this.DirectionTwo = new ArrayList<>();
+        //this.Data = new TrafficData();
+
     }
 
+    public static TrafficData Deserialize(String body) {
+        Gson gson = new GsonBuilder().create();
+        TrafficData item = gson.fromJson(body, TrafficData.class);
+        return item;
 
-
-    public List<Street> getCurrentDirectionStreets() {
-        if (this.CurrentDirection == DIRECTION_ONE) {
-            return this.DirectionOne;
-        } else {
-            return this.DirectionTwo;
-        }
     }
 
-    public String getCurrentDirectionName() {
-        if (this.CurrentDirection == DIRECTION_ONE) {
-            return this.DirectionOneName;
-        } else {
-            return this.DirectionTwoName;
-        }
-    }
+    public TrafficData getData() {
+        if (this.mData == null) {
 
-
-    public  boolean HasTwoDirections()
-    {
-        return  !this.DirectionOne.isEmpty() && !this.DirectionTwo.isEmpty();
-    }
-
-
-    void addTimePeriod(String name) {
-        this.timePeriodNames.add(name);
-    }
-
-
-    public List<String>getCurrentStreetPeriodNames()
-    {
-        List<String> names = new ArrayList<>();
-
-        if (this.currentStreet!=null) {
-
-            for (TimePeriod timePeriod : this.currentStreet.TimePeriods) {
-                boolean timePeriodIsEmpty = true;
-                for (HourMapping hour:timePeriod.Hours) {
-                    if(!hour.getMinutes().isEmpty())
-                    {
-                        timePeriodIsEmpty = false;
-                    }
-                }
-                if(!timePeriodIsEmpty)
-                    names.add(timePeriod.Name);
-
+            if (this.DataResId > 0 ) {
+               this.loadDataFromJsonFile();
             }
-        }
-        return  names;
-    }
 
+            if (this.mData == null) {
+                this.mData = new TrafficData();
+                this.mData.DirectionOne = new ArrayList<>();
+                this.mData.DirectionTwo = new ArrayList<>();
+            }
 
-
-
-    public List<String> getTimePeriodNames() {
-
-
-        if (this.timePeriodNames.isEmpty()) {
-            List<Street>allStreets =  new ArrayList<>();
-            allStreets.addAll(this.DirectionOne);
-            allStreets.addAll(this.DirectionTwo);
-
-            for( Street street:allStreets)
+            /*if (this.Database.getNeedToRefill())
             {
-                for (TimePeriod timePeriod:street.TimePeriods)
-                {
-                    if (!this.timePeriodNames.contains(timePeriod.Name))
-                    {
-                        this.timePeriodNames.add(timePeriod.Name);
-                    }
-                }
+               this.saveToDatabase();
             }
+            else
+            {
+               this.loadFromDatabase();
+            }*/
+
+
 
         }
-        return  this.timePeriodNames;
-
+        return this.mData;
 
     }
 
+
+    private void loadFromDatabase()
+    {
+        this.Database.LoadFromDatabase(this, this.mData, this.Number);
+    }
+
+
+    private void saveToDatabase()
+    {
+        this.Database.SaveToDatabase(this.mData,this.Number);
+    }
+
+
+    private void loadDataFromJsonFile() {
+        String jsonData = this.loadDataJson(this.DataResId);
+        this.mData = new TrafficData();
+
+        String fileName = Integer.toString(this.Number) + ".txt";
+        Context cx = TransportTimetables.getInstance().getContext();
+        try {
+            FileInputStream fis = cx.openFileInput(fileName);
+            ObjectInputStream is = new ObjectInputStream(fis);
+            this.mData = (TrafficData) is.readObject();
+            is.close();
+            fis.close();
+        } catch (Exception ex) {
+            this.mData = Vehicle.Deserialize(jsonData);
+        }
+
+        try {
+
+            FileOutputStream fos = cx.openFileOutput(fileName, Context.MODE_PRIVATE);
+            ObjectOutputStream os = new ObjectOutputStream(fos);
+            os.writeObject(this.mData);
+            os.close();
+            fos.close();
+        } catch (Exception e) {
+            Log.v("Traffic", e.toString());
+        }
+    }
+
+    public String loadDataJson(int id) {
+        Context cx = TransportTimetables.getInstance().getContext();
+        InputStream inputStream = cx.getResources().openRawResource(id);
+        InputStreamReader inputReader = new InputStreamReader(inputStream);
+        BufferedReader buffReader = new BufferedReader(inputReader);
+
+        String line;
+        StringBuilder sb = new StringBuilder();
+        try {
+            while ((line = buffReader.readLine()) != null) {
+                sb.append(line);
+            }
+        } catch (IOException e) {
+
+        }
+        return sb.toString();
+    }
+
+    public List<Street> getStreets() {
+        return this.getCurrentDirectionStreets();
+    }
+
+    public Street getCurrentStreet() {
+        return this.currentStreet;
+    }
 
     public void setCurrentStreet(int index) {
 
@@ -178,35 +168,92 @@ public class Vehicle {
 
     }
 
+    public List<Street> getCurrentDirectionStreets() {
+        if (this.CurrentDirection == DIRECTION_ONE) {
+            return this.getData().DirectionOne;
+        } else {
+            return this.getData().DirectionTwo;
+        }
+    }
+
+    public String getCurrentDirectionName() {
+        if (this.CurrentDirection == DIRECTION_ONE) {
+            return this.getData().DirectionOneName;
+        } else {
+            return this.getData().DirectionTwoName;
+        }
+    }
+
+    public boolean HasTwoDirections() {
+        return !this.getData().DirectionOne.isEmpty() && !this.getData().DirectionTwo.isEmpty();
+    }
+
+    void addTimePeriod(String name) {
+        this.timePeriodNames.add(name);
+    }
+
+    public List<String> getCurrentStreetPeriodNames() {
+        List<String> names = new ArrayList<>();
+
+        if (this.currentStreet != null) {
+
+            for (TimePeriod timePeriod : this.currentStreet.TimePeriods) {
+                boolean timePeriodIsEmpty = true;
+                for (HourMapping hour : timePeriod.Hours) {
+                    if (!hour.getMinutes().isEmpty()) {
+                        timePeriodIsEmpty = false;
+                    }
+                }
+                if (!timePeriodIsEmpty)
+                    names.add(timePeriod.Name);
+
+            }
+        }
+        return names;
+    }
+
+    public List<String> getTimePeriodNames() {
 
 
-    public  void  swapDirection()
-    {
-        if  (this.CurrentDirection == DIRECTION_ONE)
-        {
+        if (this.timePeriodNames.isEmpty()) {
+            List<Street> allStreets = new ArrayList<>();
+            allStreets.addAll(this.getData().DirectionOne);
+            allStreets.addAll(this.getData().DirectionTwo);
+
+            for (Street street : allStreets) {
+                for (TimePeriod timePeriod : street.TimePeriods) {
+                    if (!this.timePeriodNames.contains(timePeriod.Name)) {
+                        this.timePeriodNames.add(timePeriod.Name);
+                    }
+                }
+            }
+
+        }
+        return this.timePeriodNames;
+
+
+    }
+
+    public void swapDirection() {
+        if (this.CurrentDirection == DIRECTION_ONE) {
             this.CurrentDirection = DIRECTION_TWO;
-        }else
-        {
+        } else {
             this.CurrentDirection = DIRECTION_ONE;
         }
         String oldStreetName = this.currentStreet.Name;
         boolean found = false;
-        for (int index = 0; index< this.getCurrentDirectionStreets().size();index++)
-        {
-            String name = this.getCurrentDirectionStreets().get(index).Name ;
-            if(name.equals(oldStreetName))
-            {
+        for (int index = 0; index < this.getCurrentDirectionStreets().size(); index++) {
+            String name = this.getCurrentDirectionStreets().get(index).Name;
+            if (name.equals(oldStreetName)) {
                 found = true;
-                if (index==this.getCurrentDirectionStreets().size()-1)
-                {
-                    index-=1;
+                if (index == this.getCurrentDirectionStreets().size() - 1) {
+                    index -= 1;
                 }
                 this.setCurrentStreet(index);
                 break;
             }
         }
-        if (!found)
-        {
+        if (!found) {
             this.setCurrentStreet(0);
         }
 
@@ -214,64 +261,53 @@ public class Vehicle {
     }
 
 
-    public boolean hasAdditionalInformation()
-    {
-        for (VehicleDescriptionItem des:this.Descriptions)
-        {
-            if(des.Sign == MinuteMapping.AdditionalInfromation)
+    public boolean hasAdditionalInformation() {
+        for (VehicleDescriptionItem des : this.getData().Descriptions) {
+            if (des.Sign == MinuteMapping.AdditionalInfromation)
                 return true;
         }
-        return  false;
+        return false;
     }
 
 
     public void generate() {
         this.addTimePeriod(TimePeriod.WorkDays);
-        this.addTimePeriod(TimePeriod.ShoolHolidays);
+        this.addTimePeriod(TimePeriod.SchoolHolidays);
         this.addTimePeriod(TimePeriod.Weekend);
 
 
         ArrayList<List<Street>> directions = new ArrayList<List<Street>>();
 
-        directions.add(this.DirectionOne);
-        directions.add(this.DirectionTwo);
+        directions.add(this.getData().DirectionOne);
+        directions.add(this.getData().DirectionTwo);
 
         int directionIndex = 0;
-        for (List<Street>direction:directions) {
+        for (List<Street> direction : directions) {
 
-                int maxStreets = 25;
-                for(int streetIndex = 0;streetIndex < maxStreets;streetIndex ++)
-                {
-                    Street currentStreet = new Street(this);
-                    int number = Math.abs ((directionIndex * (maxStreets - 1))  - streetIndex) ;
-                    currentStreet.Name = "Vehicle " + this.Number + ":StreetIndex " + number;
-                    for (int timePeriod = 0;timePeriod<3;timePeriod++) {
-                        for (int hourNumber = 0; hourNumber < 24; hourNumber++) {
-                            HourMapping hour = new HourMapping();
-                            hour.Hour = hourNumber;
-                            for (int minute = 0; minute < timePeriod + 1; minute++) {
-                                if (directionIndex == DIRECTION_ONE) {
-                                    hour.addMinute(number, StringUtils.Empty);
+            int maxStreets = 25;
+            for (int streetIndex = 0; streetIndex < maxStreets; streetIndex++) {
+                Street currentStreet = new Street(this);
+                int number = Math.abs((directionIndex * (maxStreets - 1)) - streetIndex);
+                currentStreet.Name = "Vehicle " + this.Number + ":StreetIndex " + number;
+                for (int timePeriod = 0; timePeriod < 3; timePeriod++) {
+                    for (int hourNumber = 0; hourNumber < 24; hourNumber++) {
+                        HourMapping hour = new HourMapping();
+                        hour.Hour = hourNumber;
+                        for (int minute = 0; minute < timePeriod + 1; minute++) {
+                            if (directionIndex == DIRECTION_ONE) {
+                                hour.addMinute(number, StringUtils.Empty);
 
-                                } else {
-                                    hour.addMinute(number, "n");
-                                }
+                            } else {
+                                hour.addMinute(number, "n");
                             }
-                            currentStreet.getTimePeriods().get(timePeriod).Hours.add(hour);
                         }
+                        currentStreet.getTimePeriods().get(timePeriod).Hours.add(hour);
                     }
-                    direction.add(currentStreet);
                 }
-                directionIndex++;
+                direction.add(currentStreet);
+            }
+            directionIndex++;
         }
-    }
-
-    public  static Vehicle Deserialize(String body)
-    {
-        Gson gson = new GsonBuilder().create();
-        Vehicle item = gson.fromJson(body, Vehicle.class);
-        return item;
-
     }
 
     public void load(List<String> data) {
@@ -279,16 +315,14 @@ public class Vehicle {
         this.addTimePeriod("Pondelok - Piatok (školské prázdniny)");
         this.addTimePeriod("Sobota - Nedeľa, sviatok");
         int timePeriod = 0;
-        String currentStreetName= StringUtils.Empty;
+        String currentStreetName = StringUtils.Empty;
         Street currentStreet = null;
-        List<Street> direction = this.DirectionOne;
+        List<Street> direction = this.getData().DirectionOne;
         for (String item : data) {
             if (item.toCharArray().length > 0) {
                 char streetChar = item.toCharArray()[0];
-                if (!Character.isDigit(streetChar))
-                {
-                    if (timePeriod == 2)
-                    {
+                if (!Character.isDigit(streetChar)) {
+                    if (timePeriod == 2) {
                         timePeriod = 0;
                     }
                     if (timePeriod == 0) {
@@ -303,33 +337,31 @@ public class Vehicle {
                     }
                 } else {
 
-                    HourMapping hour=null;
+                    HourMapping hour = null;
                     StringBuilder strTime = new StringBuilder();
                     StringBuilder strType = new StringBuilder();
 
-                    for (char timeChar:item.toCharArray()) {
+                    for (char timeChar : item.toCharArray()) {
                         if (Character.isLetterOrDigit(timeChar)) {
-                            if (Character.isDigit(timeChar)){
+                            if (Character.isDigit(timeChar)) {
                                 strTime.append(timeChar);
                             }
-                            if (Character.isLetter(timeChar)){
+                            if (Character.isLetter(timeChar)) {
                                 strType.append(timeChar);
                             }
-                        }else {
+                        } else {
                             int intValue = 0;
                             try {
                                 intValue = Integer.parseInt(strTime.toString());
-                            }catch (Exception e)
-                            {
+                            } catch (Exception e) {
                                 Log.w("CityTransportTimetable", "Invalid parseInt");
                             }
 
-                            if (hour==null)
-                            {
+                            if (hour == null) {
                                 hour = new HourMapping();
                                 hour.Hour = intValue;
-                            }else{
-                                hour.addMinute(intValue,StringUtils.Empty);
+                            } else {
+                                hour.addMinute(intValue, StringUtils.Empty);
                             }
                             strTime = new StringBuilder();
                         }
@@ -337,11 +369,10 @@ public class Vehicle {
                     int intValue = 0;
                     try {
                         intValue = Integer.parseInt(strTime.toString());
-                    }catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         Log.w("CityTransportTimetable", "Invalid parseInt");
                     }
-                    hour.addMinute(intValue,StringUtils.Empty);
+                    hour.addMinute(intValue, StringUtils.Empty);
                     currentStreet.getTimePeriods().get(timePeriod).Hours.add(hour);
                 }
 
@@ -358,5 +389,13 @@ public class Vehicle {
     @Override
     public String toString() {
         return Integer.toString(this.Number);
+    }
+
+    public enum eVehicleType {
+        None,
+        Trolleybus,
+        CityBus,
+        NightBus,
+        BusForSelectedPassenger
     }
 }
