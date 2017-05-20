@@ -1,18 +1,17 @@
 package com.freeman.mac.citytransporttimetable;
 
-import android.content.Context;
+
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.nfc.Tag;
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 
-import com.freeman.mac.citytransporttimetable.database_model.VehicleDaoHelper;
 import com.freeman.mac.citytransporttimetable.database_model.VehicleDatabase;
 import com.freeman.mac.citytransporttimetable.interfaces.ISelectedItemByInteger;
 import com.freeman.mac.citytransporttimetable.model.StringUtils;
@@ -20,10 +19,7 @@ import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
 import com.freeman.mac.citytransporttimetable.model.Vehicle;
 import com.freeman.mac.citytransporttimetable.model.VehicleCategory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,17 +35,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.w("","Start");
-        int b=0;
-        for(int a= 0; a< 8000000;a++)
-        {
-            b++;
-        }
-
-        Log.w("","End");
-
-
-        this.initDb();
+        ///this.initDb();
         this.initVehicles();
         setContentView(R.layout.activity_main);
         this.initToolbar();
@@ -57,10 +43,11 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.vehicle_numbers_recycler_view);
         mRecyclerView.setHasFixedSize(true);
 
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this,3);
         mRecyclerView.setLayoutManager(mLayoutManager);
-
-        VehicleNumbers_Adapter mAdapter = new VehicleNumbers_Adapter(this.getVehicleCategories());
+        mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3,this.dpToPx(1)));
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        VehicleNumbers_Adapter mAdapter = new VehicleNumbers_Adapter(this.getVehicles());
         mAdapter.setSelectItemListener(new ISelectedItemByInteger() {
             @Override
             public void OnSelectedItem(int index) {
@@ -72,6 +59,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * Converting dp to pixel
+     */
+    private int dpToPx(int dp) {
+        Resources r = getResources();
+        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
+    }
+
+
+
     void initToolbar()
     {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -81,10 +79,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
     }
+
+
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -136,7 +138,9 @@ public class MainActivity extends AppCompatActivity {
                             Vehicle.eVehicleType type,
                             int colorId,
                             int iconResId,
-                            int dataId  ) {
+                            int dataId  )
+
+    {
         TransportTimetables.getInstance().setContext(this.getApplicationContext());
         Vehicle vehicle = new Vehicle();
         vehicle.Database = this.Database;
@@ -145,33 +149,21 @@ public class MainActivity extends AppCompatActivity {
         vehicle.IconResId = iconResId;
         vehicle.Number = number;
         vehicle.DataResId = dataId;
-        if (this.Database.getNeedToRefill())
+
+        /*if (this.Database.getNeedToRefill())
         {
             vehicle.getData();
-        }
+        }*/
 
         TransportTimetables.getInstance().getVehicles().add(vehicle);
     }
 
 
 
-    public List<String> loadData(int id)
+
+    private List<Vehicle> getVehicles()
     {
-        Context cx = this.getApplicationContext();
-        InputStream inputStream = cx.getResources().openRawResource(id);
-        InputStreamReader inputReader = new InputStreamReader(inputStream);
-        BufferedReader buffReader = new BufferedReader(inputReader );
-        String line;
-        ArrayList<String> text = new ArrayList<String> ();
-        try {
-            while (( line = buffReader .readLine()) != null) {
-                text.add(line);
-            }
-        } catch (IOException e) {
-
-        }
-        return  text;
-
+        return TransportTimetables.getInstance().getVehicles();
     }
 
 

@@ -27,7 +27,9 @@ public class VehicleNumbers_ViewHolders extends RecyclerView.ViewHolder {
     public VehicleNumbers_ViewHolders(View itemView) {
         super(itemView);
 
-        images[0] = (ImageView) itemView.findViewById(R.id.imgNumber01);
+        images[0] = (ImageView) itemView.findViewById(R.id.imgNumber);
+
+       /* images[0] = (ImageView) itemView.findViewById(R.id.imgNumber01);
         images[1] = (ImageView) itemView.findViewById(R.id.imgNumber02);
         images[2] = (ImageView) itemView.findViewById(R.id.imgNumber03);
         images[3] = (ImageView) itemView.findViewById(R.id.imgNumber04);
@@ -42,9 +44,20 @@ public class VehicleNumbers_ViewHolders extends RecyclerView.ViewHolder {
         images[12] = (ImageView) itemView.findViewById(R.id.imgNumber16);
         images[13] = (ImageView) itemView.findViewById(R.id.imgNumber17);
         description = (TextView) itemView.findViewById(R.id.VehicleCategoryDesription);
-        mainVehicleIcon = (ImageView) itemView.findViewById(R.id.mainIcon);
+        mainVehicleIcon = (ImageView) itemView.findViewById(R.id.mainIcon);*/
 
     }
+
+    public void bind(Vehicle item) {
+
+        images[0].setImageResource(item.IconResId);
+
+        Integer vehicleColor = ContextCompat.getColor(this.itemView.getContext(), item.ColorResId);
+        images[0].setColorFilter(vehicleColor);
+        subscribeView(images[0], item.Number);
+    }
+
+
 
     public void bind(VehicleCategory vehicleCategory) {
         this.vehicleCategory = vehicleCategory;
