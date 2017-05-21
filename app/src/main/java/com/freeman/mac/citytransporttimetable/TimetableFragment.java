@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
 
 import com.freeman.mac.citytransporttimetable.components.ObservableScrollView;
 import com.freeman.mac.citytransporttimetable.interfaces.*;
@@ -30,9 +29,9 @@ import java.util.List;
     private TimetableAdapter mAdapter;
     private List<TimetableRow> items;
     private IChangeScrollVerticalPosition ScrollVerticalPositionListener;
-    public int ScrollToPostition = 0;
+    public int ScrollToPosition = 0;
 
-
+    RecyclerView recyclerView;
 
 
     @Override
@@ -53,7 +52,8 @@ import java.util.List;
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.timetable, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
+        recyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
+
         scrollView = (ObservableScrollView) view.findViewById(R.id.TimeTableScrollView);
         scrollView.setScrollViewListener(this);
         setAdapter(view);
@@ -63,14 +63,15 @@ import java.util.List;
 
     }
 
-    public void Scroll()
-    {
-        if (this.scrollView != null)
-        {
-            this.scrollView.scrollTo(0,this.ScrollToPostition);
-        }
 
+    public void Scroll() {
+        if (this.scrollView != null) {
+            scrollView.setScrollY(ScrollToPosition);
+        }
     }
+
+
+
 
     void setAdapter(View view) {
 
@@ -117,9 +118,11 @@ import java.util.List;
 
 
     @Override
-    public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
-        if (this.ScrollVerticalPositionListener!=null)
-            this.ScrollVerticalPositionListener.onChangeScrollVerticalPosition(y);
+    public void onScrollChanged(android.support.v4.widget.NestedScrollView scrollView, int x, int y, int oldx, int oldy) {
+        if (this.ScrollVerticalPositionListener != null)
+        {
+            this.ScrollVerticalPositionListener.onChangeScrollVerticalPosition(this,y);
+        }
         Log.v("ScrollView", x + " " + y);
     }
 
@@ -134,7 +137,9 @@ import java.util.List;
 
     public  void  setVerticalScrollPosition(int value)
     {
-        this.ScrollToPostition = value;
+        this.ScrollToPosition = value;
         this.Scroll();
     }
+
+
 }

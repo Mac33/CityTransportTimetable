@@ -11,7 +11,7 @@ import com.freeman.mac.citytransporttimetable.interfaces.*;
 
 
 
-public class ObservableScrollView extends ScrollView {
+public class ObservableScrollView extends android.support.v4.widget.NestedScrollView {
 
     private IScrollViewListener scrollViewListener = null;
 

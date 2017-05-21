@@ -42,15 +42,15 @@ public class StreetName_ItemDecoration extends RecyclerView.ItemDecoration {
             boolean isFirstZone = adapterPosition >= adapter.CurrentStreetIndex && adapter.CurrentStreetIndex + FirstZoneNumberBusStops >= adapterPosition;
             holder.setZoneLayout(isFirstZone);
 
-            if (i < adapter.CurrentStreetIndex) {
+            if (adapterPosition < adapter.CurrentStreetIndex) {
                 holder.setMinutesInfo(-1);
-            } else if (i == adapter.CurrentStreetIndex) {
+            } else if (adapterPosition == adapter.CurrentStreetIndex) {
                 holder.setMinutesInfo(0);
             }
             else
             {
                Street currentStreet = this.Streets.get(adapter.CurrentStreetIndex);
-               NextStreetInfo nextStreet = currentStreet.nextStreets.get(i-adapter.CurrentStreetIndex);
+               NextStreetInfo nextStreet = currentStreet.nextStreets.get(adapterPosition-adapter.CurrentStreetIndex);
                if (nextStreet.Duration > 0)
                {
                    holder.setMinutesInfo(nextStreet.Duration);

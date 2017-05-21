@@ -307,13 +307,13 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
 
 
     @Override
-    public void onChangeScrollVerticalPosition(int value) {
+    public void onChangeScrollVerticalPosition(TimetableFragment sender,int value) {
 
-        if (this.workDays != null)
+        if (this.workDays != null && this.workDays!=sender)
             this.workDays.setVerticalScrollPosition(value);
-        if (this.schoolDays != null)
+        if (this.schoolDays != null && this.schoolDays!=sender)
             this.schoolDays.setVerticalScrollPosition(value);
-        if (this.weekend != null)
+        if (this.weekend != null && this.weekend!=sender)
             this.weekend.setVerticalScrollPosition(value);
 
     }
