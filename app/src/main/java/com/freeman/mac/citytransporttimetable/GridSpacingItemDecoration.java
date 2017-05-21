@@ -26,7 +26,7 @@ public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
         {
             if (position < columns )
             {
-                outRect.top = 1 * this.spacing;
+                outRect.top = this.spacing;
             }
             else
             {
