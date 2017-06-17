@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +26,7 @@ import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
 import com.freeman.mac.citytransporttimetable.model.Vehicle;
 import com.freeman.mac.citytransporttimetable.model.VehicleDescriptionItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,7 +42,7 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
     private TimetableFragment schoolDays;
     private TimetableFragment weekend;
 
-    private TextView vehicleDescriptions;
+    private RecyclerView vehicleDescriptions;
     private List<String> oldTimePeriodNames;
 
     private TabViewPagerAdapter adapter;
@@ -116,7 +119,9 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
 
         currentStreetName = (TextView) findViewById(R.id.StreetName);
         currentStreetDescription = (TextView) findViewById(R.id.StreetNameDescription);
-        vehicleDescriptions = (TextView) findViewById(R.id.vehicleDescriptions);
+        vehicleDescriptions = (RecyclerView) findViewById(R.id.vehicleDescriptions);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        vehicleDescriptions.setLayoutManager(mLayoutManager);
 
         this.setCurrentStreet(0);
         viewPager.setCurrentItem(1);
@@ -278,7 +283,7 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
 
 
     private void setVehicleDescriptions(Vehicle item) {
-        String allDescriptions = StringUtils.Empty;
+        List<SignsRowItem> allDescriptions = new ArrayList<>();
         Boolean lowVehicleDescription  = false;
         List<String> streetVehicleDescriptions = item.getCurrentStreet().getUsedVehicleDescriptions();
         if (item.hasAdditionalInformation() || !streetVehicleDescriptions.isEmpty()) {
@@ -298,36 +303,35 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
                     continue;
                 }
 
-                String oneDescription;
+                SignsRowItem oneDescription;
                 if (des.Sign.equals(MinuteMapping.AdditionalInfromation)) {
-                    oneDescription = des.Text;
+                    oneDescription = new SignsRowItem(StringUtils.Empty,des.Text);
                 } else {
-                    oneDescription = des.Sign + " - " + des.Text;
+                    oneDescription = new SignsRowItem(des.Sign,des.Text);
                 }
+                allDescriptions.add(oneDescription);
 
-                if (allDescriptions.isEmpty()) {
-                    allDescriptions = oneDescription;
 
-                } else {
-                    allDescriptions = allDescriptions + "\n" + oneDescription;
-                }
 
             }
         }
+
 
         if (allDescriptions.isEmpty()) {
             vehicleDescriptions.setVisibility(View.GONE);
         } else {
             vehicleDescriptions.setVisibility(View.VISIBLE);
-            vehicleDescriptions.setText(allDescriptions);
-            if (lowVehicleDescription)
+           if (lowVehicleDescription)
             {
                 lowVehicleDescriptionView.setVisibility(View.VISIBLE);
             }else
             {
                 lowVehicleDescriptionView.setVisibility(View.GONE);
             }
+            vehicleDescriptions.setAdapter(new SignsAdapter(allDescriptions));
         }
+
+
     }
 
 

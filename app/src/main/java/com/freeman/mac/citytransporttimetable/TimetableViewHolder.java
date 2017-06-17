@@ -13,7 +13,7 @@ import com.freeman.mac.citytransporttimetable.components.TimeView;
  * Created by Mac on 20. 3. 2017.
  */
 
-class TimetableViewHolder extends RecyclerView.ViewHolder {
+public class TimetableViewHolder extends RecyclerView.ViewHolder {
 
 
     final static String StringEmpty = "";
