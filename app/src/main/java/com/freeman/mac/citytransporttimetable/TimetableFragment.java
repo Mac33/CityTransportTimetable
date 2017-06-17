@@ -31,7 +31,7 @@ import java.util.List;
     private IChangeScrollVerticalPosition ScrollVerticalPositionListener;
     public int ScrollToPosition = 0;
 
-    RecyclerView recyclerView;
+    public RecyclerView recyclerView;
 
 
     @Override

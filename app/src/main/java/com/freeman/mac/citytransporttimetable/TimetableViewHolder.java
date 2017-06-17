@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.freeman.mac.citytransporttimetable.components.TimeView;
+
 /**
  * Created by Mac on 20. 3. 2017.
  */
@@ -16,7 +18,8 @@ class TimetableViewHolder extends RecyclerView.ViewHolder {
 
     final static String StringEmpty = "";
 
-    TextView[] timeTableRow = new TextView[8];
+    TextView hourView;
+    TimeView[] timeTableRow = new TimeView[7];
     TableRow row;
 
     public TimetableViewHolder(View itemView) {
@@ -26,13 +29,11 @@ class TimetableViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(@NonNull TimetableRow item) {
         this.setTextViews();
-        for (int i = 0; i <= timeTableRow.length - 1; i++) {
-            this.timeTableRow[i].setText(this.StringEmpty);
-        }
 
-        this.timeTableRow[0].setText(Integer.toString(item.HourMapping.Hour));
+
+        this.hourView.setText(Integer.toString(item.HourMapping.Hour));
         for (int i = 0; i <= item.HourMapping.getMinutes().size() - 1; i++) {
-            this.timeTableRow[i + 1].setText(item.HourMapping.getMinutes().get(i).getText());
+            this.timeTableRow[i + 1].setTime(item.HourMapping.getMinutes().get(i));
         }
 
         if ((item.HourMapping.Hour & 1)==0)
@@ -48,13 +49,13 @@ class TimetableViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setTextViews() {
-        if (timeTableRow[0] == null) {
-            timeTableRow[0] = (TextView) this.itemView.findViewById(R.id.Hour);
+        if (hourView == null) {
+            hourView = (TextView) this.itemView.findViewById(R.id.Hour);
             for (int i = 1; i <= timeTableRow.length - 1; i++) {
                 String index = String.format("%02d", i);
                 String fullName = "Minute" + index;
                 int id = this.itemView.getResources().getIdentifier(fullName, "id", this.itemView.getContext().getPackageName());
-                timeTableRow[i] = (TextView) this.itemView.findViewById(id);
+                timeTableRow[i] = (TimeView) this.itemView.findViewById(id);
 
             }
         }

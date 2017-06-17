@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="59dp"
+    android:layout_height="match_parent" >
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/TimeViewShapeLayout"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape">
+
+    <TextView
+        android:id="@+id/TimeViewValue"
+        android:layout_width="18dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="0dp"
+        android:textSize="16sp"
+        android:text="59" />
+
+
+        <ImageView
+            android:id="@+id/TimeViewLowVehicleSign"
+            android:layout_width="8dp"
+            android:layout_height="match_parent"
+            android:paddingTop="5dp"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/wheelchair_symbol" />
+
+        <TextView
+        android:id="@+id/TimeViewAdditionalInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="0dp"
+        android:gravity="center"
+        android:paddingRight="1dp"
+        android:text="L"
+        android:textSize="10sp" />
+
+    </LinearLayout>
+</LinearLayout>

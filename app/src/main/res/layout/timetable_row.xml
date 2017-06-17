@@ -19,69 +19,69 @@
             android:layout_height="wrap_content"
             android:layout_weight="8"
             android:background="#009adc"
-            android:textColor="#ffffff"
             android:gravity="center"
             android:text="69"
+            android:textColor="#ffffff"
             android:textSize="16sp" />
 
-         <TextView
+
+        <com.freeman.mac.citytransporttimetable.components.TimeView
             android:id="@+id/Minute01"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="15"
-            android:paddingLeft="7dp"
-            android:text="99mrL"
-            android:textSize="16sp" />
+            android:layout_height="match_parent"
+            android:layout_weight="13"
+            android:paddingLeft="3dp">
+        </com.freeman.mac.citytransporttimetable.components.TimeView>
 
-        <TextView
+
+        <com.freeman.mac.citytransporttimetable.components.TimeView
             android:id="@+id/Minute02"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="13"
-            android:paddingLeft="0dp"
-            android:text="99mrL"
-            android:textSize="16sp" />
+            android:layout_height="match_parent"
+            android:layout_weight="13">
+        </com.freeman.mac.citytransporttimetable.components.TimeView>
 
-        <TextView
+
+        <com.freeman.mac.citytransporttimetable.components.TimeView
             android:id="@+id/Minute03"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="13"
             android:paddingLeft="0dp"
             android:text="99mrL"
             android:textSize="16sp" />
 
-        <TextView
+        <com.freeman.mac.citytransporttimetable.components.TimeView
             android:id="@+id/Minute04"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="13"
             android:paddingLeft="0dp"
             android:text="99mrL"
             android:textSize="16sp" />
 
-        <TextView
+        <com.freeman.mac.citytransporttimetable.components.TimeView
             android:id="@+id/Minute05"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="13"
             android:paddingLeft="0dp"
             android:text="99mrL"
             android:textSize="16sp" />
 
-        <TextView
+        <com.freeman.mac.citytransporttimetable.components.TimeView
             android:id="@+id/Minute06"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="13"
             android:paddingLeft="0dp"
             android:text="99mrL"
             android:textSize="16sp" />
 
-        <TextView
+        <com.freeman.mac.citytransporttimetable.components.TimeView
             android:id="@+id/Minute07"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="13"
             android:paddingLeft="0dp"
             android:text="99mrL"

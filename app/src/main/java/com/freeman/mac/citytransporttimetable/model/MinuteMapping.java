@@ -34,16 +34,12 @@ public class MinuteMapping {
     }
 
 
-
     public String getText() {
 
         String minute = String.format("%02d", this.Minute);
 
         for ( String item : this.Signs) {
-            if (!item.equals("n"))
-            {
                 minute = minute + item;
-            }
         }
         return minute;
     }

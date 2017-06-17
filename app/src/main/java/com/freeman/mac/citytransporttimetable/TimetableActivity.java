@@ -34,7 +34,7 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
     private ViewPager viewPager;
     private TextView currentStreetName;
     private TextView currentStreetDescription;
-
+    private LinearLayout lowVehicleDescriptionView;
     private TimetableFragment workDays;
     private TimetableFragment schoolDays;
     private TimetableFragment weekend;
@@ -48,6 +48,8 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
         Intent intent = new Intent(activity, TimetableActivity.class);
         return intent;
     }
+
+    private TimeTableRefresher refresher ;
 
 
     @Override
@@ -66,9 +68,29 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
     }
 
 
+
     @Override
+    public void onResume() {
+        super.onResume();
+        refresher = new TimeTableRefresher();
+        refresher.addTimeTable(schoolDays);
+        refresher.addTimeTable(workDays);
+        refresher.addTimeTable(weekend);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        refresher.cancel();
+        refresher = null;
+
+    }
+
+
+        @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
 
         setContentView(R.layout.activity_timetable);
@@ -87,6 +109,7 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
         this.initToolbar();
         this.initChangeDirection();
 
+        lowVehicleDescriptionView = (LinearLayout) findViewById(R.id.lowVehicleDescriptionTextAndSign);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -190,6 +213,7 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
             schoolDays = new TimetableFragment();
             schoolDays.setTimePeriod(1);
             schoolDays.setScrollVerticalPositionListener(this);
+
             adapter.addFragment(schoolDays, "Školské prázdniny");
 
         }
@@ -199,6 +223,7 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
             workDays.setTimePeriod(0);
             workDays.setScrollVerticalPositionListener(this);
             adapter.addFragment(workDays, "Pracovné dni");
+
         }
 
         if (timePeriodNames.contains(TimePeriod.Weekend)) {
@@ -206,6 +231,7 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
             weekend.setTimePeriod(2);
             weekend.setScrollVerticalPositionListener(this);
             adapter.addFragment(weekend, "Víkend a sviatky");
+
 
         }
 
@@ -253,6 +279,7 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
 
     private void setVehicleDescriptions(Vehicle item) {
         String allDescriptions = StringUtils.Empty;
+        Boolean lowVehicleDescription  = false;
         List<String> streetVehicleDescriptions = item.getCurrentStreet().getUsedVehicleDescriptions();
         if (item.hasAdditionalInformation() || !streetVehicleDescriptions.isEmpty()) {
             for (VehicleDescriptionItem des : item.getData().Descriptions) {
@@ -264,6 +291,12 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
 
                 if (!found)
                     continue;
+
+                if (des.Sign.equals("n"))
+                {
+                    lowVehicleDescription = true;
+                    continue;
+                }
 
                 String oneDescription;
                 if (des.Sign.equals(MinuteMapping.AdditionalInfromation)) {
@@ -287,6 +320,13 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
         } else {
             vehicleDescriptions.setVisibility(View.VISIBLE);
             vehicleDescriptions.setText(allDescriptions);
+            if (lowVehicleDescription)
+            {
+                lowVehicleDescriptionView.setVisibility(View.VISIBLE);
+            }else
+            {
+                lowVehicleDescriptionView.setVisibility(View.GONE);
+            }
         }
     }
 
