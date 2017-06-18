@@ -7,7 +7,7 @@
 
     <!-- View border color and width -->
     <stroke
-        android:width="0.5dp"
+        android:width="1.0dp"
         android:color="@color/navigationBarColor" >
     </stroke>
 

@@ -13,5 +13,6 @@ public class TimetableRow {
 
     public HourMapping HourMapping;
     public String Name;
+    public int TimePeriod;
 
 }

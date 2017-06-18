@@ -27,6 +27,7 @@ import com.freeman.mac.citytransporttimetable.model.Vehicle;
 import com.freeman.mac.citytransporttimetable.model.VehicleDescriptionItem;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -124,9 +125,15 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
         vehicleDescriptions.setLayoutManager(mLayoutManager);
 
         this.setCurrentStreet(0);
-        viewPager.setCurrentItem(1);
+        this.setCurrentTimePeriod();
 
+    }
 
+    private  void setCurrentTimePeriod()
+    {
+        Calendar currentTime = Calendar.getInstance();
+        int timePeriod = TimePeriod.getTimePeriodIndex(currentTime);
+        viewPager.setCurrentItem(timePeriod);
     }
 
 
@@ -231,7 +238,7 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
 
         }
 
-        if (timePeriodNames.contains(TimePeriod.Weekend)) {
+        if (timePeriodNames.contains(TimePeriod.WeekendOrHolidays)) {
             weekend = new TimetableFragment();
             weekend.setTimePeriod(2);
             weekend.setScrollVerticalPositionListener(this);

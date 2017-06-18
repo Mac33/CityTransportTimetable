@@ -78,8 +78,9 @@ import java.util.List;
         if (view != null) {
             RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
             this.items = this.getItems();
-            mAdapter = new TimetableAdapter(items);
+            this.mAdapter = new TimetableAdapter(items);
             recyclerView.swapAdapter(mAdapter, true);
+            this.refreshSelectedTimeView();
         }
     }
 
@@ -101,6 +102,7 @@ import java.util.List;
                 TimetableRow mainHour = new TimetableRow();
                 mainHour.Name = Integer.toString(hour.Hour);
                 mainHour.HourMapping = hour;
+                mainHour.TimePeriod = mTimePeriod;
                 ret.add(mainHour);
             }
 
@@ -131,6 +133,13 @@ import java.util.List;
     public  void setScrollVerticalPositionListener(IChangeScrollVerticalPosition listener)
     {
         this.ScrollVerticalPositionListener = listener;
+    }
+
+
+
+    public  void refreshSelectedTimeView()
+    {
+        this.mAdapter.refreshSelectedTimeView();
     }
 
 

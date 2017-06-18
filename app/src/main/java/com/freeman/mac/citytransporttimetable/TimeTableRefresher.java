@@ -48,8 +48,7 @@ public class TimeTableRefresher {
             @Override
             public void onFinish() {
                 for (TimetableFragment item:items) {
-                    if(item.recyclerView!=null)
-                        item.recyclerView.invalidate();
+                   item.refreshSelectedTimeView();
                 }
                 timer = create();
                 timer.start();

@@ -23,6 +23,7 @@ public class TimeView extends LinearLayout {
     private TextView additionalInfo;
     private LinearLayout shapeLayoutView;
 
+    public int Minute = -1;
 
     public TimeView(Context context) {
         super(context);
@@ -51,10 +52,11 @@ public class TimeView extends LinearLayout {
 
 
     public void setTime(MinuteMapping item) {
-        String textValue = String.format("%02d", item.Minute);
+        this.Minute = item.Minute;
+        String textValue = String.format("%02d", this.Minute);
         this.time.setText(textValue);
         this.setAdditionalInfo(item);
-    }
+     }
 
 
     private void setAdditionalInfo(MinuteMapping item) {

@@ -273,7 +273,7 @@ public class Vehicle {
     public void generate() {
         this.addTimePeriod(TimePeriod.WorkDays);
         this.addTimePeriod(TimePeriod.SchoolHolidays);
-        this.addTimePeriod(TimePeriod.Weekend);
+        this.addTimePeriod(TimePeriod.WeekendOrHolidays);
 
 
         ArrayList<List<Street>> directions = new ArrayList<List<Street>>();
