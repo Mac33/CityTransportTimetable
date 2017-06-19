@@ -41,7 +41,17 @@ public class TimePeriod {
     }
 
 
-    public static int getTimePeriodIndex(Calendar date) {
+    public static int getTimePeriodViewPageIndex(Calendar date) {
+        int arrayIndex  = getTimePeriodIndex(date);
+        if(arrayIndex==2)
+            return 3;
+        if(arrayIndex==1)
+            return 0;
+        return  1;
+    }
+
+
+        public static int getTimePeriodIndex(Calendar date) {
 
         if (isHoliday(date))
             return 2;

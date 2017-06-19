@@ -11,6 +11,8 @@
         android:id="@+id/TimeViewShapeLayout"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape">
 

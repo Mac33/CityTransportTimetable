@@ -26,7 +26,11 @@ public class TimeTableRefresher {
 
     public void addTimeTable(TimetableFragment item)
     {
-        items.add(item);
+        if(item!=null)
+        {
+           items.add(item);
+        }
+
     }
 
 
