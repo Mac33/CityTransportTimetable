@@ -10,7 +10,7 @@ import java.util.List;
 
 public class MinuteMapping {
 
-    public static final String AdditionalInfromation = StringUtils.Empty;
+    public static final String AdditionalInformation = StringUtils.Empty;
 
 
 

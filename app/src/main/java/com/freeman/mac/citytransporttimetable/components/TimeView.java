@@ -75,6 +75,7 @@ public class TimeView extends LinearLayout {
         if (value.equals("n")) {
             this.lowVehicleSign.setVisibility(VISIBLE);
         } else {
+            value = value + this.additionalInfo.getText();
             this.additionalInfo.setText(value);
         }
 

@@ -55,7 +55,7 @@ public class TimePeriod {
 
         if (isHoliday(date))
             return 2;
-        if(isShoolHolidays(date))
+        if(isSchoolHolidays(date))
             return 1;
 
         return 0;
@@ -143,14 +143,14 @@ public class TimePeriod {
     }
 
 
-    private static boolean isShoolHolidays(Calendar calendar)
+    private static boolean isSchoolHolidays(Calendar calendar)
     {
         int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
+        int month = calendar.get(Calendar.MONTH) + 1;
         int date = calendar.get(Calendar.DATE);
 
 
-        // Winter holidays
+        // Summer holidays
         if(year == 2017 && month == 7 && date <= 31)
             return true;
 
@@ -169,9 +169,6 @@ public class TimePeriod {
         if( (month == 2  && date >= 25) || (month == 3  && date <= 5))
             return true;
 
-        // Summer holidays
-        if(month == 2 && date == 3)
-            return true;
 
 
         // Winter holidays

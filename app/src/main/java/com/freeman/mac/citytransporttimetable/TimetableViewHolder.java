@@ -61,7 +61,15 @@ public class TimetableViewHolder extends RecyclerView.ViewHolder {
     }
 
 
-    public boolean refreshCurrentTimeView(boolean setFirstNonEmpty) {
+
+    public  void  clearSelection() {
+        for (TimeView timeView : timeTableRow) {
+            timeView.disableBorder();
+        }
+    }
+
+
+    public boolean selectCurrentTimeView() {
 
 
         Calendar currentTime = Calendar.getInstance();
@@ -75,8 +83,8 @@ public class TimetableViewHolder extends RecyclerView.ViewHolder {
             timeView.disableBorder();
 
             if (selectedTimeView == null) {
-                if (!setFirstNonEmpty) {
-                    if (currentTimeTableRow.HourMapping.Hour == currentHour && timeView.Minute >= currentMinute) {
+                if (currentTimeTableRow.HourMapping.Hour == currentHour) {
+                    if (timeView.Minute >= currentMinute) {
                         selectedTimeView = timeView;
                     }
                 } else {
@@ -97,20 +105,5 @@ public class TimetableViewHolder extends RecyclerView.ViewHolder {
     }
 
 
-    public boolean selectFirstTimeView() {
-        Calendar currentTime = Calendar.getInstance();
-        Boolean sameTimePeriod = (TimePeriod.getTimePeriodIndex(currentTime) == currentTimeTableRow.TimePeriod);
-        if (sameTimePeriod) {
 
-            for (TimeView timeView : timeTableRow) {
-                timeView.disableBorder();
-                if (timeView.Minute >= 0) {
-                    timeView.allowBorder();
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
 }

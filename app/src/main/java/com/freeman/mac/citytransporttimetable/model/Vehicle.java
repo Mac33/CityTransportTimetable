@@ -263,7 +263,7 @@ public class Vehicle {
 
     public boolean hasAdditionalInformation() {
         for (VehicleDescriptionItem des : this.getData().Descriptions) {
-            if (des.Sign == MinuteMapping.AdditionalInfromation)
+            if (des.Sign == MinuteMapping.AdditionalInformation)
                 return true;
         }
         return false;

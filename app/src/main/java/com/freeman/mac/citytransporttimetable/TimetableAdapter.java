@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.freeman.mac.citytransporttimetable.model.MinuteMapping;
+import com.freeman.mac.citytransporttimetable.model.TimePeriod;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -47,34 +50,68 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableViewHolder> 
         return timetableRows.size();
     }
 
-
-
-    public  void refreshSelectedTimeView()
+    private  int getTimePeriod()
     {
+        if(!this.holders.isEmpty())
+        {
+            return this.holders.get(0).currentTimeTableRow.TimePeriod;
+        }
+        return -1;
+    }
+
+
+    public  void refreshSelectedTimeView() {
+
+        TimetableRow needToRefresh = getColoredTimeTableRow();
+
+        if (needToRefresh != null){
+            for (TimetableViewHolder holder:holders) {
+
+                if (holder.currentTimeTableRow == needToRefresh) {
+                    holder.selectCurrentTimeView();
+                } else {
+                    holder.clearSelection();
+                }
+
+            }
+        }
+    }
+
+
+
+    private TimetableRow getColoredTimeTableRow() {
 
         Calendar currentTime = Calendar.getInstance();
-        int currentHour = currentTime.get(Calendar.HOUR_OF_DAY);
+        Boolean sameTimePeriod = (TimePeriod.getTimePeriodIndex(currentTime) == this.getTimePeriod());
+        TimetableRow needToRefresh = null;
 
-        for (int i = 0;i < holders.size()-1; i++ )
-        {
-            if(holders.get(i).currentTimeTableRow.HourMapping.Hour == currentHour)
-            {
-                if (!holders.get(i).refreshCurrentTimeView(false))
-                {
-                    if( holders.size() > i+1)
-                        holders.get(i+1).refreshCurrentTimeView(true);
+        if (sameTimePeriod) {
+            int currentHour = currentTime.get(Calendar.HOUR_OF_DAY);
+            int currentMinute = currentTime.get(Calendar.MINUTE);
+
+            for (TimetableRow item : timetableRows) {
+
+                for (MinuteMapping minute : item.HourMapping.getMinutes()) {
+                    if (needToRefresh == null) {
+                        if (item.HourMapping.Hour == currentHour && minute.Minute >= currentMinute)
+                            needToRefresh = item;
+                        if (item.HourMapping.Hour > currentHour && minute.Minute > -1)
+                            needToRefresh = item;
+                    }
+                }
+            }
+
+            if (needToRefresh == null) {
+                for (TimetableRow item : timetableRows) {
+                    if (needToRefresh == null && !item.HourMapping.getMinutes().isEmpty()) {
+                        needToRefresh = item;
+                        break;
+                    }
                 }
             }
         }
 
-        /*
-        for (TimetableViewHolder item:holders)
-        {
-            if(item.selectFirstTimeView())
-               return;
-        }*/
-
+        return needToRefresh;
     }
-
 }
 

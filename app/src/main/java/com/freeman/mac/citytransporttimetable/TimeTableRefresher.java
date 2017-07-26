@@ -34,7 +34,7 @@ public class TimeTableRefresher {
     }
 
 
-    public  void  cancel()
+    public void cancel()
     {
         Log.w("citytransporttimetable","Cancel");
         this.timer.cancel();
@@ -43,7 +43,8 @@ public class TimeTableRefresher {
 
     private CountDownTimer create()
     {
-        timer = new CountDownTimer(20000,1000) {
+        int miliSec = this.getInitialTime();
+        timer = new CountDownTimer(miliSec,1000) {
             @Override
             public void onTick(long value) {
                 Log.w("citytransporttimetable","Sconds remaining: " + value / 1000 );
@@ -59,6 +60,19 @@ public class TimeTableRefresher {
             }
         };
         return timer;
+    }
+
+
+
+    private int getInitialTime()
+    {
+        Calendar currentTime = Calendar.getInstance();
+        int sec = currentTime.get(Calendar.SECOND);
+        sec = 60 - sec;
+        if (sec==0)
+            sec = 60;
+
+        return sec*1000;
     }
 
 

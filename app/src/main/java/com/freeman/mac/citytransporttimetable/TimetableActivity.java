@@ -298,7 +298,7 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
 
                 boolean found = streetVehicleDescriptions.contains(des.Sign);
 
-                if (des.Sign.equals(MinuteMapping.AdditionalInfromation))
+                if (des.Sign.equals(MinuteMapping.AdditionalInformation))
                     found = true;
 
                 if (!found)
@@ -311,7 +311,7 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
                 }
 
                 SignsRowItem oneDescription;
-                if (des.Sign.equals(MinuteMapping.AdditionalInfromation)) {
+                if (des.Sign.equals(MinuteMapping.AdditionalInformation)) {
                     oneDescription = new SignsRowItem(StringUtils.Empty,des.Text);
                 } else {
                     oneDescription = new SignsRowItem(des.Sign,des.Text);
