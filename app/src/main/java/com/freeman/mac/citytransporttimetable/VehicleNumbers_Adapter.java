@@ -23,11 +23,6 @@ public class VehicleNumbers_Adapter extends RecyclerView.Adapter<VehicleNumbers_
 
     private  ISelectedItemByInteger mSelectItemListener = null;
 
-/*
-    VehicleNumbers_Adapter(List<VehicleCategory> data)
-    {
-        this.vehicleCategories = data;
-    }*/
 
     VehicleNumbers_Adapter(List<Vehicle> data)
     {

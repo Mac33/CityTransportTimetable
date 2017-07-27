@@ -326,6 +326,7 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
 
         if (allDescriptions.isEmpty()) {
             vehicleDescriptions.setVisibility(View.GONE);
+            lowVehicleDescriptionView.setVisibility(View.GONE);
         } else {
             vehicleDescriptions.setVisibility(View.VISIBLE);
            if (lowVehicleDescription)

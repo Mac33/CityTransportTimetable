@@ -14,12 +14,14 @@ public class SignsViewHolder extends  RecyclerView.ViewHolder{
 
     private TextView signTextView;
     private TextView descriptionTextView;
+    private TextView dashSignTextView;
 
 
     public SignsViewHolder(View itemView) {
         super(itemView);
         this.signTextView = (TextView) itemView.findViewById(R.id.SignsRowSign);
         this.descriptionTextView = (TextView) itemView.findViewById(R.id.SignsRowDescription);
+        this.dashSignTextView = (TextView) itemView.findViewById(R.id.SignsRowDash);
     }
 
 
@@ -28,6 +30,7 @@ public class SignsViewHolder extends  RecyclerView.ViewHolder{
 
         if (item.Sign.isEmpty()){
             this.signTextView.setVisibility(View.GONE);
+            this.dashSignTextView.setVisibility(View.GONE);
         }else{
             this.signTextView.setText(item.Sign);
         }
