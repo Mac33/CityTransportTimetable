@@ -3,6 +3,7 @@ package com.freeman.mac.citytransporttimetable;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.app.ProgressDialog;
 
 import com.freeman.mac.citytransporttimetable.StreetNameActivity.StreetNamesActivity;
 import com.freeman.mac.citytransporttimetable.interfaces.IChangeScrollVerticalPosition;
@@ -54,7 +56,8 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
     }
 
     private TimeTableRefresher refresher ;
-
+    private Handler progressBarbHandler = new Handler();
+    private int progressBarStatus = 0;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -90,16 +93,23 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.v("msg", "onStart");
+
+    }
+
 
         @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+            long temp = System.currentTimeMillis();
+            setContentView(R.layout.activity_timetable);
 
+            LinearLayout listView = (LinearLayout) this.findViewById(R.id.StreetNameMainContainer);
 
-        setContentView(R.layout.activity_timetable);
-
-        LinearLayout listView = (LinearLayout) this.findViewById(R.id.StreetNameMainContainer);
         listView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,9 +134,10 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         vehicleDescriptions.setLayoutManager(mLayoutManager);
 
-        this.setCurrentStreet(0);
-        this.setCurrentTimePeriod();
+            setCurrentStreet(0);
+            setCurrentTimePeriod();
 
+            Log.v("msg", "Total ms:" + (temp - System.currentTimeMillis()));
     }
 
     private  void setCurrentTimePeriod()
@@ -234,7 +245,7 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
             workDays = new TimetableFragment();
             workDays.setTimePeriod(0);
             workDays.setScrollVerticalPositionListener(this);
-            adapter.addFragment(workDays, "Pracovné dni");
+             adapter.addFragment(workDays, "Pracovné dni");
 
         }
 

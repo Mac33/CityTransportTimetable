@@ -3,6 +3,7 @@ package com.freeman.mac.citytransporttimetable;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -34,10 +35,15 @@ public class TimetableViewHolder extends RecyclerView.ViewHolder {
         this.currentTimeTableRow = item;
         int hour = this.currentTimeTableRow.HourMapping.Hour;
 
-
         this.hourView.setText(Integer.toString(hour));
+
+        for (TimeView timeView:this.timeTableRow) {
+            timeView.setVisibility(View.GONE);
+        }
+
         for (int i = 0; i <= item.HourMapping.getMinutes().size() - 1; i++) {
             this.timeTableRow[i].setTime(item.HourMapping.getMinutes().get(i));
+            this.timeTableRow[i].setVisibility(View.VISIBLE);
         }
 
         if ((hour & 1) == 0) {
@@ -45,6 +51,8 @@ public class TimetableViewHolder extends RecyclerView.ViewHolder {
         } else {
             row.setBackgroundResource(0);
         }
+
+        Log.v("citytransporttimetable", "Bind TimePeriod: " + Integer.toString(item.TimePeriod) + " Hour: " + Integer.toString(item.HourMapping.Hour));
 
     }
 

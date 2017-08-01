@@ -1,8 +1,10 @@
 package com.freeman.mac.citytransporttimetable;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,9 +12,19 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.freeman.mac.citytransporttimetable.database_model.VehicleDatabase;
+import com.freeman.mac.citytransporttimetable.db.DataAdapter;
 import com.freeman.mac.citytransporttimetable.interfaces.ISelectedItemByInteger;
 import com.freeman.mac.citytransporttimetable.model.StringUtils;
 import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
@@ -27,18 +39,50 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-
-
+    private LinearLayout focusDummy ;
     private  VehicleDatabase Database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        Context urContext = getApplicationContext();
+        DataAdapter mDbHelper = new DataAdapter(urContext);
+        mDbHelper.createDatabase();
+        mDbHelper.open();
+
+        ArrayList<String> ret =  mDbHelper.getStreetNames();
+
+
         ///this.initDb();
         this.initVehicles();
         setContentView(R.layout.activity_main);
         this.initToolbar();
+        this.initFindButton();
+
+
+        focusDummy = (LinearLayout) findViewById(R.id.focusDummyView);
+
+        AutoCompleteTextView textView = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextView);
+        textView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    focusDummy.requestFocus();
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(focusDummy.getWindowToken(), 0);
+                    handled = true;
+                }
+                return handled;
+            }
+        });
+
+        ArrayAdapter<String> items = new ArrayAdapter<String>(this,R.layout.street_finder,R.id.autoCompleteItem,ret);
+        textView.setAdapter(items);
+        textView.setThreshold(0);
+        textView.setText(StringUtils.Empty);
 
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.vehicle_numbers_recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -48,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3,this.dpToPx(1)));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         VehicleNumbers_Adapter mAdapter = new VehicleNumbers_Adapter(this.getVehicles());
+
         mAdapter.setSelectItemListener(new ISelectedItemByInteger() {
             @Override
             public void OnSelectedItem(int index) {
@@ -58,6 +103,20 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
+    private void  initFindButton()
+    {
+        ImageView imgFind = (ImageView) findViewById(R.id.imgFindStreet);
+        imgFind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+    }
+
 
 
     /**
