@@ -1,14 +1,11 @@
 package com.freeman.mac.citytransporttimetable;
 
-
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -25,22 +22,19 @@ import com.freeman.mac.citytransporttimetable.db.DataAdapter;
 import com.freeman.mac.citytransporttimetable.model.StringUtils;
 import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
 import com.freeman.mac.citytransporttimetable.model.Vehicle;
-import com.freeman.mac.citytransporttimetable.model.VehicleCategory;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private LinearLayout focusDummy ;
-    private  VehicleDatabase Database;
+    private LinearLayout focusDummy;
+    private VehicleDatabase Database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         ///this.initDb();
         this.initVehicles();
@@ -50,69 +44,83 @@ public class MainActivity extends AppCompatActivity {
         this.initStreetAutoCompleteTextView();
         this.ShowVehicleNumbersView();
 
-
-
-
     }
 
 
 
-    private  void ShowVehicleNumbersView()
-    {
+    private void ShowVehicleNumbersView() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container,new VehicleNumbersFragment(),VehicleNumbersFragment.Tag);
+        ft.replace(R.id.fragment_container, new VehicleNumbersFragment(), VehicleNumbersFragment.Tag);
         ft.commit();
 
     }
 
 
 
-    private  void  initStreetAutoCompleteTextView()
-    {
-        focusDummy = (LinearLayout) findViewById(R.id.focusDummyView);
+    private void initStreetAutoCompleteTextView() {
 
-        AutoCompleteTextView textView = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextView);
+        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
         textView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    focusDummy.requestFocus();
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(focusDummy.getWindowToken(), 0);
                     handled = true;
+                    search();
                 }
                 return handled;
             }
         });
 
         ArrayList<String> streets = this.getStreets();
-        ArrayAdapter<String> items = new ArrayAdapter<String>(this,R.layout.street_finder,R.id.autoCompleteItem,streets);
+        ArrayAdapter<String> items = new ArrayAdapter<>(this, R.layout.street_finder, R.id.autoCompleteItem, streets);
         textView.setAdapter(items);
         textView.setThreshold(0);
         textView.setText(StringUtils.Empty);
     }
 
-    private void search()
+
+
+    private void search() {
+        this.hideKeyboard();
+        this.showSearchResultFragment();
+   }
+
+
+
+   private  void  hideKeyboard()
+   {
+       if (focusDummy==null)
+           focusDummy = (LinearLayout) findViewById(R.id.focusDummyView);
+       focusDummy.requestFocus();
+       InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+       imm.hideSoftInputFromWindow(focusDummy.getWindowToken(), 0);
+
+   }
+
+
+
+    private void showSearchResultFragment()
     {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        VehicleNumbersFragment vehiclesFragment = (VehicleNumbersFragment)this.getSupportFragmentManager().findFragmentByTag(VehicleNumbersFragment.Tag);
 
-        VehicleSearchFragment  vehicleSearchFragment = (VehicleSearchFragment)this.getSupportFragmentManager().findFragmentByTag(VehicleSearchFragment.Tag);
+        VehicleNumbersFragment vehiclesFragment = (VehicleNumbersFragment) this.getSupportFragmentManager().findFragmentByTag(VehicleNumbersFragment.Tag);
+        VehicleSearchFragment vehicleSearchFragment = (VehicleSearchFragment) this.getSupportFragmentManager().findFragmentByTag(VehicleSearchFragment.Tag);
 
-        if (vehicleSearchFragment==null)
-        {
+        if (vehicleSearchFragment == null) {
             vehicleSearchFragment = new VehicleSearchFragment();
-            ft.add(vehicleSearchFragment,VehicleSearchFragment.Tag);
+            ft.add(R.id.fragment_container, vehicleSearchFragment, VehicleSearchFragment.Tag);
         }
 
-        if (vehiclesFragment.isVisible())
+        if (vehiclesFragment.isVisible()) {
             ft.hide(vehiclesFragment);
+            ft.addToBackStack(VehicleNumbersFragment.Tag);
+            ft.show(vehicleSearchFragment);
+        }
 
-        ft.show(vehicleSearchFragment);
         ft.commit();
-
     }
+
 
 
     private ArrayList<String> getStreets()
@@ -160,8 +168,30 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
+        this.onBackPressed();
         return true;
+    }
+
+
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            fragmentManager.popBackStack();
+            this.clearSearchText();
+        }else
+        {
+            super.onBackPressed();
+        }
+    }
+
+
+
+    private  void  clearSearchText()
+    {
+        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+        textView.setText(StringUtils.Empty);
     }
 
 
@@ -221,10 +251,6 @@ public class MainActivity extends AppCompatActivity {
 
         TransportTimetables.getInstance().getVehicles().add(vehicle);
     }
-
-
-
-
 
 
 
