@@ -4,12 +4,9 @@ package com.freeman.mac.citytransporttimetable;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -25,12 +22,10 @@ import android.widget.TextView;
 
 import com.freeman.mac.citytransporttimetable.database_model.VehicleDatabase;
 import com.freeman.mac.citytransporttimetable.db.DataAdapter;
-import com.freeman.mac.citytransporttimetable.interfaces.ISelectedItemByInteger;
 import com.freeman.mac.citytransporttimetable.model.StringUtils;
 import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
 import com.freeman.mac.citytransporttimetable.model.Vehicle;
 import com.freeman.mac.citytransporttimetable.model.VehicleCategory;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,21 +42,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-        Context urContext = getApplicationContext();
-        DataAdapter mDbHelper = new DataAdapter(urContext);
-        mDbHelper.createDatabase();
-        mDbHelper.open();
-
-        ArrayList<String> ret =  mDbHelper.getStreetNames();
-
-
         ///this.initDb();
         this.initVehicles();
         setContentView(R.layout.activity_main);
         this.initToolbar();
         this.initFindButton();
+        this.initStreetAutoCompleteTextView();
+        this.ShowVehicleNumbersView();
 
 
+
+
+    }
+
+
+
+    private  void ShowVehicleNumbersView()
+    {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container,new VehicleNumbersFragment(),VehicleNumbersFragment.Tag);
+        ft.commit();
+
+    }
+
+
+
+    private  void  initStreetAutoCompleteTextView()
+    {
         focusDummy = (LinearLayout) findViewById(R.id.focusDummyView);
 
         AutoCompleteTextView textView = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextView);
@@ -79,29 +86,44 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ArrayAdapter<String> items = new ArrayAdapter<String>(this,R.layout.street_finder,R.id.autoCompleteItem,ret);
+        ArrayList<String> streets = this.getStreets();
+        ArrayAdapter<String> items = new ArrayAdapter<String>(this,R.layout.street_finder,R.id.autoCompleteItem,streets);
         textView.setAdapter(items);
         textView.setThreshold(0);
         textView.setText(StringUtils.Empty);
+    }
 
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.vehicle_numbers_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
+    private void search()
+    {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        VehicleNumbersFragment vehiclesFragment = (VehicleNumbersFragment)this.getSupportFragmentManager().findFragmentByTag(VehicleNumbersFragment.Tag);
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this,3);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3,this.dpToPx(1)));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        VehicleNumbers_Adapter mAdapter = new VehicleNumbers_Adapter(this.getVehicles());
+        VehicleSearchFragment  vehicleSearchFragment = (VehicleSearchFragment)this.getSupportFragmentManager().findFragmentByTag(VehicleSearchFragment.Tag);
 
-        mAdapter.setSelectItemListener(new ISelectedItemByInteger() {
-            @Override
-            public void OnSelectedItem(int index) {
-                startTimeTableActivity(index);
-            }
-        });
-        mRecyclerView.setAdapter(mAdapter);
+        if (vehicleSearchFragment==null)
+        {
+            vehicleSearchFragment = new VehicleSearchFragment();
+            ft.add(vehicleSearchFragment,VehicleSearchFragment.Tag);
+        }
+
+        if (vehiclesFragment.isVisible())
+            ft.hide(vehiclesFragment);
+
+        ft.show(vehicleSearchFragment);
+        ft.commit();
+
+    }
 
 
+    private ArrayList<String> getStreets()
+    {
+        Context urContext = getApplicationContext();
+        DataAdapter mDbHelper = new DataAdapter(urContext);
+        mDbHelper.createDatabase();
+        mDbHelper.open();
+
+        ArrayList<String> streets =  mDbHelper.getStreetNames();
+        return  streets;
     }
 
 
@@ -111,20 +133,9 @@ public class MainActivity extends AppCompatActivity {
         imgFind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                search();
             }
         });
-
-    }
-
-
-
-    /**
-     * Converting dp to pixel
-     */
-    private int dpToPx(int dp) {
-        Resources r = getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
 
@@ -154,12 +165,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private  void startTimeTableActivity(int vehicleNumber)
-    {
-        TransportTimetables.getInstance().setCurrentVehicle(vehicleNumber);
-        Intent intent = TimetableActivity.createInstance(MainActivity.this);
-        startActivity(intent);
-    }
 
     public void initVehicles()
     {
@@ -220,43 +225,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private List<Vehicle> getVehicles()
-    {
-        return TransportTimetables.getInstance().getVehicles();
-    }
 
-
-
-    private List<VehicleCategory> getVehicleCategories()
-    {
-        List<VehicleCategory> ret = new ArrayList<VehicleCategory>();
-        VehicleCategory item = new VehicleCategory();
-        item.Type = Vehicle.eVehicleType.Trolleybus;
-        item.Description= "Trolejbusy";
-        item.Vehicles = TransportTimetables.getInstance().getVehicles(Vehicle.eVehicleType.Trolleybus);
-        ret.add(item);
-
-        item = new VehicleCategory();
-        item.Type = Vehicle.eVehicleType.CityBus;
-        item.Description= "Autobusy";
-        item.Vehicles = TransportTimetables.getInstance().getVehicles(Vehicle.eVehicleType.CityBus);
-        ret.add(item);
-
-        item = new VehicleCategory();
-        item.Type = Vehicle.eVehicleType.BusForSelectedPassenger;
-        item.Description= "Autobusy pre vymedzený okruh cestujúcich";
-        item.Vehicles = TransportTimetables.getInstance().getVehicles(Vehicle.eVehicleType.BusForSelectedPassenger);
-        ret.add(item);
-
-        item = new VehicleCategory();
-        item.Type = Vehicle.eVehicleType.NightBus;
-        item.Description= "Nočné linky";
-        item.Vehicles = TransportTimetables.getInstance().getVehicles(Vehicle.eVehicleType.NightBus);
-        ret.add(item);
-
-        return  ret;
-
-    }
 
 
     public  void initDb()
