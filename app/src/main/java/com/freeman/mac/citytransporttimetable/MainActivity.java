@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.freeman.mac.citytransporttimetable.SearchVehicleByStreetName.VehicleSearchByStreetNameFragment;
 import com.freeman.mac.citytransporttimetable.database_model.VehicleDatabase;
 import com.freeman.mac.citytransporttimetable.db.DataAdapter;
 import com.freeman.mac.citytransporttimetable.model.StringUtils;
@@ -105,11 +106,11 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
         VehicleNumbersFragment vehiclesFragment = (VehicleNumbersFragment) this.getSupportFragmentManager().findFragmentByTag(VehicleNumbersFragment.Tag);
-        VehicleSearchFragment vehicleSearchFragment = (VehicleSearchFragment) this.getSupportFragmentManager().findFragmentByTag(VehicleSearchFragment.Tag);
+        VehicleSearchByStreetNameFragment vehicleSearchFragment = (VehicleSearchByStreetNameFragment) this.getSupportFragmentManager().findFragmentByTag(VehicleSearchByStreetNameFragment.Tag);
 
         if (vehicleSearchFragment == null) {
-            vehicleSearchFragment = new VehicleSearchFragment();
-            ft.add(R.id.fragment_container, vehicleSearchFragment, VehicleSearchFragment.Tag);
+            vehicleSearchFragment = new VehicleSearchByStreetNameFragment();
+            ft.add(R.id.fragment_container, vehicleSearchFragment, VehicleSearchByStreetNameFragment.Tag);
         }
 
         if (vehiclesFragment.isVisible()) {

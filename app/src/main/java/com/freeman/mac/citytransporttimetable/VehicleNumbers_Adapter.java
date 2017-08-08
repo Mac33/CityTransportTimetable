@@ -6,9 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.freeman.mac.citytransporttimetable.interfaces.ISelectedItemByInteger;
 import com.freeman.mac.citytransporttimetable.model.Vehicle;
-import com.freeman.mac.citytransporttimetable.model.VehicleCategory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,8 +15,7 @@ import java.util.List;
 
 public class VehicleNumbers_Adapter extends RecyclerView.Adapter<VehicleNumbers_ViewHolders> {
 
-    List<VehicleCategory> vehicleCategories =  new ArrayList<>();
-    List<Vehicle> vehicles;
+   List<Vehicle> vehicles;
 
 
     private  ISelectedItemByInteger mSelectItemListener = null;
