@@ -58,7 +58,7 @@ public class VehicleNumbers_ViewHolders extends RecyclerView.ViewHolder {
     }
 
 
-
+/*
     public void bind(VehicleCategory vehicleCategory) {
         this.vehicleCategory = vehicleCategory;
         for (ImageView item : images) {
@@ -86,7 +86,6 @@ public class VehicleNumbers_ViewHolders extends RecyclerView.ViewHolder {
         this.setMainVehicleIcon(vehicleColor);
     }
 
-
     private void setMainVehicleIcon(int color) {
         if (this.vehicleCategory.Type == Vehicle.eVehicleType.Trolleybus) {
             mainVehicleIcon.setImageResource(R.drawable.trolleybus_main);
@@ -96,6 +95,8 @@ public class VehicleNumbers_ViewHolders extends RecyclerView.ViewHolder {
         mainVehicleIcon.setColorFilter(color);
 
     }
+
+    */
 
     public void setSelectVehicle(ISelectedItemByInteger listener) {
         this.selectVehicle = listener;

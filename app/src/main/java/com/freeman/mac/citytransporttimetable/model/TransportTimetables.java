@@ -23,6 +23,16 @@ public class TransportTimetables {
 
     public List<Vehicle> getVehicles() {return this.vehicles;}
 
+    public  Vehicle getVehicle(Integer number)
+    {
+        for (Vehicle item:this.vehicles) {
+            if(item.Number==number)
+                return  item;
+        }
+        return  null;
+    }
+
+
     public List<Vehicle> getVehicles(Vehicle.eVehicleType type)
     {
         List<Vehicle> ret = new ArrayList<Vehicle>();

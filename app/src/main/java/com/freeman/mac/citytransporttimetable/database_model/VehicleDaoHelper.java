@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class  VehicleDaoHelper extends DaoMaster.DevOpenHelper {
 
-    public static String DB_NAME ="trafficData-db" ;  //Name of Db file in the Device
+    public static String DB_NAME = "trafficData-db_v1";  //Name of Db file in the Device
 
 
     private Boolean needToRefill = false;

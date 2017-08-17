@@ -1,7 +1,11 @@
 package com.freeman.mac.citytransporttimetable.db;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -72,7 +76,7 @@ public class DataAdapter
 
 
 
-
+/*
     public HashMap<Integer,DbMinuteMapping>  getCurrentVehicles()
     {
         HashMap<Integer,DbMinuteMapping> ret = new HashMap<>();
@@ -116,10 +120,62 @@ public class DataAdapter
 
         return ret ;
     }
+*/
 
 
+    public Collection<VehicleSearchItem> getSearchVehiclesByStreetAndTime(Calendar time, String streetName, int timePeriodType)
+    {
+        HashMap<Integer,VehicleSearchItem> ret = new HashMap<>();
 
-    private Cursor getCursorForVehicleInfo()
+        Cursor cursor = this.getSearchVehiclesCursorByStreetAndTime(time,streetName,timePeriodType);
+        if (cursor.moveToFirst()) {
+            do{
+
+                VehicleSearchItem item = new VehicleSearchItem(cursor);
+                if (!ret.containsKey(item.Id))
+                {
+                    ret.put(item.Id, item);
+                }
+                ret.get(item.Id).addSign(cursor);
+
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        return ret.values() ;
+    }
+
+
+    private Cursor getSearchVehiclesCursorByStreetAndTime(Calendar time, String streetName, int timePeriodType) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        String starTime = sdf.format(time.getTime());
+        time.add(Calendar.HOUR,1);
+        String endTime = sdf.format(time.getTime());
+
+        String sql = "select \n"+
+                "    DB_MINUTE_MAPPING._id, \n" +
+                "    DB_MINUTE_MAPPING.VEHICLE_NUMBER,\n" +
+                "    DB_MINUTE_MAPPING.HOUR,\n" +
+                "    DB_MINUTE_MAPPING.MINUTE,\n" +
+                "    DB_MINUTE_MAPPING.DIRECTION_NAME,\n" +
+                "    DB_MINUTE_MAPPING.STREET_NAME,\n" +
+                "    DB_SIGN.VALUE AS SIGN_VALUE\n" +
+                "from \n" +
+                "    DB_MINUTE_MAPPING, DB_SIGN \n" +
+                "where \n" +
+                "    DB_MINUTE_MAPPING._id = DB_SIGN.ID_MINUTE_MAPPING and \n" +
+                "    DB_MINUTE_MAPPING.TIME >= '"+ starTime + "' and \n" +
+                "    DB_MINUTE_MAPPING.TIME <= '"+ endTime + "' and \n" +
+                "    DB_MINUTE_MAPPING.TIME_PERIOD_TYPE = "+ timePeriodType + " and \n" +
+                "    STREET_NAME = \"" + streetName + "\"; " + "\n" +
+                "order by \"TIME\"\n";;
+
+
+        return  this.getCursor(sql);
+    }
+
+
+    private Cursor getCursorForVehicleInfo(int hour, String streetName)
     {
         String sql ="select \n" +
                 "    DB_MINUTE_MAPPING._id, \n" +
@@ -133,8 +189,8 @@ public class DataAdapter
                 "    DB_MINUTE_MAPPING, DB_SIGN \n" +
                 "where \n" +
                 "    DB_MINUTE_MAPPING._id = DB_SIGN.ID_MINUTE_MAPPING and \n" +
-                "    DB_MINUTE_MAPPING.HOUR = 05 and \n" +
-                "    STREET_NAME = \"Štefánikovo námestie\";\n";
+                "    DB_MINUTE_MAPPING.HOUR = "+ Integer.toString(hour) + "and \n" +
+                "    STREET_NAME = \"" + streetName + "\";\n";
 
 
         return  this.getCursor(sql);

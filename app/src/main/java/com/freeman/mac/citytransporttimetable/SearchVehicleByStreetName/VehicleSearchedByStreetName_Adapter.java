@@ -26,7 +26,7 @@ public class VehicleSearchedByStreetName_Adapter extends RecyclerView.Adapter<Ve
 
     @Override
     public void onBindViewHolder(VehicleSearchedByStreetName_ViewHolder holder, int position) {
-
+        holder.bind(dataSet.get(position));
     }
 
     public VehicleSearchedByStreetName_Adapter(List<VehicleSearchedByStreetName> data) {

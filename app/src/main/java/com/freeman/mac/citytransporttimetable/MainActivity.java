@@ -2,6 +2,7 @@ package com.freeman.mac.citytransporttimetable;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.freeman.mac.citytransporttimetable.SearchVehicleByStreetName.ISearchVehicleByStreetName;
 import com.freeman.mac.citytransporttimetable.SearchVehicleByStreetName.VehicleSearchByStreetNameFragment;
 import com.freeman.mac.citytransporttimetable.database_model.VehicleDatabase;
 import com.freeman.mac.citytransporttimetable.db.DataAdapter;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private LinearLayout focusDummy;
     private VehicleDatabase Database;
+    private AutoCompleteTextView searchTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initStreetAutoCompleteTextView() {
 
-        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
-        textView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        searchTextView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+        searchTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
@@ -75,9 +78,9 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<String> streets = this.getStreets();
         ArrayAdapter<String> items = new ArrayAdapter<>(this, R.layout.street_finder, R.id.autoCompleteItem, streets);
-        textView.setAdapter(items);
-        textView.setThreshold(0);
-        textView.setText(StringUtils.Empty);
+        searchTextView.setAdapter(items);
+        searchTextView.setThreshold(0);
+        searchTextView.setText(StringUtils.Empty);
     }
 
 
@@ -104,22 +107,25 @@ public class MainActivity extends AppCompatActivity {
     private void showSearchResultFragment()
     {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-        VehicleNumbersFragment vehiclesFragment = (VehicleNumbersFragment) this.getSupportFragmentManager().findFragmentByTag(VehicleNumbersFragment.Tag);
-        VehicleSearchByStreetNameFragment vehicleSearchFragment = (VehicleSearchByStreetNameFragment) this.getSupportFragmentManager().findFragmentByTag(VehicleSearchByStreetNameFragment.Tag);
+        Fragment vehiclesFragment = this.getSupportFragmentManager().findFragmentByTag(VehicleNumbersFragment.Tag);
+        Fragment vehicleSearchFragment = this.getSupportFragmentManager().findFragmentByTag(VehicleSearchByStreetNameFragment.Tag);
 
         if (vehicleSearchFragment == null) {
             vehicleSearchFragment = new VehicleSearchByStreetNameFragment();
             ft.add(R.id.fragment_container, vehicleSearchFragment, VehicleSearchByStreetNameFragment.Tag);
         }
 
+
         if (vehiclesFragment.isVisible()) {
             ft.hide(vehiclesFragment);
             ft.addToBackStack(VehicleNumbersFragment.Tag);
-            ft.show(vehicleSearchFragment);
-        }
+            ft.show(vehicleSearchFragment);        }
 
         ft.commit();
+
+
+        String streetName = searchTextView.getText().toString();
+        ((ISearchVehicleByStreetName)vehicleSearchFragment).setStreetName(streetName);
     }
 
 
@@ -191,8 +197,7 @@ public class MainActivity extends AppCompatActivity {
 
     private  void  clearSearchText()
     {
-        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
-        textView.setText(StringUtils.Empty);
+        searchTextView.setText(StringUtils.Empty);
     }
 
 
@@ -255,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public  void initDb()
+    public void initDb()
     {
         this.Database= new VehicleDatabase();
         this.Database.setupDb(this);

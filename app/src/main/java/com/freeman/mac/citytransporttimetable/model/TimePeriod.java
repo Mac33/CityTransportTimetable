@@ -51,7 +51,7 @@ public class TimePeriod {
     }
 
 
-        public static int getTimePeriodIndex(Calendar date) {
+    public static int getTimePeriodIndex(Calendar date) {
 
         if (isHoliday(date))
             return 2;
@@ -59,6 +59,18 @@ public class TimePeriod {
             return 1;
 
         return 0;
+
+    }
+
+
+    public static int getDatabaseTimePeriod(Calendar date) {
+
+        if (isHoliday(date))
+            return 3;
+        if(isSchoolHolidays(date))
+            return 1;
+
+        return 2;
 
     }
 
