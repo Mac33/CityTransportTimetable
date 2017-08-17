@@ -42,8 +42,8 @@ public class VehicleSearchByStreetNameFragment extends Fragment implements  ISea
         mainView .setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(view.getContext());
         mainView.setLayoutManager(llm);
+        this.search();
 
-        this.search(this.StreetName);
         return view;
     }
 
@@ -73,6 +73,12 @@ public class VehicleSearchByStreetNameFragment extends Fragment implements  ISea
 
 
 
+    private void search()
+    {
+        this.search(this.StreetName);
+    }
+
+
 
     public void search(String streetName) {
         List<VehicleSearchedByStreetName> data = getData(streetName);
@@ -84,5 +90,8 @@ public class VehicleSearchByStreetNameFragment extends Fragment implements  ISea
     @Override
     public void setStreetName(String streetName) {
         this.StreetName = streetName;
+
+        if(this.isVisible())
+            search();
     }
 }

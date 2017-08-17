@@ -125,23 +125,25 @@ public class DataAdapter
 
     public Collection<VehicleSearchItem> getSearchVehiclesByStreetAndTime(Calendar time, String streetName, int timePeriodType)
     {
-        HashMap<Integer,VehicleSearchItem> ret = new HashMap<>();
+        HashMap<Integer,VehicleSearchItem> hasMap = new HashMap<>();
+        List<VehicleSearchItem>  ret = new ArrayList<>();
 
         Cursor cursor = this.getSearchVehiclesCursorByStreetAndTime(time,streetName,timePeriodType);
         if (cursor.moveToFirst()) {
             do{
 
                 VehicleSearchItem item = new VehicleSearchItem(cursor);
-                if (!ret.containsKey(item.Id))
+                if (!hasMap.containsKey(item.Id))
                 {
-                    ret.put(item.Id, item);
+                    hasMap.put(item.Id, item);
+                    ret.add(item);
                 }
-                ret.get(item.Id).addSign(cursor);
+                hasMap.get(item.Id).addSign(cursor);
 
             }while (cursor.moveToNext());
         }
         cursor.close();
-        return ret.values() ;
+        return ret ;
     }
 
 
@@ -167,8 +169,8 @@ public class DataAdapter
                 "    DB_MINUTE_MAPPING.TIME >= '"+ starTime + "' and \n" +
                 "    DB_MINUTE_MAPPING.TIME <= '"+ endTime + "' and \n" +
                 "    DB_MINUTE_MAPPING.TIME_PERIOD_TYPE = "+ timePeriodType + " and \n" +
-                "    STREET_NAME = \"" + streetName + "\"; " + "\n" +
-                "order by \"TIME\"\n";;
+                "    DB_MINUTE_MAPPING.STREET_NAME = \"" + streetName + "\"\n" +
+                "order by TIME asc;";
 
 
         return  this.getCursor(sql);
