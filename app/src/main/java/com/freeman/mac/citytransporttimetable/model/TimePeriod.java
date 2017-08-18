@@ -1,6 +1,8 @@
 package com.freeman.mac.citytransporttimetable.model;
 
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -15,6 +17,7 @@ public class TimePeriod {
     public static final String SchoolHolidays = "PRÁZDNINY - School Holidays";
     public static final String WorkDays = "PRACOVNÉ DNI - Work Days";
     public static final String WeekendOrHolidays = "VOĽNÉ DNI - Weekend";
+
 
 
     public static int getTimePeriodType(String name) {
@@ -77,13 +80,15 @@ public class TimePeriod {
 
     private static boolean isHoliday(Calendar calendar) {
 
+
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int date = calendar.get(Calendar.DATE);
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
 
-
-        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)
+        if (day == Calendar.SUNDAY || day == Calendar.SATURDAY) {
             return true;
+        }
 
         if (month == 1 && date == 1)
             return true;
@@ -125,18 +130,31 @@ public class TimePeriod {
             return true;
 
         //Easter Friday
-        if (getEasterSundayDate(year) == (date - 2))
-            return true;
+        EasterDay easterDay = getEasterSundayDate(year);
+        if (easterDay.Month == month && easterDay.Day == (date - 2))
+           return true;
+
 
         //Easter Monday
-        if (getEasterSundayDate(year) == (date + 1))
+        if (easterDay.Month == month && easterDay.Day == (date + 1))
             return true;
 
         return false;
     }
 
 
-    private static int getEasterSundayDate(int year) {
+    private static class EasterDay {
+        public int Day;
+        public int Month;
+
+        public EasterDay(int day, int month){
+            this.Day = day;
+            this.Month = month;
+        }
+
+    }
+
+    private static EasterDay getEasterSundayDate(int year) {
         int a = year % 19,
                 b = year / 100,
                 c = year % 100,
@@ -151,7 +169,7 @@ public class TimePeriod {
                 n = (h - m + r + 90) / 25,
                 p = (h - m + r + n + 19) % 32;
 
-        return p;
+        return new EasterDay(p,n);
     }
 
 
