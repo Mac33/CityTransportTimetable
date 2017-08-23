@@ -334,19 +334,18 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
             }
         }
 
+        if (lowVehicleDescription)
+        {
+           lowVehicleDescriptionView.setVisibility(View.VISIBLE);
+        }else
+        {
+           lowVehicleDescriptionView.setVisibility(View.GONE);
+        }
 
         if (allDescriptions.isEmpty()) {
             vehicleDescriptions.setVisibility(View.GONE);
-            lowVehicleDescriptionView.setVisibility(View.GONE);
         } else {
             vehicleDescriptions.setVisibility(View.VISIBLE);
-           if (lowVehicleDescription)
-            {
-                lowVehicleDescriptionView.setVisibility(View.VISIBLE);
-            }else
-            {
-                lowVehicleDescriptionView.setVisibility(View.GONE);
-            }
             vehicleDescriptions.setAdapter(new SignsAdapter(allDescriptions));
         }
 
@@ -364,7 +363,7 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
 
         if (!StringUtils.isNullOrEmpty(directionName)) {
             currentStreetDescription.setText(currentStreetDescription.getText() + " - " + directionName);
-        }
+       }
         currentStreetName.setText(item.Name);
     }
 

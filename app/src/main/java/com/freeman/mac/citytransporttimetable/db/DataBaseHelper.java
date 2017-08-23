@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.database.SQLException;
@@ -21,8 +23,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
     private static String TAG = "DataBaseHelper"; // Tag just for the LogCat window
     //destination path (location) of our database on device
     private static String DB_PATH = "";
-    private static String OLD_DB_NAME = "trafficData-db";// Old database name
-    private static String DB_NAME = "trafficData-db_v1";// Database name
+    private static String DB_NAME = "trafficData-db_v006";// Database name
     private SQLiteDatabase mDataBase;
     private final Context mContext;
 
@@ -46,12 +47,16 @@ public class DataBaseHelper extends SQLiteOpenHelper
         boolean mDataBaseExist = checkDataBase();
         if(!mDataBaseExist)
         {
+            // Prepare database for copy
             this.getReadableDatabase();
             this.close();
+
             try
             {
-                //Copy the database from assests
+                //Copy the database from assets
                 copyDataBase();
+                //Delete old databases
+                deleteOldDataBases();
                 Log.e(TAG, "createDatabase database created");
             }
             catch (IOException mIOException)
@@ -65,8 +70,29 @@ public class DataBaseHelper extends SQLiteOpenHelper
     private boolean checkDataBase()
     {
         File dbFile = new File(DB_PATH + DB_NAME);
-        //Log.v("dbFile", dbFile + "   "+ dbFile.exists());
         return dbFile.exists();
+    }
+
+
+    private boolean deleteOldDataBases() throws IOException {
+
+        List<String> old_databases = new ArrayList<>();
+        old_databases.add("trafficData");
+        old_databases.add("trafficData-db_v1");
+        old_databases.add("trafficData-db_v2");
+        old_databases.add("trafficData-db_v3");
+        old_databases.add("trafficData-db_v004");
+        old_databases.add("trafficData-db_v005");
+
+        boolean deleted = false;
+        for (String dbName:old_databases) {
+            String outFileName = DB_PATH + dbName;
+            File file = new File(outFileName);
+            if (file.exists()){
+                deleted = file.delete();
+            }
+        }
+        return  deleted;
     }
 
 

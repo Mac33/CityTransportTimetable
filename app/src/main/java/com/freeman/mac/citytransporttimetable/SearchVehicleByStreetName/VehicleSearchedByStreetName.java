@@ -30,5 +30,18 @@ public class VehicleSearchedByStreetName {
     }
 
 
+    public  String getAdditionalInfo()
+    {
+        String ret = StringUtils.Empty;
+        for (String item:this.Signs) {
+            if (!item.equals("n"))
+            {
+                ret = ret + item;
+            }
+        }
+        return ret;
+    }
+
+
 
 }

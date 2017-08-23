@@ -60,7 +60,7 @@ public class VehicleSearchedByStreetName_ViewHolder extends RecyclerView.ViewHol
             this.imgLowVehicleSign.setVisibility(View.GONE);
         }
 
-
+        this.txtAdditionalInfo.setText(item.getAdditionalInfo());
 
     }
 }
