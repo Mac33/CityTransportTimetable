@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import com.freeman.mac.citytransporttimetable.SearchVehicleByStreetName.ISearchVehicleByStreetName;
 import com.freeman.mac.citytransporttimetable.SearchVehicleByStreetName.VehicleSearchByStreetNameFragment;
-import com.freeman.mac.citytransporttimetable.database_model.VehicleDatabase;
 import com.freeman.mac.citytransporttimetable.db.DataAdapter;
 import com.freeman.mac.citytransporttimetable.model.StringUtils;
 import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
@@ -33,7 +32,6 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private LinearLayout focusDummy;
-    private VehicleDatabase Database;
     private AutoCompleteTextView searchTextView;
 
     @Override
@@ -243,32 +241,16 @@ public class MainActivity extends AppCompatActivity {
     {
         TransportTimetables.getInstance().setContext(this.getApplicationContext());
         Vehicle vehicle = new Vehicle();
-        vehicle.Database = this.Database;
         vehicle.Type = type;
         vehicle.ColorResId = colorId;
         vehicle.IconResId = iconResId;
         vehicle.Number = number;
         vehicle.DataResId = dataId;
 
-        /*if (this.Database.getNeedToRefill())
-        {
-            vehicle.getData();
-        }*/
+
 
         TransportTimetables.getInstance().getVehicles().add(vehicle);
     }
-
-
-
-    public void initDb()
-    {
-        this.Database= new VehicleDatabase();
-        this.Database.setupDb(this);
-    }
-
-
-
-
 
 
 

@@ -3,7 +3,6 @@ package com.freeman.mac.citytransporttimetable.model;
 import android.content.Context;
 import android.util.Log;
 
-import com.freeman.mac.citytransporttimetable.database_model.VehicleDatabase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -34,7 +33,6 @@ public class Vehicle {
     public int IconResId = 0;
     public int Number = 0;
     public int DataResId;
-    public VehicleDatabase Database;
     private List<String> timePeriodNames = new ArrayList<String>();
     private Street currentStreet = null;
     private TrafficData mData;
@@ -50,8 +48,6 @@ public class Vehicle {
 
 
     public Vehicle() {
-        //this.Data = new TrafficData();
-
     }
 
     public static TrafficData Deserialize(String body) {
@@ -74,33 +70,11 @@ public class Vehicle {
                 this.mData.DirectionTwo = new ArrayList<>();
             }
 
-            /*if (this.Database.getNeedToRefill())
-            {
-               this.saveToDatabase();
-            }
-            else
-            {
-               this.loadFromDatabase();
-            }*/
-
-
-
         }
         return this.mData;
 
     }
 
-
-    private void loadFromDatabase()
-    {
-        this.Database.LoadFromDatabase(this, this.mData, this.Number);
-    }
-
-
-    private void saveToDatabase()
-    {
-        this.Database.SaveToDatabase(this.mData,this.Number);
-    }
 
 
     private void loadDataFromJsonFile() {
