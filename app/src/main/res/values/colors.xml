@@ -10,4 +10,5 @@
     <color name="colorVehicleCityBus">#53e67f</color>
     <color name="colorVehicleNightBus">#0d26ae</color>
     <color name="colorVehicleSelectedPassenger">#ff8800</color>
+    <color name="colorMainText">#767676</color>
 </resources>
