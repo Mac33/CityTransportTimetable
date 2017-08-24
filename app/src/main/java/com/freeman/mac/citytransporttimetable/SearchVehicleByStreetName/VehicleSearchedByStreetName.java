@@ -1,6 +1,7 @@
 package com.freeman.mac.citytransporttimetable.SearchVehicleByStreetName;
 
 import com.freeman.mac.citytransporttimetable.db.VehicleSearchItem;
+import com.freeman.mac.citytransporttimetable.db.VehicleSearchSignItem;
 import com.freeman.mac.citytransporttimetable.model.StringUtils;
 
 import java.util.ArrayList;
@@ -16,8 +17,12 @@ public class VehicleSearchedByStreetName {
     public int Hour;
     public int Minute;
     public String DirectionName = StringUtils.Empty;
-    public List<String> Signs = new ArrayList<>();
 
+    public List<VehicleSignSearchedByStreetName> Signs = new ArrayList<>();
+
+    public Boolean ShowLowVehicleSign = false;
+
+    public  String AllAdditionalInfo = StringUtils.Empty;
 
     public VehicleSearchedByStreetName(VehicleSearchItem item)
     {
@@ -25,23 +30,19 @@ public class VehicleSearchedByStreetName {
         this.Hour = item.Hour;
         this.Minute = item.Minute;
         this.DirectionName = item.DirectionName;
-        this.Signs.addAll(item.Signs);
 
-    }
-
-
-    public  String getAdditionalInfo()
-    {
-        String ret = StringUtils.Empty;
-        for (String item:this.Signs) {
-            if (!item.equals("n"))
+        for (VehicleSearchSignItem sign:item.Signs) {
+            if (sign.Sign.equals("n")) {
+                this.ShowLowVehicleSign = true;
+            } else
             {
-                ret = ret + item;
+                this.AllAdditionalInfo = this.AllAdditionalInfo + sign.Sign;
             }
+            this.Signs.add(new VehicleSignSearchedByStreetName(sign));
         }
-        return ret;
-    }
 
+
+    }
 
 
 }

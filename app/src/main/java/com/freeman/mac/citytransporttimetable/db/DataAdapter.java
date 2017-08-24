@@ -161,15 +161,18 @@ public class DataAdapter
                 "    DB_MINUTE_MAPPING.MINUTE,\n" +
                 "    DB_MINUTE_MAPPING.DIRECTION_NAME,\n" +
                 "    DB_MINUTE_MAPPING.STREET_NAME,\n" +
-                "    DB_SIGN.VALUE AS SIGN_VALUE\n" +
+                "    DB_SIGN.VALUE AS SIGN_VALUE,\n" +
+                "    DB_VEHICLE_DESCRIPTION_ITEM.TEXT AS SIGN_TEXT\n"+
                 "from \n" +
-                "    DB_MINUTE_MAPPING, DB_SIGN \n" +
+                "    DB_MINUTE_MAPPING, DB_SIGN,DB_VEHICLE_DESCRIPTION_ITEM \n" +
                 "where \n" +
                 "    DB_MINUTE_MAPPING._id = DB_SIGN.ID_MINUTE_MAPPING and \n" +
                 "    DB_MINUTE_MAPPING.TIME >= '"+ starTime + "' and \n" +
                 "    DB_MINUTE_MAPPING.TIME <= '"+ endTime + "' and \n" +
                 "    DB_MINUTE_MAPPING.TIME_PERIOD_TYPE = "+ timePeriodType + " and \n" +
-                "    DB_MINUTE_MAPPING.STREET_NAME = \"" + streetName + "\"\n" +
+                "    DB_MINUTE_MAPPING.STREET_NAME = \"" + streetName + "\" and \n" +
+                "    DB_MINUTE_MAPPING.VEHICLE_NUMBER = DB_VEHICLE_DESCRIPTION_ITEM.ID_TRAFFIC_DATA and \n" +
+                "    DB_VEHICLE_DESCRIPTION_ITEM.SIGN = SIGN_VALUE \n" +
                 "order by TIME asc;";
 
 

@@ -139,9 +139,12 @@
 
         </android.support.v4.view.ViewPager>
 
-        <include
+        <com.freeman.mac.citytransporttimetable.components.AdditionalInfoView
             android:id="@+id/view_vehicle_descriptions"
-            layout="@layout/descriptions_view"/>
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+        </com.freeman.mac.citytransporttimetable.components.AdditionalInfoView>
 
 
     </RelativeLayout>

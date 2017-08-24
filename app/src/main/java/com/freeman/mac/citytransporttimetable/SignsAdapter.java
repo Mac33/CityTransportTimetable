@@ -14,9 +14,9 @@ import java.util.List;
 public class SignsAdapter extends RecyclerView.Adapter<SignsViewHolder>  {
 
 
-    private List<SignsRowItem> signs;
+    private SignsRowItem[] signs;
 
-    public SignsAdapter(List<SignsRowItem> items)
+    public SignsAdapter(SignsRowItem[] items)
     {
         this.signs = items;
     }
@@ -34,13 +34,13 @@ public class SignsAdapter extends RecyclerView.Adapter<SignsViewHolder>  {
 
     @Override
     public void onBindViewHolder(SignsViewHolder holder, int position) {
-        holder.bind(this.signs.get(position));
+        holder.bind(this.signs[position]);
     }
 
 
 
     @Override
     public int getItemCount() {
-        return this.signs.size();
+        return this.signs.length;
     }
 }

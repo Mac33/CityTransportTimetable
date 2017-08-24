@@ -16,9 +16,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.app.ProgressDialog;
 
 import com.freeman.mac.citytransporttimetable.StreetNameActivity.StreetNamesActivity;
+import com.freeman.mac.citytransporttimetable.components.AdditionalInfoView;
 import com.freeman.mac.citytransporttimetable.interfaces.IChangeScrollVerticalPosition;
 import com.freeman.mac.citytransporttimetable.model.MinuteMapping;
 import com.freeman.mac.citytransporttimetable.model.Street;
@@ -40,12 +40,11 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
     private ViewPager viewPager;
     private TextView currentStreetName;
     private TextView currentStreetDescription;
-    private LinearLayout lowVehicleDescriptionView;
     private TimetableFragment workDays;
     private TimetableFragment schoolDays;
     private TimetableFragment weekend;
+    private AdditionalInfoView additionalInfoView;
 
-    private RecyclerView vehicleDescriptions;
     private List<String> oldTimePeriodNames;
 
     private TabViewPagerAdapter adapter;
@@ -56,8 +55,7 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
     }
 
     private TimeTableRefresher refresher ;
-    private Handler progressBarbHandler = new Handler();
-    private int progressBarStatus = 0;
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -123,16 +121,14 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
         this.initToolbar();
         this.initChangeDirection();
 
-        lowVehicleDescriptionView = (LinearLayout) findViewById(R.id.lowVehicleDescriptionTextAndSign);
+        additionalInfoView = (AdditionalInfoView)findViewById(R.id.view_vehicle_descriptions);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         currentStreetName = (TextView) findViewById(R.id.StreetName);
         currentStreetDescription = (TextView) findViewById(R.id.StreetNameDescription);
-        vehicleDescriptions = (RecyclerView) findViewById(R.id.vehicleDescriptions);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        vehicleDescriptions.setLayoutManager(mLayoutManager);
+
 
             setCurrentStreet(0);
             setCurrentTimePeriod();
@@ -302,7 +298,7 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
 
     private void setVehicleDescriptions(Vehicle item) {
         List<SignsRowItem> allDescriptions = new ArrayList<>();
-        Boolean lowVehicleDescription  = false;
+        Boolean showLowVehicleDescription  = false;
         List<String> streetVehicleDescriptions = item.getCurrentStreet().getUsedVehicleDescriptions();
         if (item.hasAdditionalInformation() || !streetVehicleDescriptions.isEmpty()) {
             for (VehicleDescriptionItem des : item.getData().Descriptions) {
@@ -317,7 +313,7 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
 
                 if (des.Sign.equals("n"))
                 {
-                    lowVehicleDescription = true;
+                    showLowVehicleDescription  = true;
                     continue;
                 }
 
@@ -334,22 +330,7 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
             }
         }
 
-        if (lowVehicleDescription)
-        {
-           lowVehicleDescriptionView.setVisibility(View.VISIBLE);
-        }else
-        {
-           lowVehicleDescriptionView.setVisibility(View.GONE);
-        }
-
-        if (allDescriptions.isEmpty()) {
-            vehicleDescriptions.setVisibility(View.GONE);
-        } else {
-            vehicleDescriptions.setVisibility(View.VISIBLE);
-            vehicleDescriptions.setAdapter(new SignsAdapter(allDescriptions));
-        }
-
-
+        this.additionalInfoView.setData(allDescriptions.toArray(new SignsRowItem[allDescriptions.size()]) ,showLowVehicleDescription );
     }
 
 

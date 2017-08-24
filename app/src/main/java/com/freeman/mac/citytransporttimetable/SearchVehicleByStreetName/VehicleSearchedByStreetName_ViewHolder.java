@@ -53,14 +53,14 @@ public class VehicleSearchedByStreetName_ViewHolder extends RecyclerView.ViewHol
             this.imgNumber.setColorFilter(vehicleColor);
 
         }
-        if(item.Signs.contains("n"))
+        if(item.ShowLowVehicleSign)
         {
             this.imgLowVehicleSign.setVisibility(View.VISIBLE);
         }else {
             this.imgLowVehicleSign.setVisibility(View.GONE);
         }
 
-        this.txtAdditionalInfo.setText(item.getAdditionalInfo());
+        this.txtAdditionalInfo.setText(item.AllAdditionalInfo);
 
     }
 }

@@ -21,6 +21,8 @@ public class VehicleSearchItem {
     public static  String col_DIRECTION_NAME = "DIRECTION_NAME";
     public static  String col_STREET_NAME = "STREET_NAME";
     public static  String col_SIGN_VALUE  = "SIGN_VALUE";
+    public static  String col_SIGN_TEXT  = "SIGN_TEXT";
+
 
     public int Id;
     public int VehicleNumber;
@@ -28,7 +30,7 @@ public class VehicleSearchItem {
     public int Minute;
     public String DirectionName = StringUtils.Empty;
     public String StreetName = StringUtils.Empty;
-    public List<String> Signs = new ArrayList<>();
+    public List<VehicleSearchSignItem> Signs = new ArrayList<>();
 
 
     public VehicleSearchItem(Cursor cursor)
@@ -46,7 +48,8 @@ public class VehicleSearchItem {
     public void addSign(Cursor cursor)
     {
         String sign = cursor.getString(cursor.getColumnIndex(col_SIGN_VALUE));
-        this.Signs.add(sign);
+        String text = cursor.getString(cursor.getColumnIndex(col_SIGN_TEXT));
+        this.Signs.add(new VehicleSearchSignItem(sign,text));
     }
 
 
