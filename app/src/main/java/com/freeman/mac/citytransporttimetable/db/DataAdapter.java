@@ -125,34 +125,70 @@ public class DataAdapter
 
     public Collection<VehicleSearchItem> getSearchVehiclesByStreetAndTime(Calendar time, String streetName, int timePeriodType)
     {
-        HashMap<Integer,VehicleSearchItem> hasMap = new HashMap<>();
         List<VehicleSearchItem>  ret = new ArrayList<>();
 
-        Cursor cursor = this.getSearchVehiclesCursorByStreetAndTime(time,streetName,timePeriodType);
+        Cursor cursor;
+
+        Calendar timeFrom = time;
+        Calendar timeTo = (Calendar)time.clone();
+        timeTo.add(Calendar.HOUR,1);
+
+        if (timeFrom.get(Calendar.DATE)  == timeTo.get(Calendar.DATE))
+        {
+            cursor = this.getSearchVehiclesCursorByStreetAndTime(timeFrom,timeTo,streetName,timePeriodType);
+            ret =  this.processSearchVehiclesByStreetAndTimeCursor(cursor);
+        }else{
+
+            timeTo = (Calendar)time.clone();
+            timeTo.set(Calendar.MINUTE,59);
+            cursor = this.getSearchVehiclesCursorByStreetAndTime(timeFrom,timeTo,streetName,timePeriodType);
+            ret =  this.processSearchVehiclesByStreetAndTimeCursor(cursor);
+
+            timeFrom.set(Calendar.HOUR,0);
+            timeFrom.set(Calendar.MINUTE,0);
+            timeFrom.set(Calendar.SECOND,0);
+            timeFrom.set(Calendar.AM_PM,0);
+
+            timeTo = (Calendar)timeFrom.clone();
+            timeTo.add(Calendar.HOUR,1);
+
+            cursor = this.getSearchVehiclesCursorByStreetAndTime(timeFrom,timeTo,streetName,timePeriodType);
+            ret.addAll(this.processSearchVehiclesByStreetAndTimeCursor(cursor));
+        }
+
+        return ret ;
+    }
+
+    private List<VehicleSearchItem>  processSearchVehiclesByStreetAndTimeCursor(Cursor cursor )
+    {
+        HashMap<Integer,VehicleSearchItem> data = new HashMap<>();
+        List<VehicleSearchItem>  ret = new ArrayList<>();
+
         if (cursor.moveToFirst()) {
             do{
 
                 VehicleSearchItem item = new VehicleSearchItem(cursor);
-                if (!hasMap.containsKey(item.Id))
+                if (!data.containsKey(item.Id))
                 {
-                    hasMap.put(item.Id, item);
+                    data.put(item.Id, item);
                     ret.add(item);
                 }
-                hasMap.get(item.Id).addSign(cursor);
+                data.get(item.Id).addSign(cursor);
 
             }while (cursor.moveToNext());
         }
         cursor.close();
-        return ret ;
+        return  ret;
     }
 
 
-    private Cursor getSearchVehiclesCursorByStreetAndTime(Calendar time, String streetName, int timePeriodType) {
+
+
+    private Cursor getSearchVehiclesCursorByStreetAndTime(Calendar timeFrom, Calendar timeTo, String streetName, int timePeriodType) {
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        String starTime = sdf.format(time.getTime());
-        time.add(Calendar.HOUR,1);
-        String endTime = sdf.format(time.getTime());
+        String starTime = sdf.format(timeFrom.getTime());
+        String endTime = sdf.format(timeTo.getTime());
 
         String sql = "select \n"+
                 "    DB_MINUTE_MAPPING._id, \n" +
