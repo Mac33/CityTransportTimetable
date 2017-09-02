@@ -98,14 +98,17 @@ public class VehicleSearchByStreetNameFragment extends Fragment implements ISear
                         signsRowItem.VehicleNumber = vehicleItem.Number;
                         info.put(sign.Sign, signsRowItem);
                     } else {
-                        if (!info.get(sign.Sign).Description.endsWith(")"))
+                        if(info.get(sign.Sign).VehicleNumber != vehicleItem.Number)
                         {
-                            info.get(sign.Sign).Description = info.get(sign.Sign).Description + " (" + Integer.toString(info.get(sign.Sign).VehicleNumber) + ")";
-                        }
-                        String vehicleSuffix = "(" + Integer.toString(vehicleItem.Number) + ")";
-                        if (!info.get(sign.Sign).Description.contains(vehicleSuffix) )
-                        {
-                            info.get(sign.Sign).Description = info.get(sign.Sign).Description + "\n" + sign.Text + " " + vehicleSuffix;
+                            if (!info.get(sign.Sign).Description.endsWith(")"))
+                            {
+                                info.get(sign.Sign).Description = info.get(sign.Sign).Description + " (" + Integer.toString(info.get(sign.Sign).VehicleNumber) + ")";
+                            }
+                            String vehicleSuffix = "(" + Integer.toString(vehicleItem.Number) + ")";
+                            if (!info.get(sign.Sign).Description.contains(vehicleSuffix) )
+                            {
+                                info.get(sign.Sign).Description = info.get(sign.Sign).Description + "\n" + sign.Text + " " + vehicleSuffix;
+                            }
                         }
                     }
                 }else {

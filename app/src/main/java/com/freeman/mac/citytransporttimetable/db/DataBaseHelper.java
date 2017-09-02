@@ -23,7 +23,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
     private static String TAG = "DataBaseHelper"; // Tag just for the LogCat window
     //destination path (location) of our database on device
     private static String DB_PATH = "";
-    private static String DB_NAME = "trafficData-db_v006";// Database name
+    private static String DB_NAME = "trafficData-db_v008";// Database name
     private SQLiteDatabase mDataBase;
     private final Context mContext;
 
@@ -83,6 +83,9 @@ public class DataBaseHelper extends SQLiteOpenHelper
         old_databases.add("trafficData-db_v3");
         old_databases.add("trafficData-db_v004");
         old_databases.add("trafficData-db_v005");
+        old_databases.add("trafficData-db_v006");
+        old_databases.add("trafficData-db_v007");
+
 
         boolean deleted = false;
         for (String dbName:old_databases) {
