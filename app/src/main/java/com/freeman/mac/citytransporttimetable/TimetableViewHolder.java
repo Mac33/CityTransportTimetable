@@ -80,7 +80,7 @@ public class TimetableViewHolder extends RecyclerView.ViewHolder {
     public boolean selectCurrentTimeView() {
 
 
-        Calendar currentTime = Calendar.getInstance();
+        Calendar currentTime = TimePeriod.getCurrentTime();
         Boolean sameTimePeriod = (TimePeriod.getTimePeriodIndex(currentTime) == currentTimeTableRow.TimePeriod);
 
         int currentHour = currentTime.get(Calendar.HOUR_OF_DAY);

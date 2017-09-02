@@ -3,9 +3,10 @@ package com.freeman.mac.citytransporttimetable;
 import android.os.CountDownTimer;
 import android.util.Log;
 
+import com.freeman.mac.citytransporttimetable.model.TimePeriod;
+
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -66,7 +67,7 @@ public class TimeTableRefresher {
 
     private int getInitialTime()
     {
-        Calendar currentTime = Calendar.getInstance();
+        Calendar currentTime = TimePeriod.getCurrentTime();
         int sec = currentTime.get(Calendar.SECOND);
         sec = 60 - sec;
         if (sec==0)

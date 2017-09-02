@@ -138,7 +138,7 @@ public class TimetableActivity extends AppCompatActivity implements IChangeScrol
 
     private  void setCurrentTimePeriod()
     {
-        Calendar currentTime = Calendar.getInstance();
+        Calendar currentTime = TimePeriod.getCurrentTime();
         int timePeriod = TimePeriod.getTimePeriodViewPageIndex(currentTime);
         viewPager.setCurrentItem(timePeriod);
     }

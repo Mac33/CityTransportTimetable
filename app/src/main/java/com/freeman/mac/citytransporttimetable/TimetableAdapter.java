@@ -81,7 +81,7 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableViewHolder> 
 
     private TimetableRow getColoredTimeTableRow() {
 
-        Calendar currentTime = Calendar.getInstance();
+        Calendar currentTime = TimePeriod.getCurrentTime();
         Boolean sameTimePeriod = (TimePeriod.getTimePeriodIndex(currentTime) == this.getTimePeriod());
         TimetableRow needToRefresh = null;
 

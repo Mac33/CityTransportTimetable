@@ -49,7 +49,15 @@ public class VehicleSearchItem {
     {
         String sign = cursor.getString(cursor.getColumnIndex(col_SIGN_VALUE));
         String text = cursor.getString(cursor.getColumnIndex(col_SIGN_TEXT));
-        this.Signs.add(new VehicleSearchSignItem(sign,text));
+
+        if(sign==null)
+            sign = StringUtils.Empty;
+
+        if(text==null)
+            text = StringUtils.Empty;
+
+        if (!(StringUtils.isNullOrEmpty(text) && StringUtils.isNullOrEmpty(sign)))
+            this.Signs.add(new VehicleSearchSignItem(sign,text));
     }
 
 

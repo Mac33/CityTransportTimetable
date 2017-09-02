@@ -57,7 +57,7 @@ public class VehicleSearchByStreetNameFragment extends Fragment implements ISear
         mDbHelper.createDatabase();
         mDbHelper.open();
 
-        Calendar time = Calendar.getInstance();
+        Calendar time = TimePeriod.getCurrentTime();
         int timePeriod = TimePeriod.getDatabaseTimePeriod(time);
 
 

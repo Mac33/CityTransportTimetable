@@ -1,7 +1,7 @@
 package com.freeman.mac.citytransporttimetable.model;
 
 
-import android.util.Log;
+
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,6 +19,12 @@ public class TimePeriod {
     public static final String WeekendOrHolidays = "VOĽNÉ DNI - Weekend";
 
 
+    public static Calendar getCurrentTime()
+    {
+        Calendar currentTime = Calendar.getInstance();
+        //currentTime.set(2017,Calendar.SEPTEMBER,1,22,30,0);
+        return currentTime ;
+    }
 
     public static int getTimePeriodType(String name) {
         switch (name) {
