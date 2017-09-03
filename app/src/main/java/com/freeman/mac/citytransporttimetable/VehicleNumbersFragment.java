@@ -27,12 +27,14 @@ public class VehicleNumbersFragment extends Fragment {
 
     public static final String Tag = "VehicleNumbersFragment";
 
+    private ISelectedItemByInteger selectedItemListener;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
 
         View view =  inflater.inflate(R.layout.vehicles_view, parent, false);
-
 
         RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.vehicle_numbers_recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -46,6 +48,8 @@ public class VehicleNumbersFragment extends Fragment {
         mAdapter.setSelectItemListener(new ISelectedItemByInteger() {
             @Override
             public void OnSelectedItem(int index) {
+                if(selectedItemListener !=null)
+                    selectedItemListener.OnSelectedItem(index);
                 startTimeTableActivity(index);
             }
         });
@@ -70,6 +74,13 @@ public class VehicleNumbersFragment extends Fragment {
     private int dpToPx(int dp) {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
+    }
+
+
+
+    public void setSelectItemListener(ISelectedItemByInteger listener)
+    {
+        this.selectedItemListener = listener;
     }
 
 

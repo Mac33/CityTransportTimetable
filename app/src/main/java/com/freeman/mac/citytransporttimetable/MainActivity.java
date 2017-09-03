@@ -14,6 +14,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.freeman.mac.citytransporttimetable.SearchVehicleByStreetName.ISearchVehicleByStreetName;
 import com.freeman.mac.citytransporttimetable.SearchVehicleByStreetName.VehicleSearchByStreetNameFragment;
 import com.freeman.mac.citytransporttimetable.db.DataAdapter;
+import com.freeman.mac.citytransporttimetable.interfaces.ISelectedItemByInteger;
 import com.freeman.mac.citytransporttimetable.model.StringUtils;
 import com.freeman.mac.citytransporttimetable.model.TransportTimetables;
 import com.freeman.mac.citytransporttimetable.model.Vehicle;
@@ -33,14 +35,17 @@ public class MainActivity extends AppCompatActivity {
 
     private LinearLayout focusDummy;
     private AutoCompleteTextView searchTextView;
+    private FrameLayout progressBarHolder;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ///this.initDb();
         this.initVehicles();
-        setContentView(R.layout.activity_main);
+        this.setContentView(R.layout.activity_main);
+        this.initSpinner();
         this.initToolbar();
         this.initFindButton();
         this.initStreetAutoCompleteTextView();
@@ -49,10 +54,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void initSpinner()
+    {
+        progressBarHolder = (FrameLayout) findViewById(R.id.progressBarHolder);
+        this.hideSpinner();
+    }
+
+
 
     private void ShowVehicleNumbersView() {
+
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, new VehicleNumbersFragment(), VehicleNumbersFragment.Tag);
+        VehicleNumbersFragment vehicleNumbersFragment = new VehicleNumbersFragment();
+        vehicleNumbersFragment.setSelectItemListener(new ISelectedItemByInteger() {
+            @Override
+            public void OnSelectedItem(int index) {
+               showSpinner();
+            }
+        });
+        ft.replace(R.id.fragment_container, vehicleNumbersFragment, VehicleNumbersFragment.Tag);
         ft.commit();
 
     }
@@ -120,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
             ft.show(vehicleSearchFragment);        }
 
         ft.commit();
-
 
         String streetName = searchTextView.getText().toString();
         ((ISearchVehicleByStreetName)vehicleSearchFragment).setStreetName(streetName);
@@ -192,6 +211,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.hideSpinner();
+    }
 
     private  void  clearSearchText()
     {
@@ -251,6 +275,22 @@ public class MainActivity extends AppCompatActivity {
 
         TransportTimetables.getInstance().getVehicles().add(vehicle);
     }
+
+
+
+    private  void  showSpinner()
+    {
+        if(progressBarHolder!=null)
+            progressBarHolder.setVisibility(View.VISIBLE);
+    }
+
+
+    private void  hideSpinner()
+    {
+        if(progressBarHolder!=null)
+            progressBarHolder.setVisibility(View.GONE);
+    }
+
 
 
 
